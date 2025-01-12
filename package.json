@@ -1,0 +1,22 @@
+{
+  "name": "exile-buddy",
+  "version": "0.0.0",
+  "description": "Path Of Exile 2 Data Mining",
+  "keywords": [],
+  "private": true,
+  "author": {
+    "name": "Ginie"
+  },
+  "scripts": {
+    "tools": "go run ./tools"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tslib": "^2.8.1",
+    "typescript": "~5.4.5"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@9.1.2"
+}

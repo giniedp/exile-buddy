@@ -3,7 +3,9 @@ package reader
 import (
 	"encoding/binary"
 	"errors"
+	"fmt"
 	"io"
+	"math"
 	"os"
 )
 
@@ -71,26 +73,39 @@ func (r *Reader) SeekAbsolute(pos int) error {
 	return nil
 }
 
+func (r *Reader) SeekUntil(fn func(d []byte, p int) bool) int {
+	p0 := r.pos
+	for r.canRead(1) && !fn(r.data, r.pos) {
+		r.pos++
+	}
+	return r.pos - p0
+}
+
+func (r *Reader) SeekUntilSeq(seq []byte) int {
+	return r.SeekUntil(func(d []byte, p int) bool {
+		for i := 0; i < len(seq); i++ {
+			if len(d) <= p+i || d[p+i] != seq[i] {
+				return false
+			}
+		}
+		return true
+	})
+}
+
 func (r *Reader) IsEOF() bool {
 	return r.pos >= len(r.data)
 }
-
-// func (r *Reader) Peek(n int) ([]byte, error) {
-// 	b, ok := r.base.(*bufio.Reader)
-// 	if !ok {
-// 		return nil, errors.New("reader does not support peek")
-// 	}
-
-// 	return b.Peek(n)
-// }
 
 func (r *Reader) canRead(n int) bool {
 	return r.pos+n <= len(r.data)
 }
 
 func (r *Reader) ReadBytes(n int) ([]byte, error) {
-	if !r.canRead(n) {
+	if r.IsEOF() {
 		return nil, io.EOF
+	}
+	if !r.canRead(n) {
+		return nil, fmt.Errorf("read out of bounds at 0x%#v with %d > %d", r.pos, n, len(r.data)-r.pos)
 	}
 	b := r.data[r.pos : r.pos+n]
 	r.pos += n
@@ -109,64 +124,94 @@ func (r *Reader) ReadUntilByte(b byte) ([]byte, error) {
 	return s, err
 }
 
-// func (r *Reader) ReadAll() ([]byte, error) {
-// 	return io.ReadAll(r.base)
-// }
-
-// func (r *Reader) ReadBytes(count int64) ([]byte, error) {
-// 	buf := make([]byte, count)
-
-// 	_, err := io.ReadFull(r.base, buf)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	return buf, nil
-// }
-
 func (r *Reader) ReadByte() (byte, error) {
-	b, err := r.ReadBytes(1)
-	return b[0], err
+	if b, err := r.ReadBytes(1); err == nil {
+		return b[0], nil
+	} else {
+		return 0, err
+	}
 }
 
 func (r *Reader) ReadInt8() (int8, error) {
-	b, err := r.ReadBytes(1)
-	return int8(b[0]), err
+	if b, err := r.ReadBytes(1); err == nil {
+		return int8(b[0]), nil
+	} else {
+		return 0, err
+	}
 }
 
 func (r *Reader) ReadUint8() (uint8, error) {
-	b, err := r.ReadBytes(1)
-	return uint8(b[0]), err
+	if b, err := r.ReadBytes(1); err == nil {
+		return uint8(b[0]), nil
+	} else {
+		return 0, err
+	}
 }
 
 func (r *Reader) ReadInt16() (int16, error) {
-	b, err := r.ReadBytes(2)
-	return int16(r.order.Uint16(b)), err
+	if b, err := r.ReadBytes(2); err == nil {
+		return int16(r.order.Uint16(b)), nil
+	} else {
+		return 0, err
+	}
 }
 
 func (r *Reader) ReadUint16() (uint16, error) {
-	b, err := r.ReadBytes(2)
-	return r.order.Uint16(b), err
+	if b, err := r.ReadBytes(2); err == nil {
+		return r.order.Uint16(b), nil
+	} else {
+		return 0, err
+	}
 }
 
 func (r *Reader) ReadInt32() (int32, error) {
-	b, err := r.ReadBytes(4)
-	return int32(r.order.Uint32(b)), err
+	if b, err := r.ReadBytes(4); err == nil {
+		return int32(r.order.Uint32(b)), nil
+	} else {
+		return 0, err
+	}
 }
 
 func (r *Reader) ReadUint32() (uint32, error) {
-	b, err := r.ReadBytes(4)
-	return r.order.Uint32(b), err
+	if b, err := r.ReadBytes(4); err == nil {
+		return r.order.Uint32(b), nil
+	} else {
+		return 0, err
+	}
 }
 
 func (r *Reader) ReadInt64() (int64, error) {
-	b, err := r.ReadBytes(8)
-	return int64(r.order.Uint64(b)), err
+	if b, err := r.ReadBytes(8); err == nil {
+		return int64(r.order.Uint64(b)), nil
+	} else {
+		return 0, err
+	}
 }
 
 func (r *Reader) ReadUint64() (uint64, error) {
-	b, err := r.ReadBytes(8)
-	return r.order.Uint64(b), err
+	if b, err := r.ReadBytes(8); err == nil {
+		return r.order.Uint64(b), nil
+	} else {
+		return 0, err
+	}
+}
+
+func (r *Reader) ReadFloat32() (float32, error) {
+	if b, err := r.ReadBytes(4); err == nil {
+		bits := r.order.Uint32(b)
+		return math.Float32frombits(bits), nil
+	} else {
+		return 0, err
+	}
+}
+
+func (r *Reader) ReadFloat64() (float64, error) {
+	if b, err := r.ReadBytes(8); err == nil {
+		bits := r.order.Uint64(b)
+		return math.Float64frombits(bits), nil
+	} else {
+		return 0, err
+	}
 }
 
 func (r *Reader) MustReadBytes(n int) []byte {
@@ -243,6 +288,22 @@ func (r *Reader) MustReadInt64() int64 {
 
 func (r *Reader) MustReadUint64() uint64 {
 	b, err := r.ReadUint64()
+	if err != nil {
+		panic(err)
+	}
+	return b
+}
+
+func (r *Reader) MustReadFloat32() float32 {
+	b, err := r.ReadFloat32()
+	if err != nil {
+		panic(err)
+	}
+	return b
+}
+
+func (r *Reader) MustReadFloat64() float64 {
+	b, err := r.ReadFloat64()
 	if err != nil {
 		panic(err)
 	}

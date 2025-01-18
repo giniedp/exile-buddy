@@ -25,6 +25,12 @@ func ToErr(err interface{}, msg string) error {
 	}
 }
 
+func PanicIfErr(err interface{}, msg string) {
+	if e := ToErr(err, msg); e != nil {
+		panic(e)
+	}
+}
+
 func TimeStart() time.Time {
 	return time.Now()
 }

@@ -8,6 +8,7 @@
     "name": "Ginie"
   },
   "scripts": {
+    "postinstall": "go work sync",
     "tools": "go run ./tools",
     "tools:test": "go test ./tools/...",
     "unpack": "pnpm run tools unpack",

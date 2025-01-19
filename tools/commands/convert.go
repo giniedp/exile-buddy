@@ -4,7 +4,8 @@ import (
 	"encoding/json"
 	"exile-buddy/tools/file-formats/datc64"
 	"exile-buddy/tools/utils"
-	"log"
+	"fmt"
+	"log/slog"
 	"os"
 	"path"
 	"strings"
@@ -51,6 +52,12 @@ func Convert(options ConvertOptions) {
 		"flasks",
 		"flavourtext",
 		"gameconstants",
+		"grantedeffectlabels",
+		"grantedeffectqualitystats",
+		"grantedeffects",
+		"grantedeffectsperlevel",
+		"grantedeffectstatsets",
+		"grantedeffectstatsetsperlevel",
 		"itemclasscategories",
 		"itemclasses",
 		"itemframetype",
@@ -58,34 +65,33 @@ func Convert(options ConvertOptions) {
 		"itemspirit",
 		"itemvisualidentity",
 		"keywordpopups",
+		"modfamily",
+		"mods",
+		"modsellpricetypes",
+		"modtype",
+		"passiveskillstatcategories",
 		"questitems",
 		"rarity",
-		"tags",
-		"modfamily",
-		"modsellpricetypes",
 		"stats",
 		"statsaffectinggeneration",
 		"statsfromskillstats",
-		"passiveskillstatcategories",
-		"grantedeffectlabels",
-		"grantedeffectqualitystats",
-		"grantedeffects",
-		"grantedeffectsperlevel",
-		"grantedeffectstatsets",
-		"grantedeffectstatsetsperlevel",
-		// "mods", // TODO array of strings is broken
-		// "modtype", // TODO array of strings is broken
-		// "statvisuals" // TODO array of strings is broken
+		"statvisuals",
+		"tags",
+		"craftingitemclasscategories",
+		"words",
 	)
-	// tables = []string{"statvisuals"}
+	// tables = []string{"words"}
+	// slog.SetLogLoggerLevel(slog.LevelDebug)
 	err := datc64.ConvertData(datc64.ConvertOptions{
 		SchemaFile: schemaFile,
 		DataDir:    path.Join(unpackDir, "data"),
 		Tables:     tables,
 		Handler:    writeJsonHandler,
+		// MaxRows:    1,
 	})
+
 	if err != nil {
-		log.Printf("Error generating types: %v", err)
+		slog.Error(fmt.Sprintf("Error generating types: %v", err))
 	}
 }
 
@@ -93,11 +99,11 @@ func writeJsonHandler(data *datc64.ConvertedData) error {
 	outFile := strings.ToLower(path.Join(path.Dir(data.File), data.Schema.Name+".json"))
 	outData, err := json.MarshalIndent(data.Rows, "", "\t")
 	if err != nil {
-		log.Printf("Error converting data: %v", err)
+		slog.Error("Error converting data", "err", err)
 		return nil
 	}
 	os.WriteFile(outFile, outData, 0644)
-	log.Printf("  [WRITE] %s", outFile)
+	slog.Info(fmt.Sprintf("  Write %s", outFile))
 	return nil
 }
 

@@ -8,7 +8,9 @@
     "name": "Ginie"
   },
   "scripts": {
-    "tools": "go run ./tools"
+    "tools": "go run ./tools",
+    "tools:test": "go test ./tools/..."
+
   },
   "devDependencies": {
     "@types/node": "^22.10.2",

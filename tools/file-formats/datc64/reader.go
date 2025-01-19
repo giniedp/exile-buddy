@@ -6,7 +6,7 @@ import (
 	"exile-buddy/tools/utils"
 	"exile-buddy/tools/utils/reader"
 	"fmt"
-	"log"
+	"log/slog"
 	"os"
 	"path"
 	"strings"
@@ -52,31 +52,39 @@ func Load(file string) *Reader {
 	return r
 }
 
-func (r *Reader) ReadRows(t *SchemaTable) (rows []map[string]interface{}, err error) {
+func (r *Reader) ReadRows(t *SchemaTable, maxRows ...int) (rows []map[string]interface{}, err error) {
 	defer func() {
 		if err = utils.ToErr(recover(), "Failed to read rows"); err != nil {
-			log.Println(err)
+			slog.Error("Failed to read rows", "err", err)
 			err = nil
 		}
 	}()
+
 	rows = make([]map[string]interface{}, r.rows)
 	start := r.fixData.Pos()
+	max := 0
+	if len(maxRows) > 0 && maxRows[0] > 0 {
+		max = maxRows[0]
+	}
+
 	for i := 0; i < int(r.rows); i++ {
 		pos := start + i*r.stride
-		// log.Printf("-- %d/%d (0x%#v) %s --\n", i, r.rows, pos, t.Name)
-		if err = r.fixData.SeekAbsolute(pos); err != nil {
-			log.Println(err)
-			err = nil
-		}
+		slog.Debug(fmt.Sprintf("-- %d/%d (0x%#v) %s --\n", i, r.rows, pos, t.Name))
+
+		r.fixData.SeekAbsolute(pos)
 		rows[i], err = r.readRow(t)
-		// log.Printf("rows[i]: %+v\n", rows[i])
+		if rows[i] != nil {
+			rows[i]["$index"] = i
+		}
+
 		if err != nil {
-			log.Println(err)
+			slog.Warn("Failed to read row", "err", err)
 			err = nil
 		}
-		// if i == 1 {
-		// 	panic("stop")
-		// }
+		if max > 0 && (i+1) >= max {
+			slog.Debug(fmt.Sprintf("Reached max rows: %d", maxRows[0]))
+			break
+		}
 	}
 	return
 }
@@ -87,25 +95,38 @@ func (r *Reader) readRow(t *SchemaTable) (row map[string]interface{}, err error)
 	}()
 
 	row = make(map[string]interface{})
-	// p0 := r.fixData.Pos()
+	p0 := r.fixData.Pos()
 	for ic, c := range t.Columns {
 		name := c.Name
 		if name == "" {
 			name = fmt.Sprintf("$unknown%02d", ic)
 		}
-		// log.Printf("row[%s] 0x%#v %s", name, r.fixData.Pos()-p0, c.Type)
+		slog.Debug(fmt.Sprintf("row[%s] 0x%#v %s", name, r.fixData.Pos()-p0, c.Type))
+
 		if c.Array {
 			row[name], err = r.readCellArray(&c)
+		} else if c.Interval {
+			row[name], err = r.readCellInterval(&c)
 		} else {
 			row[name], err = r.readCell(&c)
 		}
-		// log.Printf("  = %+v\n", row[name])
+		slog.Debug(fmt.Sprintf("  = %+v\n", row[name]))
+
 		if err != nil {
-			log.Printf("Skip rest of row: %v", err)
+			slog.Warn("Skip rest of row", "err", err)
 			return
 		}
 	}
 	return row, nil
+}
+
+func (r *Reader) readCellInterval(c *SchemaColumn) (res []interface{}, err error) {
+	defer func() {
+		err = utils.ToErr(recover(), "Failed to read cell")
+	}()
+	res = append(res, utils.Must(r.readCell(c)))
+	res = append(res, utils.Must(r.readCell(c)))
+	return res, nil
 }
 
 func (r *Reader) readCell(c *SchemaColumn) (res interface{}, err error) {
@@ -131,7 +152,8 @@ func (r *Reader) readCell(c *SchemaColumn) (res interface{}, err error) {
 	case "bool":
 		res = r.fixData.MustReadByte() == 1
 	case "string":
-		res = r.mustReadString(int(r.fixData.MustReadUint64()))
+		r.varData.SeekAbsolute(int(r.fixData.MustReadUint64()))
+		res = r.mustReadString()
 	case "enumrow":
 		res = r.fixData.MustReadUint32()
 	case "row":
@@ -156,16 +178,46 @@ func (r *Reader) readCellArray(c *SchemaColumn) (res []interface{}, err error) {
 		err = utils.ToErr(recover(), "Failed to read cell")
 	}()
 
-	// pos := r.fixData.Pos()
+	pos := r.fixData.Pos()
 	// count is 64bit but only 32bit is used (oom errors happen if we use uint64)
 	count := uint32(r.fixData.MustReadUint64())
 	offset := uint32(r.fixData.MustReadUint64())
 
-	// log.Printf(" 0x%#v Array: count: %d, offset: %d (%#v), type: %s \n", pos, count, offset, offset, c.Type)
+	slog.Debug(fmt.Sprintf(" 0x%#v Array: count: %d, offset: %d (%#v), type: %s \n", pos, count, offset, offset, c.Type))
 	res = make([]interface{}, 0, count)
+
 	err = r.varData.SeekAbsolute(int(offset))
 	if err != nil {
 		panic(err)
+	}
+
+	if c.Type == "string" {
+		// for strings, the value indicates where the string (array) ends
+		// - including null terminator
+		// - starting at end of separator
+		r.varData.SeekAbsolute(int(offset) - len(SEPARATOR))
+		for i := 0; i < int(count); i++ {
+			// seek back to the start of the string
+			// - either end of previous null terminator or end of separator
+			if r.varData.Pos() < len(SEPARATOR) {
+				break
+			}
+			for {
+				r.varData.SeekRelative(-1)
+				if r.varData.Pos() < len(SEPARATOR) {
+					break
+				}
+				if bytes.Equal(r.varData.Peek(len(NULL_TERM)), NULL_TERM) {
+					// found null terminator, go to its end
+					r.varData.SeekRelative(len(NULL_TERM))
+					break
+				}
+			}
+		}
+		if r.varData.Pos() < len(SEPARATOR) {
+			// go to end of separator
+			r.varData.SeekAbsolute(len(SEPARATOR))
+		}
 	}
 	for i := 0; i < int(count); i++ {
 		switch c.Type {
@@ -186,7 +238,7 @@ func (r *Reader) readCellArray(c *SchemaColumn) (res []interface{}, err error) {
 		case "bool":
 			res = append(res, r.varData.MustReadByte() == 1)
 		case "string":
-			res = append(res, r.mustReadString(r.varData.Pos()))
+			res = append(res, r.mustReadString())
 		case "enumrow":
 			res = append(res, r.varData.MustReadUint32())
 		case "row":
@@ -208,16 +260,14 @@ func (r *Reader) readCellArray(c *SchemaColumn) (res []interface{}, err error) {
 	return res, nil
 }
 
-func (r *Reader) mustReadString(pos int) string {
-	r.varData.SeekAbsolute(pos)
-	l := r.varData.SeekUntilSeq(NULL_TERM) + len(NULL_TERM)
-	r.varData.SeekAbsolute(pos)
+func (r *Reader) mustReadString() string {
+	l := r.varData.MustNextIndex(NULL_TERM)
+	// utf16 has 2 bytes per character, from which last may be 0x00
+	if l%2 != 0 {
+		l++
+	}
 	data := r.varData.MustReadBytes(l)
 	res := utils.Must(r.decoder.String(string(data)))
-	// Remove trailing junk characters coming from converting null-terminator to utf16
-	// Without null terminator, the last character is broken
-	// TODO: Find a better way to handle this
-	res = strings.TrimRight(res, string([]byte{0, 239, 191, 189}))
 	return res
 }
 
@@ -232,6 +282,7 @@ type ConvertOptions struct {
 	DataDir    string
 	Tables     []string
 	Handler    ConvertTableHandler
+	MaxRows    int
 }
 
 type ConvertTableHandler func(*ConvertedData) error
@@ -260,14 +311,14 @@ func ConvertData(options ConvertOptions) error {
 		}
 		datFile := path.Join(options.DataDir, strings.ToLower(t.Name)+".datc64")
 		if _, err := os.Stat(datFile); os.IsNotExist(err) {
-			log.Printf("File not found: %s", datFile)
+			slog.Warn("File not found", "file", datFile)
 			continue
 		}
-		log.Printf("[CONVERT] %s", datFile)
+		slog.Info(fmt.Sprintf("Convert %s", datFile))
 		r := Load(datFile)
-		rows, err := r.ReadRows(&t)
+		rows, err := r.ReadRows(&t, options.MaxRows)
 		if err != nil {
-			log.Printf("Error converting data: %v", err)
+			slog.Error("Failed to read rows", "err", err)
 		}
 
 		err = options.Handler(&ConvertedData{File: datFile, Schema: t, Rows: rows})

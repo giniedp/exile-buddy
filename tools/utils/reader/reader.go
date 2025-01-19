@@ -1,6 +1,7 @@
 package reader
 
 import (
+	"bytes"
 	"encoding/binary"
 	"errors"
 	"fmt"
@@ -73,23 +74,29 @@ func (r *Reader) SeekAbsolute(pos int) error {
 	return nil
 }
 
-func (r *Reader) SeekUntil(fn func(d []byte, p int) bool) int {
-	p0 := r.pos
-	for r.canRead(1) && !fn(r.data, r.pos) {
-		r.pos++
+func (r *Reader) Peek(count int) []byte {
+	if r.pos+count > len(r.data) {
+		return nil
 	}
-	return r.pos - p0
+	return r.data[r.pos : r.pos+count]
 }
 
-func (r *Reader) SeekUntilSeq(seq []byte) int {
-	return r.SeekUntil(func(d []byte, p int) bool {
-		for i := 0; i < len(seq); i++ {
-			if len(d) <= p+i || d[p+i] != seq[i] {
-				return false
-			}
-		}
-		return true
-	})
+func (r *Reader) NextIndex(seq []byte) int {
+	buf := r.data[r.pos:]
+	index := bytes.Index(buf, seq)
+	if index == -1 {
+		return -1
+	}
+	return index
+}
+
+func (r *Reader) MustNextIndex(seq []byte) int {
+	buf := r.data[r.pos:]
+	index := bytes.Index(buf, seq)
+	if index == -1 {
+		panic("sequence not found")
+	}
+	return index
 }
 
 func (r *Reader) IsEOF() bool {

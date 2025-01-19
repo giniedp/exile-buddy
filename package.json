@@ -9,13 +9,11 @@
   },
   "scripts": {
     "tools": "go run ./tools",
-    "tools:test": "go test ./tools/..."
-
-  },
-  "devDependencies": {
-    "@types/node": "^22.10.2",
-    "tslib": "^2.8.1",
-    "typescript": "~5.4.5"
+    "tools:test": "go test ./tools/...",
+    "unpack": "pnpm run tools unpack",
+    "convert": "pnpm run tools convert",
+    "ws:web": "pnpm -F */web",
+    "dev:web": "pnpm ws:web run dev"
   },
   "engines": {
     "node": ">=22"

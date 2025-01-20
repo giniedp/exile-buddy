@@ -17,9 +17,9 @@
   .host {
     --ih-h: 2rem;
     --ih-w: 1.5rem;
-    --ih-bg-l: url('/images/itemsheaderwhiteleft.png');
-    --ih-bg-m: url('/images/itemsheaderwhitemiddle.png');
-    --ih-bg-r: url('/images/itemsheaderwhiteright.png');
+    --ih-bg-l: url('/images/itemsheaderwhiteleft.webp');
+    --ih-bg-m: url('/images/itemsheaderwhitemiddle.webp');
+    --ih-bg-r: url('/images/itemsheaderwhiteright.webp');
   }
   .host.double {
     --ih-h: 3rem;
@@ -28,81 +28,81 @@
 
   .host.white,
   .host.normal {
-    --ih-bg-l: url('/images/itemsheaderwhiteleft.png');
-    --ih-bg-m: url('/images/itemsheaderwhitemiddle.png');
-    --ih-bg-r: url('/images/itemsheaderwhiteright.png');
+    --ih-bg-l: url('/images/itemsheaderwhiteleft.webp');
+    --ih-bg-m: url('/images/itemsheaderwhitemiddle.webp');
+    --ih-bg-r: url('/images/itemsheaderwhiteright.webp');
   }
   .host.white.double,
   .host.normal.double {
-    --ih-bg-l: url('/images/itemsheaderdoublenormalleft.png');
-    --ih-bg-m: url('/images/itemsheaderdoublenormalmiddle.png');
-    --ih-bg-r: url('/images/itemsheaderdoublenormalright.png');
+    --ih-bg-l: url('/images/itemsheaderdoublenormalleft.webp');
+    --ih-bg-m: url('/images/itemsheaderdoublenormalmiddle.webp');
+    --ih-bg-r: url('/images/itemsheaderdoublenormalright.webp');
   }
 
   .host.magic {
-    --ih-bg-l: url('/images/itemsheadermagicleft.png');
-    --ih-bg-m: url('/images/itemsheadermagicmiddle.png');
-    --ih-bg-r: url('/images/itemsheadermagicright.png');
+    --ih-bg-l: url('/images/itemsheadermagicleft.webp');
+    --ih-bg-m: url('/images/itemsheadermagicmiddle.webp');
+    --ih-bg-r: url('/images/itemsheadermagicright.webp');
   }
   .host.magic.double {
-    --ih-bg-l: url('/images/itemsheaderdoublemagicleft.png');
-    --ih-bg-m: url('/images/itemsheaderdoublemagicmiddle.png');
-    --ih-bg-r: url('/images/itemsheaderdoublemagicright.png');
+    --ih-bg-l: url('/images/itemsheaderdoublemagicleft.webp');
+    --ih-bg-m: url('/images/itemsheaderdoublemagicmiddle.webp');
+    --ih-bg-r: url('/images/itemsheaderdoublemagicright.webp');
   }
 
   .host.rare {
-    --ih-bg-l: url('/images/itemsheaderraresinglelineleft.png');
-    --ih-bg-m: url('/images/itemsheaderraresinglelinemiddle.png');
-    --ih-bg-r: url('/images/itemsheaderraresinglelineright.png');
+    --ih-bg-l: url('/images/itemsheaderraresinglelineleft.webp');
+    --ih-bg-m: url('/images/itemsheaderraresinglelinemiddle.webp');
+    --ih-bg-r: url('/images/itemsheaderraresinglelineright.webp');
   }
   .host.rare.double {
-    --ih-bg-l: url('/images/itemsheaderrareleft.png');
-    --ih-bg-m: url('/images/itemsheaderraremiddle.png');
-    --ih-bg-r: url('/images/itemsheaderrareright.png');
+    --ih-bg-l: url('/images/itemsheaderrareleft.webp');
+    --ih-bg-m: url('/images/itemsheaderraremiddle.webp');
+    --ih-bg-r: url('/images/itemsheaderrareright.webp');
   }
 
   .host.unique {
-    --ih-bg-l: url('/images/itemsheaderuniquesinglelineleft.png');
-    --ih-bg-m: url('/images/itemsheaderuniquesinglelinemiddle.png');
-    --ih-bg-r: url('/images/itemsheaderuniquesinglelineright.png');
+    --ih-bg-l: url('/images/itemsheaderuniquesinglelineleft.webp');
+    --ih-bg-m: url('/images/itemsheaderuniquesinglelinemiddle.webp');
+    --ih-bg-r: url('/images/itemsheaderuniquesinglelineright.webp');
   }
   .host.unique.double {
-    --ih-bg-l: url('/images/itemsheaderuniqueleft.png');
-    --ih-bg-m: url('/images/itemsheaderuniquemiddle.png');
-    --ih-bg-r: url('/images/itemsheaderuniqueright.png');
+    --ih-bg-l: url('/images/itemsheaderuniqueleft.webp');
+    --ih-bg-m: url('/images/itemsheaderuniquemiddle.webp');
+    --ih-bg-r: url('/images/itemsheaderuniqueright.webp');
   }
 
   .host.currency {
-    --ih-bg-l: url('/images/itemsheadercurrencyleft.png');
-    --ih-bg-m: url('/images/itemsheadercurrencymiddle.png');
-    --ih-bg-r: url('/images/itemsheadercurrencyright.png');
+    --ih-bg-l: url('/images/itemsheadercurrencyleft.webp');
+    --ih-bg-m: url('/images/itemsheadercurrencymiddle.webp');
+    --ih-bg-r: url('/images/itemsheadercurrencyright.webp');
   }
   .host.currency.double {
-    --ih-bg-l: url('/images/itemsheaderdoublecurrencyleft.png');
-    --ih-bg-m: url('/images/itemsheaderdoublecurrencymiddle.png');
-    --ih-bg-r: url('/images/itemsheaderdoublecurrencyright.png');
+    --ih-bg-l: url('/images/itemsheaderdoublecurrencyleft.webp');
+    --ih-bg-m: url('/images/itemsheaderdoublecurrencymiddle.webp');
+    --ih-bg-r: url('/images/itemsheaderdoublecurrencyright.webp');
   }
 
   .host.gem {
-    --ih-bg-l: url('/images/itemsheadergemleft.png');
-    --ih-bg-m: url('/images/itemsheadergemmiddle.png');
-    --ih-bg-r: url('/images/itemsheadergemright.png');
+    --ih-bg-l: url('/images/itemsheadergemleft.webp');
+    --ih-bg-m: url('/images/itemsheadergemmiddle.webp');
+    --ih-bg-r: url('/images/itemsheadergemright.webp');
   }
   .host.gem.double {
-    --ih-bg-l: url('/images/itemsheaderdoublegemleft.png');
-    --ih-bg-m: url('/images/itemsheaderdoublegemmiddle.png');
-    --ih-bg-r: url('/images/itemsheaderdoublegemright.png');
+    --ih-bg-l: url('/images/itemsheaderdoublegemleft.webp');
+    --ih-bg-m: url('/images/itemsheaderdoublegemmiddle.webp');
+    --ih-bg-r: url('/images/itemsheaderdoublegemright.webp');
   }
 
   .host.quest {
-    --ih-bg-l: url('/images/itemsheaderquestleft.png');
-    --ih-bg-m: url('/images/itemsheaderquestmiddle.png');
-    --ih-bg-r: url('/images/itemsheaderquestright.png');
+    --ih-bg-l: url('/images/itemsheaderquestleft.webp');
+    --ih-bg-m: url('/images/itemsheaderquestmiddle.webp');
+    --ih-bg-r: url('/images/itemsheaderquestright.webp');
   }
   .host.quest.double {
-    --ih-bg-l: url('/images/itemsheaderdoublequestleft.png');
-    --ih-bg-m: url('/images/itemsheaderdoublequestmiddle.png');
-    --ih-bg-r: url('/images/itemsheaderdoublequestright.png');
+    --ih-bg-l: url('/images/itemsheaderdoublequestleft.webp');
+    --ih-bg-m: url('/images/itemsheaderdoublequestmiddle.webp');
+    --ih-bg-r: url('/images/itemsheaderdoublequestright.webp');
   }
 
   .host {

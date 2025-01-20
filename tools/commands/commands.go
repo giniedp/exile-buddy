@@ -19,4 +19,5 @@ func Execute() error {
 func init() {
 	rootCmd.AddCommand(cmdUnpack)
 	rootCmd.AddCommand(cmdConvert)
+	rootCmd.AddCommand(cmdPng2Webp)
 }

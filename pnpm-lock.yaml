@@ -31,6 +31,9 @@ importers:
       '@storybook/blocks':
         specifier: 8.6.0-alpha.0
         version: 8.6.0-alpha.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.6.0-alpha.0)
+      '@storybook/manager-api':
+        specifier: ^8.5.0
+        version: 8.5.0(storybook@8.6.0-alpha.0)
       '@storybook/svelte':
         specifier: 8.6.0-alpha.0
         version: 8.6.0-alpha.0(storybook@8.6.0-alpha.0)(svelte@5.19.0)
@@ -40,6 +43,9 @@ importers:
       '@storybook/test':
         specifier: 8.6.0-alpha.0
         version: 8.6.0-alpha.0(storybook@8.6.0-alpha.0)
+      '@storybook/theming':
+        specifier: ^8.5.0
+        version: 8.5.0(storybook@8.6.0-alpha.0)
       '@sveltejs/adapter-auto':
         specifier: ^4.0.0
         version: 4.0.0(@sveltejs/kit@2.16.0(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.19.0)(vite@6.0.9(@types/node@22.10.2)(jiti@1.21.7)(tsx@4.19.2)(yaml@2.7.0)))(svelte@5.19.0)(vite@6.0.9(@types/node@22.10.2)(jiti@1.21.7)(tsx@4.19.2)(yaml@2.7.0)))
@@ -1181,6 +1187,11 @@ packages:
     peerDependencies:
       storybook: ^8.6.0-alpha.0
 
+  '@storybook/manager-api@8.5.0':
+    resolution: {integrity: sha512-Ildriueo3eif4M+gMlMxu/mrBIbAnz8+oesmQJKdzZfe/U9eQTI9OUqJsxx/IVBmdzQ3ySsgNmzj5VweRkse4A==}
+    peerDependencies:
+      storybook: ^8.2.0 || ^8.3.0-0 || ^8.4.0-0 || ^8.5.0-0 || ^8.6.0-0
+
   '@storybook/manager-api@8.6.0-alpha.0':
     resolution: {integrity: sha512-LGox/VTfBCa/uhN9+eUE8jwzUcivQFIzubFGAOf3125BMAF65sYYYxp+iJJ6oz6sXskJ4GEqxsu3LLfDGfZrEw==}
     peerDependencies:
@@ -1226,6 +1237,11 @@ packages:
     resolution: {integrity: sha512-pojaHEUoSJT0egqupQtohsvjyTsiDjLrZKkl7D9Sa6FWRMUoiNia6Hfglm0Qo9M4rxz4YVIvGJ3QQbkYnxTOXQ==}
     peerDependencies:
       storybook: ^8.6.0-alpha.0
+
+  '@storybook/theming@8.5.0':
+    resolution: {integrity: sha512-591LbOj/HMmHYUfLgrMerxhF1A9mY61HWKxcRpB6xxalc1Xw1kRtQ49DcwuTXnUu9ktBB3nuOzPNPQPFSh/7PQ==}
+    peerDependencies:
+      storybook: ^8.2.0 || ^8.3.0-0 || ^8.4.0-0 || ^8.5.0-0 || ^8.6.0-0
 
   '@storybook/theming@8.6.0-alpha.0':
     resolution: {integrity: sha512-VrT5TpHonLN1xJac4FKtrqM3u66CQX/B+Jk+68Id2M8008gLw14KltL3pV2k8RUGwoJj75T17mDZHUoW7z+vuw==}
@@ -2538,7 +2554,6 @@ packages:
 
   libsql@0.4.7:
     resolution: {integrity: sha512-T9eIRCs6b0J1SHKYIvD8+KCJMcWZ900iZyxdnSCdqxN12Z1ijzT+jY5nrk72Jw4B0HGzms2NgpryArlJqvc3Lw==}
-    cpu: [x64, arm64, wasm32]
     os: [darwin, linux, win32]
 
   lilconfig@3.1.3:
@@ -4394,6 +4409,10 @@ snapshots:
       '@vitest/utils': 2.1.8
       storybook: 8.6.0-alpha.0
 
+  '@storybook/manager-api@8.5.0(storybook@8.6.0-alpha.0)':
+    dependencies:
+      storybook: 8.6.0-alpha.0
+
   '@storybook/manager-api@8.6.0-alpha.0(storybook@8.6.0-alpha.0)':
     dependencies:
       storybook: 8.6.0-alpha.0
@@ -4481,6 +4500,10 @@ snapshots:
       '@testing-library/user-event': 14.5.2(@testing-library/dom@10.4.0)
       '@vitest/expect': 2.0.5
       '@vitest/spy': 2.0.5
+      storybook: 8.6.0-alpha.0
+
+  '@storybook/theming@8.5.0(storybook@8.6.0-alpha.0)':
+    dependencies:
       storybook: 8.6.0-alpha.0
 
   '@storybook/theming@8.6.0-alpha.0(storybook@8.6.0-alpha.0)':

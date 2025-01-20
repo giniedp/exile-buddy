@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "db:pull": "npx drizzle-kit pull"
+    "db:pull": "npx drizzle-kit pull && move .\\drizzle\\schema.ts .\\src\\lib\\db\\ && move .\\drizzle\\relations.ts .\\src\\lib\\db\\"
   },
   "devDependencies": {
     "@libsql/client-wasm": "^0.14.0",

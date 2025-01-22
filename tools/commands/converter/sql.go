@@ -21,6 +21,19 @@ func (c *ConvertToSql) Before(schema *datc64.Schema, options datc64.ConvertOptio
 	if stat, err := os.Stat(c.OutDir); err != nil || !stat.IsDir() {
 		os.MkdirAll(c.OutDir, 0755)
 	}
+
+	for _, table := range schema.Tables {
+		if len(options.Tables) == 0 {
+			c.tables = append(c.tables, table)
+		} else {
+			for _, name := range options.Tables {
+				if strings.EqualFold(name, table.Name) {
+					c.tables = append(c.tables, table)
+					break
+				}
+			}
+		}
+	}
 	return nil
 }
 
@@ -32,7 +45,7 @@ func (c *ConvertToSql) Convert(data *datc64.ConvertedData) error {
 	}
 	defer file.Close()
 
-	stmt, err := data.Schema.ToSqlStatement(data.Rows...)
+	stmt, err := data.Schema.ToSqlStatement(data.Rows, c.tables)
 	if err != nil {
 		return err
 	}

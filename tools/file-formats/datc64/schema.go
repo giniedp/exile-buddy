@@ -85,6 +85,7 @@ type SchemaToSqlDirective struct {
 
 var tplCreateTable = template.Must(template.New("createTable").Parse(`
 CREATE TABLE IF NOT EXISTS {{ .Name }} (
+  rowid INTEGER PRIMARY KEY,
   {{- range $index, $col := .Cols -}}
   {{ if $index }},{{ end }}
   {{ $col.Name }} {{ $col.Type -}}
@@ -109,7 +110,7 @@ export interface {{ .Name }} {
   {{ end }}
 }`))
 
-func (t *SchemaTable) ToSqlStatement(rows ...map[string]any) (string, error) {
+func (t *SchemaTable) ToSqlStatement(rows []map[string]any, tables []SchemaTable) (string, error) {
 	table := SchemaToSqlDirective{
 		Name: t.Name,
 	}
@@ -124,7 +125,12 @@ func (t *SchemaTable) ToSqlStatement(rows ...map[string]any) (string, error) {
 		}
 		ref := ""
 		if col.References != nil {
-			ref = col.References.Table
+			for _, tbl := range tables {
+				if strings.EqualFold(tbl.Name, col.References.Table) {
+					ref = tbl.Name
+					break
+				}
+			}
 		}
 		table.Cols = append(table.Cols, struct {
 			Name   string

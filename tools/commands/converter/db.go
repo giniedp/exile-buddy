@@ -7,6 +7,7 @@ import (
 	"log/slog"
 	"os"
 	"path"
+	"strings"
 )
 
 type ConvertToDB struct {
@@ -32,6 +33,20 @@ func (c *ConvertToDB) Before(schema *datc64.Schema, options datc64.ConvertOption
 		return err
 	}
 	c.db = db
+
+	for _, table := range schema.Tables {
+		if len(options.Tables) == 0 {
+			c.tables = append(c.tables, table)
+		} else {
+			for _, name := range options.Tables {
+				if strings.EqualFold(name, table.Name) {
+					c.tables = append(c.tables, table)
+					break
+				}
+			}
+		}
+	}
+	slog.Info(fmt.Sprintf("  Tables %v", len(c.tables)))
 	return nil
 }
 
@@ -39,7 +54,7 @@ func (c *ConvertToDB) Convert(data *datc64.ConvertedData) error {
 	if c.db == nil {
 		return nil
 	}
-	stmt, err := data.Schema.ToSqlStatement(data.Rows...)
+	stmt, err := data.Schema.ToSqlStatement(data.Rows, c.tables)
 	if err != nil {
 		return err
 	}

@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"exile-buddy/tools/commands/converter"
 	"fmt"
 	"log/slog"
 	"path"
@@ -39,7 +40,7 @@ func Png2Webp(options Png2WebpOptions) {
 	}
 	for _, input := range files {
 		output := strings.TrimSuffix(input, path.Ext(input)) + ".webp"
-		if err := pngToWebp(input, output); err != nil {
+		if err := converter.PngToWebp(input, output); err != nil {
 			slog.Error(fmt.Sprintf("%v", err))
 		} else {
 			slog.Info(fmt.Sprintf("converted %s to %s", input, output))

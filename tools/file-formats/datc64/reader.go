@@ -8,8 +8,6 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
-	"path"
-	"strings"
 
 	"golang.org/x/text/encoding"
 	"golang.org/x/text/encoding/unicode"
@@ -269,62 +267,4 @@ func (r *Reader) mustReadString() string {
 	data := r.varData.MustReadBytes(l)
 	res := utils.Must(r.decoder.String(string(data)))
 	return res
-}
-
-type ConvertedData struct {
-	File   string
-	Schema SchemaTable
-	Rows   []map[string]interface{}
-}
-
-type ConvertOptions struct {
-	SchemaFile string
-	DataDir    string
-	Tables     []string
-	Handler    ConvertTableHandler
-	MaxRows    int
-}
-
-type ConvertTableHandler func(*ConvertedData) error
-
-func ConvertData(options ConvertOptions) error {
-	schema, err := LoadSchema(options.SchemaFile)
-	if err != nil {
-		return err
-	}
-	for _, t := range schema.Tables {
-		skip := len(options.Tables) > 0
-		if skip {
-			for _, table := range options.Tables {
-				if strings.EqualFold(table, t.Name) {
-					skip = false
-					break
-				}
-			}
-		}
-		if skip {
-			continue
-		}
-		if t.ValidFor == 1 {
-			// skip poe1 tables
-			continue
-		}
-		datFile := path.Join(options.DataDir, strings.ToLower(t.Name)+".datc64")
-		if _, err := os.Stat(datFile); os.IsNotExist(err) {
-			slog.Warn("File not found", "file", datFile)
-			continue
-		}
-		slog.Info(fmt.Sprintf("Convert %s", datFile))
-		r := Load(datFile)
-		rows, err := r.ReadRows(&t, options.MaxRows)
-		if err != nil {
-			slog.Error("Failed to read rows", "err", err)
-		}
-
-		err = options.Handler(&ConvertedData{File: datFile, Schema: t, Rows: rows})
-		if err != nil {
-			return err
-		}
-	}
-	return nil
 }

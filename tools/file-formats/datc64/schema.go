@@ -75,8 +75,10 @@ func LoadSchema(file string) (*Schema, error) {
 type SchemaToSqlDirective struct {
 	Name string
 	Cols []struct {
-		Name string
-		Type string
+		Name   string
+		Type   string
+		Ref    string
+		Unique bool
 	}
 	Insert [][]string
 }
@@ -86,14 +88,16 @@ CREATE TABLE IF NOT EXISTS {{ .Name }} (
   {{- range $index, $col := .Cols -}}
   {{ if $index }},{{ end }}
   {{ $col.Name }} {{ $col.Type -}}
+	{{ if $col.Unique }} UNIQUE {{ end -}}
+	{{ if $col.Ref }} REFERENCES {{ $col.Ref }}(rowid){{ end -}}
   {{ end }}
 );
 {{- if len .Insert }}
-INSERT INTO {{ .Name }} ({{- range $index, $col := .Cols }}{{ if $index }},{{ end }}{{ $col.Name }}{{ end }})
+INSERT INTO {{ .Name }} (rowid,{{- range $index, $col := .Cols }}{{ if $index }},{{ end }}{{ $col.Name }}{{ end }})
 VALUES
-  {{- range $ci, $col := .Insert -}}
-  {{- if $ci }},{{ end }}
-  ({{- range $vi, $val := $col }}{{ if $vi }},{{ end }}{{ $val }}{{ end -}})
+  {{- range $rowIndex, $row := .Insert -}}
+  {{- if $rowIndex }},{{ end }}
+  ({{ $rowIndex }},{{- range $vi, $val := $row }}{{ if $vi }},{{ end }}{{ $val }}{{ end -}})
   {{- end }};
 {{- end }}
 `))
@@ -118,12 +122,20 @@ func (t *SchemaTable) ToSqlStatement(rows ...map[string]any) (string, error) {
 		if err != nil {
 			slog.Error("Error getting sqlite type", "err", err)
 		}
+		ref := ""
+		if col.References != nil {
+			ref = col.References.Table
+		}
 		table.Cols = append(table.Cols, struct {
-			Name string
-			Type string
+			Name   string
+			Type   string
+			Ref    string
+			Unique bool
 		}{
-			Name: col.Name,
-			Type: t,
+			Name:   col.Name,
+			Type:   t,
+			Ref:    ref,
+			Unique: col.Unique,
 		})
 	}
 	for _, row := range rows {
@@ -237,11 +249,14 @@ func (t *SchemaTable) ToTypescript() (string, error) {
 			slog.Error("Error getting sqlite type", "err", err)
 		}
 		table.Cols = append(table.Cols, struct {
-			Name string
-			Type string
+			Name   string
+			Type   string
+			Ref    string
+			Unique bool
 		}{
-			Name: col.Name,
-			Type: t,
+			Name:   col.Name,
+			Type:   t,
+			Unique: col.Unique,
 		})
 	}
 	var tpl bytes.Buffer

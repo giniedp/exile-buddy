@@ -4,12 +4,12 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "vite dev",
+    "dev": "vite dev --host --open --port 3000",
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 5000",
     "build-storybook": "storybook build",
     "db:pull": "npx drizzle-kit pull && move .\\drizzle\\schema.ts .\\src\\lib\\db\\ && move .\\drizzle\\relations.ts .\\src\\lib\\db\\"
   },

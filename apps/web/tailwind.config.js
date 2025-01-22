@@ -6,7 +6,8 @@ export default {
   },
   plugins: [
     require('daisyui'),
-  ] ,
+    require('./src/style/components'),
+  ],
   daisyui: {
     themes: [
       "light",

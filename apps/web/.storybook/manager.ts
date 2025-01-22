@@ -1,7 +1,10 @@
 import { addons } from '@storybook/manager-api'
-import { themes } from '@storybook/theming'
+import { create } from '@storybook/theming'
 
 addons.setConfig({
-  theme: themes.dark,
-
+  theme: create({
+    base: 'dark',
+    brandTitle: 'Exile Buddy',
+    gridCellSize: 16,
+  }),
 })

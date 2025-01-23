@@ -14,7 +14,9 @@
     "unpack": "pnpm run tools unpack",
     "convert": "pnpm run tools convert",
     "ws:web": "pnpm -F */web",
-    "dev:web": "concurrently -k -c green,red -n SK,SB  \"pnpm ws:web run dev\" \"pnpm ws:web run storybook\""
+    "web:dev": "concurrently -k -c green,red -n SK,SB  \"pnpm ws:web run dev\" \"pnpm ws:web run storybook\"",
+    "web:preview": "pnpm ws:web run preview",
+    "web:build": "pnpm ws:web run build"
   },
   "engines": {
     "node": ">=22"

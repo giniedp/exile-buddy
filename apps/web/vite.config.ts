@@ -3,13 +3,29 @@ import { defineConfig } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  //@ts-expect-error
-  plugins: [tailwindcss(), sveltekit()],
-  server: {
-    headers: {
-      'Cross-Origin-Opener-Policy': 'same-origin',
-      'Cross-Origin-Embedder-Policy': 'require-corp',
+  plugins: [
+    tailwindcss(),
+    //@ts-expect-error
+    sveltekit(),
+    {
+      name: 'configure-response-headers',
+      configureServer: (server) => {
+        server.middlewares.use((_req, res, next) => {
+          res.setHeader('Cross-Origin-Opener-Policy', 'same-origin')
+          res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp')
+          next()
+        })
+      },
     },
+  ],
+  optimizeDeps: {
+    esbuildOptions: {
+      supported: {
+        'top-level-await': true,
+      },
+    },
+    exclude: ['sqlocal'],
   },
+
   worker: { format: 'es' },
 })

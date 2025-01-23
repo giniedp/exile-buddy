@@ -14,7 +14,9 @@
     "unpack": "pnpm run tools unpack",
     "convert": "pnpm run tools convert",
     "ws:web": "pnpm -F */web",
-    "dev:web": "pnpm ws:web run dev"
+    "dev:web": "pnpm ws:web run dev",
+    "dev:web-preview": "pnpm ws:web run preview",
+    "dev:web-build": "pnpm ws:web run build"
   },
   "engines": {
     "node": ">=22"

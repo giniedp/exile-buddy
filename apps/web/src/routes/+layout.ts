@@ -1,21 +1,19 @@
 import type { LayoutLoad } from './$types'
-import * as worker from '$lib/db/index'
 import { browser } from '$app/environment'
-import { baseItemTypes } from '$lib/db/schema'
+import { isOpfsSupported } from '@subframe7536/sqlite-wasm'
 
 export const load = (async ({ fetch, params, route, url }) => {
   const crumbs = getBreadcrumbs(url.pathname).filter((v, i, arr) => i != arr.length - 1)
-  const dbFile = await (await (await fetch('/cdn/poe2.db')).blob()).arrayBuffer()
+  const dbFile = (await (await fetch('/cdn/poe2.db')).blob()).stream()
 
-  // const client = createClient({
-  //   url: 'file:memory:',
-  //   syncUrl: 'file:memory:',
-  // })
-
+  // TODO rewrite into db/state and initialize in init hook
   if (browser) {
-    const db = worker.drizzle()
-    const res = await db.select().from(baseItemTypes)
-    console.log(db, res)
+    if (await isOpfsSupported()) {
+      const { db, overwriteDatabaseFile } = await import('$lib/db')
+      await overwriteDatabaseFile(dbFile)
+    } else {
+      console.log('No OPFS')
+    }
   }
   return {
     crumbs,

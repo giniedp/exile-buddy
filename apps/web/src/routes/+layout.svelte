@@ -12,7 +12,7 @@
 <Sidebar.Provider>
   <AppSidebar />
   <Sidebar.Inset>
-    <header class="bg-background sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b px-4 z-50">
+    <header class="bg-background flex h-16 shrink-0 items-center gap-2 border-b px-4 sticky top-0 z-10">
       <Sidebar.Trigger class="-ml-1" />
       <Separator orientation="vertical" class="mr-2 h-4" />
       <Breadcrumb.Root>

@@ -12,6 +12,8 @@
     "db:pull": "npx drizzle-kit pull && move .\\drizzle\\schema.ts .\\src\\lib\\db\\ && move .\\drizzle\\relations.ts .\\src\\lib\\db\\"
   },
   "devDependencies": {
+    "@iconify-json/game-icons": "^1.2.1",
+    "@iconify/svelte": "^4.2.0",
     "@libsql/client-wasm": "^0.14.0",
     "@sveltejs/adapter-auto": "^4.0.0",
     "@sveltejs/kit": "^2.16.0",
@@ -35,6 +37,7 @@
   },
   "dependencies": {
     "@libsql/client": "^0.14.0",
+    "@subframe7536/sqlite-wasm": "^0.5.1",
     "@tanstack/table-core": "^8.20.5",
     "drizzle-orm": "^0.38.4"
   }

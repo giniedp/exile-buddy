@@ -5,7 +5,6 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [
     tailwindcss(),
-    //@ts-expect-error
     sveltekit(),
     {
       name: 'configure-response-headers',

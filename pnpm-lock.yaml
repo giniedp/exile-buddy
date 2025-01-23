@@ -83,6 +83,9 @@ importers:
       bits-ui:
         specifier: 1.0.0-next.78
         version: 1.0.0-next.78(svelte@5.19.0)
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
       daisyui:
         specifier: ^4.12.23
         version: 4.12.23(postcss@8.5.1)

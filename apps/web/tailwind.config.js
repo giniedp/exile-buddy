@@ -90,7 +90,10 @@ const config = {
       },
     },
   },
-  plugins: [tailwindcssAnimate, require('./src/style/components')],
+  plugins: [
+    tailwindcssAnimate,
+    //require('./src/style/components')
+  ],
 }
 
 export default config

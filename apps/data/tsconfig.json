@@ -1,0 +1,27 @@
+{
+  "rootDir": "./src",
+  "baseUrl": "./src",
+  "compilerOptions": {
+    "outDir": "../dist/data",
+    "allowJs": true,
+    "checkJs": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": false,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "strictBindCallApply": true,
+    "strictNullChecks": false,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": false,
+    "verbatimModuleSyntax": false,
+    "module": "esnext",
+		"target": "esnext",
+    "moduleResolution": "bundler",
+    "lib": ["esnext", "dom"]
+  }
+}

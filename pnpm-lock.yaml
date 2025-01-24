@@ -12,6 +12,21 @@ importers:
         specifier: ^9.1.2
         version: 9.1.2
 
+  apps/data:
+    devDependencies:
+      drizzle-kit:
+        specifier: ^0.30.2
+        version: 0.30.2
+      drizzle-orm:
+        specifier: ^0.38.4
+        version: 0.38.4(@libsql/client-wasm@0.14.0)(@libsql/client@0.14.0)(@types/react@19.0.7)(react@18.3.1)
+      sqlocal:
+        specifier: ^0.13.0
+        version: 0.13.0(drizzle-orm@0.38.4(@libsql/client-wasm@0.14.0)(@libsql/client@0.14.0)(@types/react@19.0.7)(react@18.3.1))
+      typescript:
+        specifier: ^5.7.3
+        version: 5.7.3
+
   apps/web:
     devDependencies:
       '@chromatic-com/storybook':

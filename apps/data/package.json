@@ -1,0 +1,16 @@
+{
+  "name": "@exile-buddy/data",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "pull": "drizzle-kit pull --config ./drizzle.config.ts && scp ./drizzle/schema.ts ./src/generated && scp ./drizzle/relations.ts ./src/generated"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.30.2",
+    "drizzle-orm": "^0.38.4",
+    "sqlocal": "^0.13.0",
+    "typescript": "^5.7.3"
+  }
+}

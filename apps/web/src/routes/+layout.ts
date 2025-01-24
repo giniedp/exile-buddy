@@ -1,5 +1,9 @@
 import { Database } from '$lib/db'
 import type { LayoutLoad } from './$types'
+import { browser } from '$app/environment'
+
+export const prerender = true
+export const ssr = false
 
 export const load = (async ({ fetch, params, route, url }) => {
   const db = new Database({

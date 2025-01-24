@@ -18,7 +18,7 @@
   <div class="flex flex-row">
     <!-- <ul class="menu bg-base-200 rounded-box w-56">
       {#each data.categories as category}
-        <li><a href="{page.url.pathname}/{category}">{category}</a></li>
+        <li><a href="/items/{category}/df">{category}</a></li>
       {/each}
     </ul> -->
 

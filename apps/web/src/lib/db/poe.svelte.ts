@@ -1,4 +1,4 @@
-import { SQLocalDrizzle } from 'sqlocal/drizzle'
+import { SQLocalDrizzle } from '$data/sqlocal'
 import { drizzle } from 'drizzle-orm/sqlite-proxy'
 import { withReplicas } from 'drizzle-orm/sqlite-core'
 import { sql } from 'drizzle-orm'

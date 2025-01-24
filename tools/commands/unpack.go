@@ -1,10 +1,12 @@
 package commands
 
 import (
+	"exile-buddy/tools/file-formats/client"
 	"exile-buddy/tools/file-formats/index"
 	"exile-buddy/tools/utils"
 	"exile-buddy/tools/utils/oodle"
 	"math"
+	"os"
 	"path"
 	"strings"
 
@@ -41,6 +43,8 @@ func Unpack(options UnpackOptions) {
 	indexFile := path.Join(bundleDir, "_.index.bin")
 	lib := oodle.New()
 	idx := utils.Must(index.Read(indexFile, lib))
+	version, _ := client.ExtractClientVersion(path.Join(options.GameDir, "PathOfExileSteam.exe"))
+	os.WriteFile(path.Join(options.UnpackDir, "version"), []byte(version), 0644)
 	idx.Extract(index.ExtractOptions{
 		InputDir:  bundleDir,
 		OutputDir: options.UnpackDir,

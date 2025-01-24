@@ -6,6 +6,7 @@ import (
 	"exile-buddy/tools/utils"
 	"fmt"
 	"log/slog"
+	"os"
 	"path"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -108,7 +109,18 @@ func Convert(options ConvertOptions) {
 	// tables = []string{"skillgems"}
 	// slog.SetLogLoggerLevel(slog.LevelDebug)
 
-	err := datc64.ConvertData(datc64.ConvertOptions{
+	version, err := os.ReadFile(path.Join(unpackDir, "version"))
+	if err != nil {
+		slog.Error(fmt.Sprintf("%v", err))
+		return
+	}
+	err = os.WriteFile(path.Join(options.OutDbDir, "poe2.db.version"), []byte(version), 0644)
+	if err != nil {
+		slog.Error(fmt.Sprintf("%v", err))
+		return
+	}
+
+	err = datc64.ConvertData(datc64.ConvertOptions{
 		SchemaFile: schemaFile,
 		DataDir:    path.Join(unpackDir, "data"),
 		Tables:     tables,

@@ -25,9 +25,13 @@ func (c *ConvertToDB) Before(schema *datc64.Schema, options datc64.ConvertOption
 	}
 
 	if _, err := os.Stat(dbFile); err == nil {
-		os.Remove(dbFile)
+		slog.Info(fmt.Sprintf("  remove previous file %v", dbFile))
+		if err = os.Remove(dbFile); err != nil {
+			return err
+		}
 	}
 	slog.Info(fmt.Sprintf("open db %s", dbFile))
+
 	db, err := sql.Open("sqlite3", dbFile)
 	if err != nil {
 		return err

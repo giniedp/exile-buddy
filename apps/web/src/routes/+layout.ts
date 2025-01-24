@@ -10,14 +10,19 @@ import * as queries from '$data/queries'
 export const load = (async ({ fetch, params, route, url }) => {
   if (browser) {
     try {
-      const db = new Database({
-        databaseUrl: '/cdn/poe2.db',
-        fetch,
-        version: 3,
-        config: { schema: { ...schema, ...relations } },
+      const db = new Database(
+        {
+          databaseUrl: '/cdn/poe2.db',
+          fetch,
+          version: 3,
+          config: { schema: { ...schema, ...relations } },
+        },
         queries,
-      })
+      )
 
+      /** not sure which one I like better */
+      const r = await db.with('queryAllBaseItemTypes')
+      console.log(r)
       //@ts-expect-error
       const res = await db.queryAllBaseItemTypes()
       console.log(res)

@@ -53,7 +53,6 @@ export async function connect<TSchema extends Record<string, unknown> = Record<s
 
   try {
     const db = drizzle(driver, config)
-    console.log(db)
 
     // TODO: the type from get is wrong here, its supposed to map the result to a single result
     const [user_version] = await db.get<number[]>(PRAGMA.user_version.get())

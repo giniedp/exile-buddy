@@ -1,6 +1,7 @@
 import { browser } from '$app/environment'
 import { DatabaseOptions } from '$data/sqlocal'
 import { BaseSQLiteDatabase } from 'drizzle-orm/sqlite-core'
+import { Tv } from 'lucide-svelte'
 
 export type Adapter<TSchema extends Record<string, unknown> = Record<string, never>> = BaseSQLiteDatabase<
   any,
@@ -8,31 +9,30 @@ export type Adapter<TSchema extends Record<string, unknown> = Record<string, nev
   TSchema
 >
 
-type Options<
-  TSchema extends Record<string, unknown> = Record<string, never>,
-  TQueries extends Record<string, unknown> = Record<string, never>,
-> = DatabaseOptions<TSchema> & { queries?: TQueries }
-
-type QueryFunction<TSchema extends Record<string, unknown> = Record<string, never>> = (db: Adapter<TSchema>) => unknown
+type QueryFunction<TSchema extends Record<string, unknown> = Record<string, never>, TParam = any, TResult = any> = (
+  db: Adapter<TSchema>,
+  ...rest: TParam[]
+) => Promise<TResult>
 
 type QueriesAsMembers<
   TSchema extends Record<string, unknown> = Record<string, never>,
-  TQueries extends Record<string, QueryFunction<TSchema>> = Record<string, never>,
+  TQueries extends Record<string, unknown> = Record<string, never>,
 > = {
-  [K in keyof TQueries]: ReturnType<TQueries[K]> extends Promise<any>
-    ? TQueries[K]
-    : () => Promise<ReturnType<TQueries[K]> | null>
+  [K in keyof TQueries]: () => Promise<TQueries[K] | null>
 }
 
 export class Database<
   TSchema extends Record<string, unknown> = Record<string, never>,
-  TQueries extends Record<string, unknown> = Record<string, never>,
+  TQueries extends Record<string, QueryFunction<TSchema>> = Record<string, never>,
 > {
   private db: Promise<Adapter<TSchema>>
 
-  public constructor(options: Options<TSchema, TQueries>) {
+  public constructor(
+    options: DatabaseOptions<TSchema>,
+    private queries?: TQueries,
+  ) {
     /** UGHHH THIS WORKS BUT I CANT GET THE TYPES TO IMPL AND I WANT THIS GENERIC INCASE WE PUT ANOTHER DB */
-    for (const [key, queryFn] of Object.entries(options.queries)) {
+    for (const [key, queryFn] of Object.entries(queries)) {
       if (typeof queryFn == 'function') {
         ;(this as any)[key] = (...rest: unknown[]) => this.adapterFn(queryFn as any, ...rest)
       }
@@ -44,7 +44,11 @@ export class Database<
     }
   }
 
-  private async createBrowserAdapter(options: Options<TSchema, TQueries>) {
+  public async with(query: keyof TQueries): Promise<ReturnType<TQueries[typeof query]>> {
+    //TODO figure out type
+    return this.adapterFn(this.queries[query])
+  }
+  private async createBrowserAdapter(options: DatabaseOptions<TSchema>) {
     return new Promise<Adapter<TSchema>>((resolve, reject) => {
       import('$data/sqlocal')
         .then(({ connect }) => {
@@ -58,9 +62,15 @@ export class Database<
     })
   }
 
-  private adapterFn<T>(fn: (adapter: Adapter<TSchema>, ...rest: unknown[]) => T, ...rest: unknown[]) {
-    return new Promise((resolve, reject) => {
-      this.db.then((db) => resolve(fn(db, ...rest))).catch((e) => reject(e))
+  private adapterFn<TQueryName extends keyof TQueries, T>(
+    fn: (adapter: Adapter<TSchema>, ...rest: T[]) => ReturnType<TQueries[TQueryName]>,
+    ...rest: any[]
+  ) {
+    return new Promise<ReturnType<TQueries[TQueryName]>>((resolve, reject) => {
+      this.db
+        .then((db) => fn(db, ...rest))
+        .then((res) => resolve(res))
+        .catch((e) => reject(e))
     })
   }
 }

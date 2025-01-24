@@ -115,7 +115,7 @@ func Convert(options ConvertOptions) {
 		Handler: converter.NewConvertList(
 			converter.ToSql(options.OutSqlDir),
 			converter.ToJson(options.OutJsonDir),
-			converter.ToTs(options.OutTsDir),
+			// converter.ToTs(options.OutTsDir),
 			converter.ToDb(path.Join(options.OutDbDir, "poe2.db")),
 			converter.ToWebp(unpackDir, options.OutArtDir),
 		),

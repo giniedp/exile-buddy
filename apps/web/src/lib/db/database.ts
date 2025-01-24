@@ -19,12 +19,11 @@ export class Database {
     }
   }
 
-  private createBrowserAdapter(options: DatabaseOptions) {
-    this.db = import('$data/sqlocal').then(({ connect }) => {
-      return connect({
-        name: 'poe2.sqlite3',
-        data: options.fetch(options.databaseUrl).then((res) => res.arrayBuffer()),
-      })
+  private async createBrowserAdapter(options: DatabaseOptions) {
+    const { connect } = await import('$data/sqlocal')
+    return connect({
+      name: 'poe2.sqlite3',
+      data: options.fetch(options.databaseUrl).then((res) => res.arrayBuffer()),
     })
   }
 
@@ -32,10 +31,12 @@ export class Database {
 
   private adapterFn<T>(fn: (adapter: Adapter) => T) {
     return async () => {
-      return this.db.then((db) => fn(db)).catch((err) => {
-        console.error(err)
-        return null
-      })
+      return this.db
+        .then((db) => fn(db))
+        .catch((err) => {
+          console.error(err)
+          return null
+        })
     }
   }
 }

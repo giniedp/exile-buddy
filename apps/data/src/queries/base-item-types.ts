@@ -7,23 +7,20 @@ export async function selectBaseItemTypesById<TResultKind extends 'sync' | 'asyn
   db: BaseSQLiteDatabase<TResultKind, TRunResult, DBSchema>,
   id: string,
 ) {
-  return db.select().from(schema.baseItemTypes).where(eq(schema.baseItemTypes.id, id))
+  return await db.select().from(schema.baseItemTypes).where(eq(schema.baseItemTypes.id, id))
 }
 
 export async function queryAllBaseItemTypes<TResultKind extends 'sync' | 'async', TRunResult>(
   db: BaseSQLiteDatabase<TResultKind, TRunResult, DBSchema>,
 ) {
-  const res = await db.query.baseItemTypes.findMany()
-  return res
+  return await db.query.baseItemTypes.findMany()
 }
 
 export async function queryBaseItemTypesById<TResultKind extends 'sync' | 'async', TRunResult>(
   db: BaseSQLiteDatabase<TResultKind, TRunResult, DBSchema>,
   id: string,
 ) {
-  return db.query.baseItemTypes
-    .findFirst({
-      where: (items, { eq }) => eq(items.id, id),
-    })
-    .toSQL()
+  return await db.query.baseItemTypes.findFirst({
+    where: (items, { eq }) => eq(items.id, id),
+  })
 }

@@ -14,7 +14,6 @@ export const load = (async ({ fetch, params, route, url }) => {
           databaseUrl: '/cdn/poe2.db',
           fetch,
           version: 3,
-          config: { schema: { ...schema, ...relations } },
         }
       )
 

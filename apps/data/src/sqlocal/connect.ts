@@ -1,14 +1,14 @@
-import { DrizzleConfig } from 'drizzle-orm'
+
 import { drizzle } from 'drizzle-orm/sqlite-proxy'
 import { SQLocalDrizzle } from 'sqlocal/drizzle'
 import { getPragma, PRAGMA, setPragma } from '../pragmas'
 import { Poe2Database, Poe2Schema } from '../types'
+import { schema, relations } from '../generated'
 
 export interface DatabaseOptions {
   databaseUrl: string
   version: number
   fetch: typeof fetch
-  config?: DrizzleConfig<Poe2Schema>
 }
 
 export interface ConnectOptions {
@@ -34,7 +34,7 @@ export type DatabaseBinray = File | Blob | ArrayBuffer | ReadableStream<Uint8Arr
 
 export async function connect({
   name,
-  options: { config, version, databaseUrl, fetch },
+  options: { version, databaseUrl, fetch },
 }: ConnectOptions): Promise<ConnectionResult | null> {
   // HINT: i prefer not to destructure a class instance.
   const client =
@@ -52,7 +52,9 @@ export async function connect({
       },
     })
 
-  const db = drizzle(client.driver, config)
+  const db = drizzle<Poe2Schema>(client.driver, {
+    schema: { ...schema, ...relations },
+  })
 
   const userVersion = await getPragma(db, 'user_version')
   // TODO: the type from get is wrong here, its supposed to map the result to a single result

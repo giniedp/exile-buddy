@@ -1,8 +1,31 @@
-type JournalMode = 'DELETE' | 'TRUNCATE' | 'PERSIST' | 'MEMORY' | 'WAL' | 'OFF'
-type SynchronousMode = 'OFF' | 'NORMAL' | 'FULL' | 'EXTRA'
-type TempStore = 'DEFAULT' | 'FILE' | 'MEMORY'
-type Encoding = 'UTF-8' | 'UTF-16' | 'UTF-16le' | 'UTF-16be'
-type LockingMode = 'NORMAL' | 'EXCLUSIVE'
+import { SqliteRemoteDatabase } from "drizzle-orm/sqlite-proxy"
+
+export type JournalMode = 'DELETE' | 'TRUNCATE' | 'PERSIST' | 'MEMORY' | 'WAL' | 'OFF'
+export type SynchronousMode = 'OFF' | 'NORMAL' | 'FULL' | 'EXTRA'
+export type TempStore = 'DEFAULT' | 'FILE' | 'MEMORY'
+export type Encoding = 'UTF-8' | 'UTF-16' | 'UTF-16le' | 'UTF-16be'
+export type LockingMode = 'NORMAL' | 'EXCLUSIVE'
+
+export type PragmaTypes = {
+  user_version: number
+  journal_mode: JournalMode
+  synchronous: SynchronousMode
+  foreign_keys: boolean
+  threads: number
+  temp_store: TempStore
+  encoding: Encoding
+  cache_size: number
+  page_size: number
+  locking_mode: LockingMode
+}
+
+export function getPragma<DB extends SqliteRemoteDatabase<any>, K extends keyof PragmaTypes>(db: DB, pragma: K) {
+  return db.get<PragmaTypes[K]>(`PRAGMA ${pragma}`)
+}
+
+export function setPragma<DB extends SqliteRemoteDatabase<any>, K extends keyof PragmaTypes, R = PragmaTypes[K]>(db: DB, pragma: K, value: R) {
+  return db.run(`PRAGMA ${pragma} = ${value}`)
+}
 
 export const PRAGMA = {
   user_version: {
@@ -72,3 +95,4 @@ export const PRAGMA = {
     defaultValue: 'NORMAL' as const,
   } as const,
 } as const
+

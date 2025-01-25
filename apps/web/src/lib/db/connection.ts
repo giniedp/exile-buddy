@@ -1,4 +1,4 @@
-import { connectDatabase } from './database2'
+import { connectDatabase } from './adapter'
 // import { POE_DB_URL, POE_DB_VERSION } from '$env/static/private'
 // TODO: add options from env variables at build time?
 

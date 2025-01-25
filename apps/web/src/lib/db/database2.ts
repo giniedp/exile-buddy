@@ -3,7 +3,6 @@ import { ConnectionOptions } from '$data'
 import { BoundQueryFn, Poe2Database, Poe2QuerFnParams, Poe2QuerFnResult, Poe2QueryFn } from '$data/types'
 import * as queries from '$data/queries'
 
-const foo: Pick<typeof queries, 'findBaseItemTypes' | 'findBaseItemTypeById'> = queries
 export type Database = ReturnType<typeof connectDatabase>
 
 export function connectDatabase(options: ConnectionOptions) {

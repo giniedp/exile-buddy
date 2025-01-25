@@ -1,6 +1,10 @@
 @import 'tailwindcss';
 @plugin "tailwindcss-animate";
 @config "../tailwind.config.js";
+@import "./style/fonts.css";
+@import "./style/daisy.css";
+@import "./style/exile.css";
+@plugin "./style/exile.js";
 
 @layer base {
   :root {

@@ -1,0 +1,25 @@
+@layer base {
+  @font-face {
+    font-family: 'fontin';
+    font-weight: normal;
+    font-display: swap;
+    src: url('/fonts/fontin-regular.ttf');
+  }
+  @font-face {
+    font-family: 'fontin';
+    font-weight: bold;
+    font-display: swap;
+    src: url('/fonts/fontin-bold.ttf');
+  }
+  @font-face {
+    font-family: 'fontin';
+    font-style: italic;
+    font-display: swap;
+    src: url('/fonts/fontin-italic.ttf');
+  }
+  @font-face {
+    font-family: 'smallcaps';
+    font-display: swap;
+    src: url('/fonts/smallcaps.ttf');
+  }
+}

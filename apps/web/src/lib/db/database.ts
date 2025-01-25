@@ -1,5 +1,5 @@
 import { browser } from '$app/environment'
-import { DatabaseOptions } from '$data/sqlocal'
+import { ConnectionOptions } from '$data'
 import { Poe2Database } from '$data/types'
 import { BaseSQLiteDatabase } from 'drizzle-orm/sqlite-core'
 import { Tv } from 'lucide-svelte'
@@ -23,7 +23,7 @@ export class Database<
   private db: Promise<Poe2Database>
 
   public constructor(
-    options: DatabaseOptions,
+    options: ConnectionOptions,
     private queries?: TQueries,
   ) {
     /** UGHHH THIS WORKS BUT I CANT GET THE TYPES TO IMPL AND I WANT THIS GENERIC INCASE WE PUT ANOTHER DB */
@@ -44,18 +44,11 @@ export class Database<
   //   return this.adapterFn(this.queries[query])
   // }
 
-  private async createBrowserAdapter(options: DatabaseOptions) {
-    return new Promise<Poe2Database>((resolve, reject) => {
-      import('$data/sqlocal')
-        .then(({ connect }) => {
-          return connect({
-            name: 'poe2.sqlite3',
-            options,
-          })
-        })
-        .then(({ db }) => resolve(db))
-        .catch((e) => reject(e))
-    })
+  private async createBrowserAdapter(options: ConnectionOptions) {
+    return import('$data/adapter/sqlocal')
+      .then(({ connectSqlocal }) => {
+        return connectSqlocal(options)
+      })
   }
 
   private adapterFn<TQueryName extends keyof TQueries, T>(

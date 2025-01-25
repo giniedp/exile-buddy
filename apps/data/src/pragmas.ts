@@ -1,4 +1,4 @@
-import { SqliteRemoteDatabase } from "drizzle-orm/sqlite-proxy"
+import { BaseSQLiteDatabase } from "drizzle-orm/sqlite-core"
 
 export type JournalMode = 'DELETE' | 'TRUNCATE' | 'PERSIST' | 'MEMORY' | 'WAL' | 'OFF'
 export type SynchronousMode = 'OFF' | 'NORMAL' | 'FULL' | 'EXTRA'
@@ -19,11 +19,11 @@ export type PragmaTypes = {
   locking_mode: LockingMode
 }
 
-export async function getPragma<DB extends SqliteRemoteDatabase<any>, K extends keyof PragmaTypes>(db: DB, pragma: K) {
+export async function getPragma<DB extends BaseSQLiteDatabase<'async', any, any>, K extends keyof PragmaTypes>(db: DB, pragma: K) {
   return db.get<[PragmaTypes[K]]>(`PRAGMA ${pragma}`).then((res) => res?.[0])
 }
 
-export function setPragma<DB extends SqliteRemoteDatabase<any>, K extends keyof PragmaTypes, R = PragmaTypes[K]>(db: DB, pragma: K, value: R) {
+export function setPragma<DB extends BaseSQLiteDatabase<'async', any, any>, K extends keyof PragmaTypes, R = PragmaTypes[K]>(db: DB, pragma: K, value: R) {
   return db.run(`PRAGMA ${pragma} = ${value}`)
 }
 

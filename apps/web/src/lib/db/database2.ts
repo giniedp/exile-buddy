@@ -1,40 +1,30 @@
 import { browser } from '$app/environment'
-import { DatabaseOptions } from '$data/sqlocal'
+import { ConnectionOptions } from '$data'
 import { BoundQueryFn, Poe2Database, Poe2QuerFnParams, Poe2QuerFnResult, Poe2QueryFn } from '$data/types'
 import * as queries from '$data/queries'
 
 const foo: Pick<typeof queries, 'findBaseItemTypes' | 'findBaseItemTypeById'> = queries
-export type Database = ReturnType<typeof createDatabase>
-export function createDatabase(options: DatabaseOptions) {
+export type Database = ReturnType<typeof connectDatabase>
 
+export function connectDatabase(options: ConnectionOptions) {
   const db$ = createAdapter(options)
-
-  async function query<Q extends Poe2QueryFn>(fn: Q, ...rest: Poe2QuerFnParams<Q>): Promise<Poe2QuerFnResult<Q>>  {
-    return db$.then((db) => fn(db, ...rest))
-  }
-
   return {
     // db$ actually don't need to be exposed,
-    query,
+    query: proxy(db$),
     ...bindCollection(db$, queries)
   }
 }
 
-async function createAdapter(options: DatabaseOptions) {
+async function createAdapter(options: ConnectionOptions) {
   if (browser) {
-    return createBrowserAdapter(options)
+    return import('$data/adapter/sqlocal').then(({ connectSqlocal }) => connectSqlocal(options))
   }
-  return Promise.reject(new Error('Not implemented'))
-}
+  // EXAMPLE: connection to libsql
+  //   return import('$data/adapter/libsql').then(({ connectLibSql }) => connectLibSql(options))
 
-async function createBrowserAdapter(options: DatabaseOptions) {
-  return import('$data/sqlocal')
-  .then(({ connect }) => {
-    return connect({
-      name: 'poe2.sqlite3',
-      options,
-    })
-  }).then(({ db}) => db)
+  // here we shold have an adapter that works on the server side with the same given file
+  //
+  return Promise.reject(new Error('Database ist not available on server side'))
 }
 
 type QueryCollection<T> = {
@@ -56,3 +46,11 @@ function bindCollection<T>(db: Promise<Poe2Database>, queries: QueryCollection<T
 function bind<Q extends Poe2QueryFn>(db: Promise<Poe2Database>, query: Q): BoundQueryFn<Q> {
   return (...args: any) => db.then((it) => query(it, ...args))
 }
+
+function proxy(db: Promise<Poe2Database>) {
+  return async <Q extends Poe2QueryFn>(fn: Q, ...rest: Poe2QuerFnParams<Q>): Promise<Poe2QuerFnResult<Q>> => {
+    return db.then((db) => fn(db, ...rest))
+  }
+}
+
+

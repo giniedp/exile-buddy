@@ -17,11 +17,10 @@ export const load = (async ({ fetch, params, route, url }) => {
         }
       )
 
-      // not the prettiest but seems to be flexible
-      // - less hassle with types and queries in the db itself
-      // - consumer controls the queries, either predefined or custom
-      const r = await db.query(findBaseItemTypes)
-      console.log(r)
+      const r1 = await db.findBaseItemTypes()
+      console.log(r1)
+      const r2 = await db.query(findBaseItemTypes)
+      console.log(r2)
     } catch (e) {}
   }
 

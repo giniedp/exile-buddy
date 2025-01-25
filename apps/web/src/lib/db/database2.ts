@@ -1,38 +1,22 @@
 import { browser } from '$app/environment'
 import { DatabaseOptions } from '$data/sqlocal'
-import { Poe2Database, Poe2QuerFnParams, Poe2QuerFnResult, Poe2QueryFn } from '$data/types'
+import { BoundQueryFn, Poe2Database, Poe2QuerFnParams, Poe2QuerFnResult, Poe2QueryFn } from '$data/types'
+import * as queries from '$data/queries'
 
-export interface Database {
-  readonly db$: Promise<Poe2Database>
-  query<Q extends Poe2QueryFn>(fn: Q, ...rest: Poe2QuerFnParams<Q>): Promise<Poe2QuerFnResult<Q>>
-  //
-  // readonly db: Poe2Database
-  // readonly ready: Promise<boolean>
-}
+const foo: Pick<typeof queries, 'findBaseItemTypes' | 'findBaseItemTypeById'> = queries
+export type Database = ReturnType<typeof createDatabase>
+export function createDatabase(options: DatabaseOptions) {
 
-export function createDatabase(options: DatabaseOptions): Database {
-
-  let db$ = createAdapter(options)
-  // let db: Poe2Database = null
-  // let ready = db$.then((it) => {
-  //   db = it
-  //   return true
-  // })
+  const db$ = createAdapter(options)
 
   async function query<Q extends Poe2QueryFn>(fn: Q, ...rest: Poe2QuerFnParams<Q>): Promise<Poe2QuerFnResult<Q>>  {
     return db$.then((db) => fn(db, ...rest))
   }
 
   return {
-    db$,
+    // db$ actually don't need to be exposed,
     query,
-    // ready,
-    // get db() {
-    //   if (!db) {
-    //     throw new Error('Database not ready')
-    //   }
-    //   return db
-    // }
+    ...bindCollection(db$, queries)
   }
 }
 
@@ -51,4 +35,24 @@ async function createBrowserAdapter(options: DatabaseOptions) {
       options,
     })
   }).then(({ db}) => db)
+}
+
+type QueryCollection<T> = {
+  [K in keyof T]: T[K] extends Poe2QueryFn ? T[K] : never
+}
+
+type BoundQueryCollection<T> = {
+  [K in keyof T]: T[K] extends Poe2QueryFn ? BoundQueryFn<T[K]> : never
+}
+
+function bindCollection<T>(db: Promise<Poe2Database>, queries: QueryCollection<T>): BoundQueryCollection<T> {
+  const result: any = {}
+  for (const key in queries) {
+    result[key] = bind(db, queries[key] as any)
+  }
+  return result
+}
+
+function bind<Q extends Poe2QueryFn>(db: Promise<Poe2Database>, query: Q): BoundQueryFn<Q> {
+  return (...args: any) => db.then((it) => query(it, ...args))
 }

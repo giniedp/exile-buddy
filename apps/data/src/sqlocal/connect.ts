@@ -1,42 +1,43 @@
 import { DrizzleConfig } from 'drizzle-orm'
 import { drizzle } from 'drizzle-orm/sqlite-proxy'
 import { SQLocalDrizzle } from 'sqlocal/drizzle'
-import type { SQLocal } from 'sqlocal'
-import { PRAGMA } from '../pragmas'
+import { getPragma, PRAGMA, setPragma } from '../pragmas'
+import { Poe2Database, Poe2Schema } from '../types'
 
-export type DrizzleClient<TSchema extends Record<string, unknown> = Record<string, unknown>> = ReturnType<
-  typeof drizzle<TSchema>
->
-
-export interface DatabaseOptions<TSchema extends Record<string, unknown> = Record<string, unknown>> {
+export interface DatabaseOptions {
   databaseUrl: string
   version: number
   fetch: typeof fetch
-  config?: DrizzleConfig<TSchema>
+  config?: DrizzleConfig<Poe2Schema>
 }
 
-export interface ConnectOptions<TSchema extends Record<string, unknown> = Record<string, unknown>> {
+export interface ConnectOptions {
   name: string
-  options: DatabaseOptions<TSchema>
+  options: DatabaseOptions
 }
 
-export interface ConnectionResult<TSchema extends Record<string, unknown> = Record<string, unknown>> {
-  db: DrizzleClient<TSchema>
-  getDatabaseInfo: SQLocal['getDatabaseInfo']
+export interface ConnectionResult {
+  db: Poe2Database
+  // HINT: No need to expose features that we don't have a use case for.
+  //       Less things to maintain.
+  //
+  // client: SQLocalDrizzle
+  // getDatabaseInfo: SQLocal['getDatabaseInfo']
   /** Incase we need to handle corruption */
-  deleteDatabaseFile: SQLocal['deleteDatabaseFile']
+  // deleteDatabaseFile: SQLocal['deleteDatabaseFile']
   /** Incase user wants to export file */
-  getDatabaseFile: SQLocal['getDatabaseFile']
+  // getDatabaseFile: SQLocal['getDatabaseFile']
   // isConnected: Promise<boolean>
 }
 
 export type DatabaseBinray = File | Blob | ArrayBuffer | ReadableStream<Uint8Array>
 
-export async function connect<TSchema extends Record<string, unknown> = Record<string, unknown>>({
+export async function connect({
   name,
   options: { config, version, databaseUrl, fetch },
-}: ConnectOptions<TSchema>): Promise<ConnectionResult<TSchema> | null> {
-  const { driver, overwriteDatabaseFile, getDatabaseInfo, sql, getDatabaseFile, deleteDatabaseFile } =
+}: ConnectOptions): Promise<ConnectionResult | null> {
+  // HINT: i prefer not to destructure a class instance.
+  const client =
     new SQLocalDrizzle({
       databasePath: name,
       onInit: (sql) => {
@@ -51,30 +52,23 @@ export async function connect<TSchema extends Record<string, unknown> = Record<s
       },
     })
 
-  try {
-    const db = drizzle(driver, config)
+  const db = drizzle(client.driver, config)
 
-    // TODO: the type from get is wrong here, its supposed to map the result to a single result
-    const [user_version] = await db.get<number[]>(PRAGMA.user_version.get())
+  const userVersion = await getPragma(db, 'user_version')
+  // TODO: the type from get is wrong here, its supposed to map the result to a single result
+  // const [user_version] = await db.get<number[]>(PRAGMA.user_version.get())
+  // await getPragma(db, 'user_version')
 
-    if (databaseUrl && user_version < version) {
-      const data = await fetch(databaseUrl).then((res) => res.arrayBuffer())
-      console.log('POE DB Version Mismatch: Current %d -> New %d', user_version, version)
+  if (databaseUrl && (userVersion !== version)) {
+    console.debug(`[POEDB] Fetch new version: Current ${userVersion} -> Next ${version}`)
+    const data = await fetch(databaseUrl).then((res) => res.arrayBuffer())
+    await client.overwriteDatabaseFile(data)
 
-      /** Can use later for some sort of fallback if overwrite or version error */
-      // const file = await getDatabaseFile()
-
-      await overwriteDatabaseFile(data)
-
-      // TODO add a table to handle these version updates with timestamps
-      await db.run(PRAGMA.user_version.set(version))
-      const [new_version] = await db.get<number[]>(PRAGMA.user_version.get())
-
-      console.log('POE DB Version Updated -> %d', new_version)
-    }
-    return { db, deleteDatabaseFile, getDatabaseInfo, getDatabaseFile }
-  } catch (e) {
-    console.log(e)
-    return null
+    // TODO add a table to handle these version updates with timestamps
+    await setPragma(db, 'user_version', version)
+    const newVersion = await db.get<number[]>(PRAGMA.user_version.get())
+    console.debug(`[POEDB] Version updated to ${newVersion}`)
   }
+  // HINT: handle errors on the outside
+  return { db }
 }

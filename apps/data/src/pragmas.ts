@@ -19,8 +19,8 @@ export type PragmaTypes = {
   locking_mode: LockingMode
 }
 
-export function getPragma<DB extends SqliteRemoteDatabase<any>, K extends keyof PragmaTypes>(db: DB, pragma: K) {
-  return db.get<PragmaTypes[K]>(`PRAGMA ${pragma}`)
+export async function getPragma<DB extends SqliteRemoteDatabase<any>, K extends keyof PragmaTypes>(db: DB, pragma: K) {
+  return db.get<[PragmaTypes[K]]>(`PRAGMA ${pragma}`).then((res) => res?.[0])
 }
 
 export function setPragma<DB extends SqliteRemoteDatabase<any>, K extends keyof PragmaTypes, R = PragmaTypes[K]>(db: DB, pragma: K, value: R) {

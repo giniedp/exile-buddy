@@ -1,29 +1,28 @@
-
 import { SQLocal } from 'sqlocal'
 import { ConnectionOptions, Poe2Database, Poe2Schema } from '../types'
 import { drizzle } from 'drizzle-orm/sqlite-proxy'
 import { getPragma, PRAGMA, setPragma } from '../pragmas'
 import { poe2schema } from '../constants'
 
-export async function connectSqlocal(options: ConnectionOptions): Promise<Poe2Database>  {
-  const client =
-    new SQLocalDrizzle({
-      databasePath: options.name,
-      onInit: (sql) => {
-        return [
-          sql`PRAGMA foreign_keys = ON`,
-          sql`PRAGMA journal_mode = WAL`,
-          sql`PRAGMA synchronous = NORMAL`,
-          sql`PRAGMA threads = 4`,
-          sql`PRAGMA optimize = 0x10002`,
-          // TODO create if not exists some sort of table for version checking etc
-        ]
-      },
-    })
+export async function connectSqlocal(options: ConnectionOptions): Promise<Poe2Database> {
+  const client = new SQLocalDrizzle({
+    databasePath: options.name,
+    onInit: (sql) => {
+      return [
+        sql`PRAGMA foreign_keys = ON`,
+        sql`PRAGMA journal_mode = WAL`,
+        sql`PRAGMA synchronous = NORMAL`,
+        sql`PRAGMA threads = 4`,
+        sql`PRAGMA optimize = 0x10002`,
+        // TODO create if not exists some sort of table for version checking etc
+      ]
+    },
+  })
 
   const db = drizzle<Poe2Schema>(client.driver, {
     schema: poe2schema,
   })
+
   await checkVersionAndUpdate(client, db, options)
 
   return db
@@ -35,7 +34,7 @@ async function checkVersionAndUpdate(client: SQLocalDrizzle, db: Poe2Database, o
   const databaseUrl = options.databaseUrl
   const version = options.version
   const fetchFn = options.fetch || fetch
-  if (databaseUrl && (!version || (version !== userVersion)) ) {
+  if (databaseUrl && (!version || version !== userVersion)) {
     console.debug(`[POEDB] Fetch new version: Current ${userVersion} -> Next ${version}`)
     const data = await fetchFn(databaseUrl).then((res) => res.arrayBuffer())
     await client.overwriteDatabaseFile(data)

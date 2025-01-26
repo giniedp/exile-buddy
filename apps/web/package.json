@@ -45,7 +45,7 @@
     "postcss": "^8.5.1",
     "sqlocal": "^0.13.0",
     "storybook": "8.6.0-alpha.0",
-    "svelte": "^5.19.2",
+    "svelte": "^5.19.3",
     "svelte-check": "^4.1.4",
     "tailwind": "^4.0.0",
     "tailwind-merge": "^2.6.0",

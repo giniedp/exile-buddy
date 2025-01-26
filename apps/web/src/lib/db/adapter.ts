@@ -18,11 +18,10 @@ async function createAdapter(options: ConnectionOptions) {
   if (browser) {
     return import('$data/adapter/sqlocal').then(({ connectSqlocal }) => connectSqlocal(options))
   }
-  // EXAMPLE: connection to libsql
-  //   return import('$data/adapter/libsql').then(({ connectLibSql }) => connectLibSql(options))
+
+  return import('$data/adapter/libsql').then(({ connectLibSql }) => connectLibSql(options))
 
   // here we shold have an adapter that works on the server side with the same given file
-  //
   return Promise.reject(new Error('Database ist not available on server side'))
 }
 

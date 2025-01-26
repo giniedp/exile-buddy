@@ -23,7 +23,7 @@ export default defineConfig({
         'top-level-await': true,
       },
     },
-    exclude: ['sqlocal'],
+    exclude: ['sqlocal', '@libsql/client-wasm'],
   },
 
   worker: { format: 'es' },

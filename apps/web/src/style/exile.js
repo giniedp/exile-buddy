@@ -203,6 +203,50 @@ export default plugin(({ addComponents }) => {
   })
 
   addComponents({
+    '.exile-item-separator': {
+      '--bg-img-separator': "url('/images/itemsseparatorwhite.webp')",
+      height: '1rem',
+      backgroundImage: 'var(--bg-img-separator)',
+      backgroundPosition: '50% 50%',
+      backgroundRepeat: 'no-repeat',
+
+      '&.white,&.normal': {
+        '--bg-img-separator': "url('/images/itemsseparatorwhite.webp')",
+      },
+
+      '&.magic': {
+        '--bg-img-separator': "url('/images/itemsseparatormagic.webp')",
+      },
+
+      '&.rare': {
+        '--bg-img-separator': "url('/images/itemsseparatorrare.webp')",
+      },
+
+      '&.unique': {
+        '--bg-img-separator': "url('/images/itemsseparatorunique.webp')",
+      },
+
+      '&.currency': {
+        '--bg-img-separator': "url('/images/itemsseparatorcurrency.webp')",
+      },
+
+      '&.gem': {
+        '--bg-img-separator': "url('/images/itemsseparatorgem.webp')",
+      },
+
+      '&.quest': {
+        '--bg-img-separator': "url('/images/itemsseparatorquest.webp')",
+      },
+    },
+  })
+
+  addComponents({
+    '.exile-text-tag': {
+      borderBottom: '2px dotted currentColor',
+    },
+  })
+
+  addComponents({
     '.exile-title-bar': {
       '--bg-img-l': "url('/images/windowtitlebarleft.webp')",
       '--bg-img-m': "url('/images/windowtitlebarmiddle.webp')",

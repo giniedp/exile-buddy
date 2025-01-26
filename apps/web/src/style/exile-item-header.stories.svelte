@@ -12,8 +12,30 @@
 </script>
 
 <Story name="exile-item-header">
-  <div class="exile-item-header h-12"></div>
-  <div class="exile-item-header double h-16"></div>
+  <div class="bg-black text-center text-exile-normal font-fontin uppercase ">
+    <div class="exile-item-header h-12 flex flex-col justify-center text-lg">
+      <div>Quilted Vest</div>
+    </div>
+    <div class="exile-item-header double h-16 flex flex-col justify-center text-lg leading-tight">
+      <div>Foxshade</div>
+      <div>Quilted Vest</div>
+    </div>
+    <div class="p-4">
+      <div>Body Armour</div>
+      <div>Evasion Rating: <span class="text-exile-magic">104</span></div>
+      <div class="exile-item-separator"></div>
+      <div>Requires: <span class="">10 Dexterity</span></div>
+      <div class="exile-item-separator"></div>
+      <div class="text-exile-magic">+60 to evaion rating</div>
+      <div class="text-exile-magic">+21 to dexterity</div>
+      <div class="text-exile-magic">10% Increased movement speed when on full life</div>
+      <div class="text-exile-magic">100% increased evasion rating when on full life</div>
+      <div class="exile-item-separator"></div>
+      <div class="italic">
+        To catch an animal, think like an animal
+      </div>
+    </div>
+  </div>
 </Story>
 
 <Story name="exile-item-header magic">

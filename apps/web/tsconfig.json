@@ -18,7 +18,7 @@
     "strictPropertyInitialization": false,
     "verbatimModuleSyntax": false,
     "moduleResolution": "bundler",
-    "lib": ["WebWorker"]
+    "lib": ["WebWorker", "DOM", "DOM.Iterable", "esnext"]
   }
   // Path aliases are handled by https://svelte.dev/docs/kit/configuration#alias
   // except $lib which is handled by https://svelte.dev/docs/kit/configuration#files

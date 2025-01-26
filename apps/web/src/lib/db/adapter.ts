@@ -10,7 +10,7 @@ export function connectDatabase(options: ConnectionOptions) {
   return {
     // db$ actually don't need to be exposed,
     query: proxy(db$),
-    ...bindCollection(db$, queries)
+    ...bindCollection(db$, queries),
   }
 }
 
@@ -51,5 +51,3 @@ function proxy(db: Promise<Poe2Database>) {
     return db.then((db) => fn(db, ...rest))
   }
 }
-
-

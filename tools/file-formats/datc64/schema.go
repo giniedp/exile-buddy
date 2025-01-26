@@ -83,9 +83,12 @@ type SchemaToSqlDirective struct {
 	Insert [][]string
 }
 
-var tplCreateTable = template.Must(template.New("createTable").Parse(`
+var tplCreateTable = template.Must(template.New("createTable").Funcs(template.FuncMap{
+	"sub": func(a, b int) int {
+		return a - b
+	}}).Parse(`
 CREATE TABLE IF NOT EXISTS {{ .Name }} (
-  rowid INTEGER PRIMARY KEY,
+  rid INTEGER PRIMARY KEY,
   {{- range $index, $col := .Cols -}}
   {{ if $index }},{{ end }}
   {{ $col.Name }} {{ $col.Type -}}
@@ -94,7 +97,7 @@ CREATE TABLE IF NOT EXISTS {{ .Name }} (
   {{ end }}
 );
 {{- if len .Insert }}
-INSERT INTO {{ .Name }} (rowid,{{- range $index, $col := .Cols }}{{ if $index }},{{ end }}{{ $col.Name }}{{ end }})
+INSERT INTO {{ .Name }} (rid,{{- range $index, $col := .Cols }}{{ if $index }},{{ end }}{{ $col.Name }}{{ end }})
 VALUES
   {{- range $rowIndex, $row := .Insert -}}
   {{- if $rowIndex }},{{ end }}

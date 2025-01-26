@@ -2,9 +2,14 @@ import { db } from '$lib/db'
 import type { LayoutLoad } from './$types'
 
 export const load = (async ({ params, route, url }) => {
-  const version = await db.version().catch(console.error)
-  const items = await db.findBaseItemTypes().catch(console.error)
-  console.log({ version, items })
+  try {
+    const version = await db?.version().catch(console.error)
+    const items = await db?.findBaseItemTypes().catch(console.error)
+    const classes = await db?.findItemClasses().catch(console.error)
+    const categories = await db.findItemClassCategories().catch(console.error)
+    console.log({ version, items, classes, categories })
+  } catch (e) {}
+
   const crumbs = getBreadcrumbs(url.pathname).filter((v, i, arr) => i != arr.length - 1)
 
   return {

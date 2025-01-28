@@ -7,6 +7,7 @@ const preview: Preview = {
     docs: {
       theme: themes.dark,
     },
+    layout: 'centered',
     controls: {
       matchers: {
         color: /(background|color)$/i,

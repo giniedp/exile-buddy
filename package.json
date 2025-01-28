@@ -18,7 +18,8 @@
     "ws:data": "pnpm -F */data",
     "web:dev": "concurrently -k -c green,red -n SK,SB  \"pnpm ws:web run dev\" \"pnpm ws:web run storybook\"",
     "web:preview": "pnpm ws:web run preview",
-    "web:build": "pnpm ws:web run build"
+    "web:build": "pnpm ws:web run build",
+    "web:storybook": "pnpm ws:web run storybook"
   },
   "engines": {
     "node": ">=22"

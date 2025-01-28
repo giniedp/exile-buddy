@@ -1,14 +1,1 @@
-
-@theme {
-  --font-fontin: fontin;
-  --font-smallcaps: smallcaps;
-
-  --color-exile-unique: #af6025;
-  --color-exile-rare: #ffff77;
-  --color-exile-magic: #8888ff;
-  --color-exile-normal: #c8c8c8;
-  --color-exile-gem: #1ba29b;
-  --color-exile-corrupt: #d20000;
-  --color-exile-fire: #960000;
-  --color-exile-chaos: #cc009a;
-}
+@import '../lib/exile-ui/css/all.css';

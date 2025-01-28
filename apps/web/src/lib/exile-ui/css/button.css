@@ -1,0 +1,99 @@
+
+@layer utilities {
+  .poe-btn,
+  .poe-btn-generic {
+    @apply poe-bar;
+    --poe-bar-img-l: url('/images/buttongenericnormalleft.webp');
+    --poe-bar-img-m: url('/images/buttongenericnormalmiddle.webp');
+    --poe-bar-img-r: url('/images/buttongenericnormalright.webp');
+    @variant hover {
+      --poe-bar-img-l: url('/images/buttongenerichoverleft.webp');
+      --poe-bar-img-m: url('/images/buttongenerichovermiddle.webp');
+      --poe-bar-img-r: url('/images/buttongenerichoverright.webp');
+    }
+    @variant active {
+      --poe-bar-img-l: url('/images/buttongenericpressedleft.webp');
+      --poe-bar-img-m: url('/images/buttongenericpressedmiddle.webp');
+      --poe-bar-img-r: url('/images/buttongenericpressedright.webp');
+    }
+  }
+  .poe-btn-green {
+    @apply poe-bar;
+    --poe-bar-img-l: url('/images/buttongreennormalleft.webp');
+    --poe-bar-img-m: url('/images/buttongreennormalmiddle.webp');
+    --poe-bar-img-r: url('/images/buttongreennormalright.webp');
+    @variant hover {
+      --poe-bar-img-l: url('/images/buttongreenhoverleft.webp');
+      --poe-bar-img-m: url('/images/buttongreenhovermiddle.webp');
+      --poe-bar-img-r: url('/images/buttongreenhoverright.webp');
+    }
+    @variant active {
+      --poe-bar-img-l: url('/images/buttongreenpressedleft.webp');
+      --poe-bar-img-m: url('/images/buttongreenpressedmiddle.webp');
+      --poe-bar-img-r: url('/images/buttongreenpressedright.webp');
+    }
+  }
+  .poe-btn-orange {
+    @apply poe-bar;
+    --poe-bar-img-l: url('/images/buttonorangenormalleft.webp');
+    --poe-bar-img-m: url('/images/buttonorangenormalmiddle.webp');
+    --poe-bar-img-r: url('/images/buttonorangenormalright.webp');
+    @variant hover {
+      --poe-bar-img-l: url('/images/buttonorangehoverleft.webp');
+      --poe-bar-img-m: url('/images/buttonorangehovermiddle.webp');
+      --poe-bar-img-r: url('/images/buttonorangehoverright.webp');
+    }
+    @variant active {
+      @apply poe-bar;
+      --poe-bar-img-l: url('/images/buttonorangepressedleft.webp');
+      --poe-bar-img-m: url('/images/buttonorangepressedmiddle.webp');
+      --poe-bar-img-r: url('/images/buttonorangepressedright.webp');
+    }
+  }
+  .poe-btn-red {
+    @apply poe-bar;
+    --poe-bar-img-l: url('/images/buttonrednormalleft.webp');
+    --poe-bar-img-m: url('/images/buttonrednormalmiddle.webp');
+    --poe-bar-img-r: url('/images/buttonrednormalright.webp');
+    @variant hover {
+      --poe-bar-img-l: url('/images/buttonredhoverleft.webp');
+      --poe-bar-img-m: url('/images/buttonredhovermiddle.webp');
+      --poe-bar-img-r: url('/images/buttonredhoverright.webp');
+    }
+    @variant active {
+      --poe-bar-img-l: url('/images/buttonredpressedleft.webp');
+      --poe-bar-img-m: url('/images/buttonredpressedmiddle.webp');
+      --poe-bar-img-r: url('/images/buttonredpressedright.webp');
+    }
+  }
+}
+
+@utility poe-icon-btn {
+  background-image: var(--bg-img);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  aspect-ratio: 1 / 1;
+}
+
+@layer utilities {
+  .poe-icon-btn-orange {
+    @apply poe-icon-btn;
+    --bg-img: url('/images/fouriconbuttonorangenormal.webp');
+    @variant hover {
+      --bg-img: url('/images/fouriconbuttonorangehover.webp');
+    }
+    @variant active {
+      --bg-img: url('/images/fouriconbuttonorangepressed.webp')
+    }
+  }
+  .poe-icon-btn-close {
+    @apply poe-icon-btn;
+    --bg-img: url('/images/buttonclosenormal.webp');
+    @variant hover {
+      --bg-img: url('/images/buttonclosehover.webp');
+    }
+    @variant active {
+      --bg-img: url('/images/buttonclosedown.webp')
+    }
+  }
+}

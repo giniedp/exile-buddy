@@ -1,0 +1,40 @@
+
+@utility poe-item-separator {
+  --bg-img-separator: url('/images/itemsseparatorwhite.webp');
+  height: 1rem;
+  background-image: var(--bg-img-separator);
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+
+@layer utilities {
+  .poe-item-separator,
+  .poe-item-separator-white,
+  .poe-item-separator-normal {
+    @apply poe-item-separator;
+  }
+  .poe-item-separator-magic {
+    @apply poe-item-separator;
+    --bg-img-separator: url('/images/itemsseparatormagic.webp');
+  }
+  .poe-item-separator-rare {
+    @apply poe-item-separator;
+    --bg-img-separator: url('/images/itemsseparatorrare.webp');
+  }
+  .poe-item-separator-unique {
+    @apply poe-item-separator;
+    --bg-img-separator: url('/images/itemsseparatorunique.webp');
+  }
+  .poe-item-separator-currency {
+    @apply poe-item-separator;
+    --bg-img-separator: url('/images/itemsseparatorcurrency.webp');
+  }
+  .poe-item-separator-gem {
+    @apply poe-item-separator;
+    --bg-img-separator: url('/images/itemsseparatorgem.webp');
+  }
+  .poe-item-separator-quest {
+    @apply poe-item-separator;
+    --bg-img-separator: url('/images/itemsseparatorquest.webp');
+  }
+}

@@ -1,5 +1,8 @@
 {
   "workbench.editor.customLabels.patterns": {
     "**/+*": "${dirname} (${filename}.${extname})"
-  }
+  },
+  "tailwindCSS.experimental.configFile": {
+    "apps/web/src/app.css": ["apps/web/src/**"]
+  },
 }

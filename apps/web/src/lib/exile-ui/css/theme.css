@@ -1,0 +1,37 @@
+@font-face {
+  font-family: 'fontin';
+  font-weight: normal;
+  font-display: swap;
+  src: url('/fonts/fontin-regular.ttf');
+}
+@font-face {
+  font-family: 'fontin';
+  font-weight: bold;
+  font-display: swap;
+  src: url('/fonts/fontin-bold.ttf');
+}
+@font-face {
+  font-family: 'fontin';
+  font-style: italic;
+  font-display: swap;
+  src: url('/fonts/fontin-italic.ttf');
+}
+@font-face {
+  font-family: 'smallcaps';
+  font-display: swap;
+  src: url('/fonts/smallcaps.ttf');
+}
+
+@theme {
+  --font-poe-fontin: fontin;
+  --font-poe-smallcaps: smallcaps;
+
+  --color-poe-unique: #af6025;
+  --color-poe-rare: #ffff77;
+  --color-poe-magic: #8888ff;
+  --color-poe-normal: #c8c8c8;
+  --color-poe-gem: #1ba29b;
+  --color-poe-corrupt: #d20000;
+  --color-poe-fire: #960000;
+  --color-poe-chaos: #cc009a;
+}

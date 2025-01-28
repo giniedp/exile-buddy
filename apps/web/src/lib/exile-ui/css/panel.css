@@ -1,0 +1,18 @@
+@layer utils {
+  .poe-panel-border {
+    border-image: url('/images/border.webp');
+    border-image-slice: 4;
+    border-image-width: 4px;
+    border-image-outset: 0px 0px 0px 0px;
+    border-image-repeat: stretch stretch;
+  }
+
+  .poe-panel-ornate {
+    border-image: url('/images/ornateframe.webp');
+    border-image-slice: 64 64 64 64;
+    border-image-width: 32px 32px 32px 32px;
+    border-image-outset: 0px 0px 0px 0px;
+    border-image-repeat: stretch stretch;
+  }
+}
+

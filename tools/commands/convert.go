@@ -76,6 +76,7 @@ func Convert(options ConvertOptions) {
 		"itemspirit",
 		"itemvisualidentity",
 		"keywordpopups",
+    "melee",
 		"modfamily",
 		"mods",
 		"modsellpricetypes",

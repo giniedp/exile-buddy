@@ -21,9 +21,13 @@ export async function findItemClassById(db: Poe2Database, id: string) {
 export async function findItemClassByIdWithBaseItems(db: Poe2Database, id: string) {
   return await db.query.itemClasses.findFirst({
     where: (classes, { eq }) => eq(classes.id, id),
-    with: {
-      itemClassCategory: true,
-      baseItemTypes: true,
-    },
+    // with: {
+    //   baseItemTypes: true,
+    // },
+  })
+}
+export async function findItemClassesByCategory(db: Poe2Database, categoryIdx: number) {
+  return await db.query.itemClasses.findMany({
+    where: (classes, { eq }) => eq(classes.itemClassCategory, categoryIdx),
   })
 }

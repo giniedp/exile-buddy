@@ -18,6 +18,15 @@
     return items
   }
 
+  export const states = {
+    get items() {
+      return items
+    },
+    set items(it: typeof items) {
+      items = it
+    },
+  }
+
   // This is sample data.
   const data = $state({
     user: {

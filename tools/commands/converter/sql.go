@@ -13,6 +13,7 @@ type ConvertToSql struct {
 	OutDir string
 	tables []datc64.SchemaTable
 	schema *datc64.Schema
+	count  int
 }
 
 func (c *ConvertToSql) Before(schema *datc64.Schema, options datc64.ConvertOptions) error {
@@ -55,11 +56,12 @@ func (c *ConvertToSql) Convert(data *datc64.ConvertedData) error {
 	}
 
 	slog.Info(fmt.Sprintf("  Write %s", outFile))
-	c.tables = append(c.tables, data.Schema)
+	c.count++
 	return nil
 
 }
 
 func (c *ConvertToSql) After() error {
+	slog.Info(fmt.Sprintf("%d SQL files written %s", c.count, c.OutDir))
 	return nil
 }

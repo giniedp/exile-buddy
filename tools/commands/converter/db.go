@@ -8,6 +8,8 @@ import (
 	"os"
 	"path"
 	"strings"
+
+	"github.com/dustin/go-humanize"
 )
 
 type ConvertToDB struct {
@@ -71,5 +73,11 @@ func (c *ConvertToDB) Convert(data *datc64.ConvertedData) error {
 }
 
 func (c *ConvertToDB) After() error {
+	stat, err := os.Stat(c.OutFile)
+	if err != nil {
+		return err
+	}
+
+	slog.Info(fmt.Sprintf("%s database size at %s", humanize.Bytes(uint64(stat.Size())), c.OutFile))
 	return nil
 }

@@ -21,7 +21,10 @@ require (
 )
 
 require (
+	github.com/dustin/go-humanize v1.0.1
 	github.com/goreleaser/fileglob v1.3.0
+	github.com/lmittmann/tint v1.0.7
+	github.com/mattn/go-isatty v0.0.20
 	github.com/mattn/go-sqlite3 v1.14.24
 	github.com/mitchellh/colorstring v0.0.0-20190213212951-d06e56a500db // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect

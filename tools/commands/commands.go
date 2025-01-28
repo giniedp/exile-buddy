@@ -20,4 +20,5 @@ func init() {
 	rootCmd.AddCommand(cmdUnpack)
 	rootCmd.AddCommand(cmdConvert)
 	rootCmd.AddCommand(cmdPng2Webp)
+	rootCmd.AddCommand(cmdSearch)
 }

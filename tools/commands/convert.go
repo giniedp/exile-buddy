@@ -50,6 +50,11 @@ func Convert(options ConvertOptions) {
 	tables := make([]string, 0)
 	tables = append(tables,
 		"armourtypes",
+		"achievementitemrewards",
+		"achievementitems",
+		"achievements",
+		"achievementsetrewards",
+		"achievementsetsdisplay",
 		"baseitemtypes",
 		"belttypes",
 		"characterpaneldescriptionmodes",

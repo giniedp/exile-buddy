@@ -10,5 +10,8 @@ export const db = connectDatabase({
 })
 
 function semverToInt(version: string): number {
-  return version.split('.').reduce((acc, part) => acc * 100 + parseInt(part), 0)
+  const [nums, suffix] = version.split(/([a-z])/, 2)
+  const base = nums.split('.').reduce((acc, part) => acc * 100 + parseInt(part), 0) * 100
+  const v = suffix ? base + (suffix.charCodeAt(0) - 97) : base
+  return v
 }

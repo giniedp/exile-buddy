@@ -2,6 +2,7 @@ import { Poe2Database } from '../types'
 
 export async function findItemClasses(db: Poe2Database) {
   return await db.query.itemClasses.findMany({
+    where: (classes, { notLike }) => notLike(classes.id, '%donotuse%'),
     with: {
       itemClassCategory: true,
     },

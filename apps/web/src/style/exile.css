@@ -1,6 +1,1 @@
-
-@theme {
-  --font-fontin: fontin;
-  --font-smallcaps: smallcaps;
-
-}
+@import '../lib/exile-ui/css/all.css';

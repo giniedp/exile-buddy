@@ -1,0 +1,93 @@
+
+@layer utilities {
+  .poe-item-header {
+    @apply poe-bar;
+  }
+
+  .poe-item-header,
+  .poe-item-header-white,
+  .poe-item-header-normal {
+    @apply poe-bar;
+    --poe-bar-img-l: url('/images/itemsheaderwhiteleft.webp');
+    --poe-bar-img-m: url('/images/itemsheaderwhitemiddle.webp');
+    --poe-bar-img-r: url('/images/itemsheaderwhiteright.webp');
+    &.poe-item-header-lg {
+      --poe-bar-img-l: url('/images/itemsheaderdoublenormalleft.webp');
+      --poe-bar-img-m: url('/images/itemsheaderdoublenormalmiddle.webp');
+      --poe-bar-img-r: url('/images/itemsheaderdoublenormalright.webp');
+    }
+  }
+
+  .poe-item-header-magic {
+    @apply poe-bar;
+    --poe-bar-img-l: url('/images/itemsheadermagicleft.webp');
+    --poe-bar-img-m: url('/images/itemsheadermagicmiddle.webp');
+    --poe-bar-img-r: url('/images/itemsheadermagicright.webp');
+    &.poe-item-header-lg {
+      --poe-bar-img-l: url('/images/itemsheaderdoublemagicleft.webp');
+      --poe-bar-img-m: url('/images/itemsheaderdoublemagicmiddle.webp');
+      --poe-bar-img-r: url('/images/itemsheaderdoublemagicright.webp');
+    }
+  }
+
+  .poe-item-header-rare {
+    @apply poe-bar;
+    --poe-bar-img-l: url('/images/itemsheaderraresinglelineleft.webp');
+    --poe-bar-img-m: url('/images/itemsheaderraresinglelinemiddle.webp');
+    --poe-bar-img-r: url('/images/itemsheaderraresinglelineright.webp');
+    &.poe-item-header-lg {
+      --poe-bar-img-l: url('/images/itemsheaderrareleft.webp');
+      --poe-bar-img-m: url('/images/itemsheaderraremiddle.webp');
+      --poe-bar-img-r: url('/images/itemsheaderrareright.webp');
+    }
+  }
+
+  .poe-item-header-unique {
+    @apply poe-bar;
+    --poe-bar-img-l: url('/images/itemsheaderuniquesinglelineleft.webp');
+    --poe-bar-img-m: url('/images/itemsheaderuniquesinglelinemiddle.webp');
+    --poe-bar-img-r: url('/images/itemsheaderuniquesinglelineright.webp');
+    &.poe-item-header-lg {
+      --poe-bar-img-l: url('/images/itemsheaderuniqueleft.webp');
+      --poe-bar-img-m: url('/images/itemsheaderuniquemiddle.webp');
+      --poe-bar-img-r: url('/images/itemsheaderuniqueright.webp');
+    }
+  }
+
+  .poe-item-header-currency {
+    @apply poe-bar;
+    --poe-bar-img-l: url('/images/itemsheaderdoublecurrencyleft.webp');
+    --poe-bar-img-m: url('/images/itemsheaderdoublecurrencymiddle.webp');
+    --poe-bar-img-r: url('/images/itemsheaderdoublecurrencyright.webp');
+    &.poe-item-header-lg {
+      --poe-bar-img-l: url('/images/itemsheaderdoublecurrencyleft.webp');
+      --poe-bar-img-m: url('/images/itemsheaderdoublecurrencymiddle.webp');
+      --poe-bar-img-r: url('/images/itemsheaderdoublecurrencyright.webp');
+    }
+  }
+
+
+  .poe-item-header-gem {
+    @apply poe-bar;
+    --poe-bar-img-l: url('/images/itemsheadergemleft.webp');
+    --poe-bar-img-m: url('/images/itemsheadergemmiddle.webp');
+    --poe-bar-img-r: url('/images/itemsheadergemright.webp');
+    &.poe-item-header-lg {
+      --poe-bar-img-l: url('/images/itemsheaderdoublegemleft.webp');
+      --poe-bar-img-m: url('/images/itemsheaderdoublegemmiddle.webp');
+      --poe-bar-img-r: url('/images/itemsheaderdoublegemright.webp');
+    }
+  }
+
+  .poe-item-header-quest {
+    @apply poe-bar;
+    --poe-bar-img-l: url('/images/itemsheaderquestleft.webp');
+    --poe-bar-img-m: url('/images/itemsheaderquestmiddle.webp');
+    --poe-bar-img-r: url('/images/itemsheaderquestright.webp');
+    &.poe-item-header-lg {
+      --poe-bar-img-l: url('/images/itemsheaderdoublequestleft.webp');
+      --poe-bar-img-m: url('/images/itemsheaderdoublequestmiddle.webp');
+      --poe-bar-img-r: url('/images/itemsheaderdoublequestright.webp');
+    }
+  }
+}

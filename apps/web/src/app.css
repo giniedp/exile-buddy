@@ -1,10 +1,8 @@
 @import 'tailwindcss';
 @plugin "tailwindcss-animate";
 @config "../tailwind.config.js";
-@import "./style/fonts.css";
 @import "./style/daisy.css";
 @import "./style/exile.css";
-@plugin "./style/exile.js";
 
 @layer base {
   :root {
@@ -71,9 +69,9 @@
 
 @layer base {
   * {
-    @apply border-border;
+    /* @apply border-border; */
   }
   body {
-    @apply bg-background text-foreground;
+    /* @apply bg-background text-foreground; */
   }
 }

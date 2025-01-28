@@ -1,0 +1,18 @@
+
+@layer utilities {
+  .poe-title-bar {
+    @apply poe-bar;
+    --poe-bar-img-l: url('/images/windowtitlebarleft.webp');
+    --poe-bar-img-m: url('/images/windowtitlebarmiddle.webp');
+    --poe-bar-img-r: url('/images/windowtitlebarright.webp');
+  }
+  .poe-account-title-bar {
+    @apply poe-bar;
+    --poe-bar-img-l: url('/images/accounttitlebarleft.webp');
+    --poe-bar-img-m: url('/images/accounttitlebarmiddle.webp');
+    --poe-bar-img-r: url('/images/accounttitlebarright.webp');
+    background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+    background-size: auto 100%, auto 100%, calc(100% - 2rem) 100%, calc(100% - 2rem) 100%;
+    background-position: left center, right center, 50% 50%, 50% 50%;
+  }
+}

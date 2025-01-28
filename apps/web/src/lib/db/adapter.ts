@@ -1,6 +1,6 @@
 import { browser } from '$app/environment'
-import { ConnectionOptions } from '$data'
-import { BoundQueryFn, Poe2Database, Poe2QuerFnParams, Poe2QuerFnResult, Poe2QueryFn } from '$data/types'
+import type { ConnectionOptions } from '$data'
+import type { BoundQueryFn, Poe2Database, Poe2QuerFnParams, Poe2QuerFnResult, Poe2QueryFn } from '$data/types'
 import * as queries from '$data/queries'
 
 export type Database = ReturnType<typeof connectDatabase>

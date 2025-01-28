@@ -5,12 +5,17 @@
   import NavMain from '$lib/shadcn//nav-main.svelte'
 
   export type NavMainItems = ComponentProps<typeof NavMain>['items']
+
   let items: NavMainItems = $state([])
   let label: string = $state('')
 
   export function setSubItems(lbl: string, link: NavMainItems) {
     label = lbl
     items = link
+  }
+
+  export function getSubItems() {
+    return items
   }
 
   // This is sample data.

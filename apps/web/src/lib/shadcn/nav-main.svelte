@@ -19,7 +19,7 @@
   <Sidebar.GroupLabel>Database</Sidebar.GroupLabel>
   <Sidebar.GroupContent>
     <Sidebar.Menu>
-      {#each items as { title, isActive, icon: Icon, url } (url)}
+      {#each items as { title, isActive, icon: Icon, url }}
         <Sidebar.MenuItem>
           <Sidebar.MenuButton {isActive}>
             {#snippet tooltipContent()}

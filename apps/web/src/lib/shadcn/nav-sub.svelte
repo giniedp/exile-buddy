@@ -1,7 +1,11 @@
+<script lang="ts" module>
+</script>
+
 <script lang="ts">
   import * as Sidebar from '$lib/shadcn/ui/sidebar'
   import * as Collapsible from '$lib/shadcn/ui/collapsible'
   import { ChevronRight } from 'lucide-svelte'
+  import { page } from '$app/state'
 
   let {
     label,
@@ -23,6 +27,10 @@
       }[]
     }[]
   } = $props()
+
+  $effect(() => {
+    page.params.category
+  })
 </script>
 
 <Sidebar.Group>
@@ -37,7 +45,7 @@
 </Sidebar.Group>
 
 {#snippet recurse(ele: typeof items)}
-  {#each ele as { title, isActive, icon: Icon, url, items: subItems } (title)}
+  {#each ele as { title, isActive, icon: Icon, url, items: subItems } (url)}
     {#if subItems?.length}
       <Collapsible.Root open={isActive} class={'group/collapsible'}>
         {#snippet child({ props })}

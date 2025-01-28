@@ -3,15 +3,6 @@
   import Datatable from '$lib/datatable.svelte'
 
   let { data } = $props()
-
-  let columns = $derived(
-    Object.keys(data.items[0]).map((key) => ({
-      accessorKey: key,
-      header: key,
-    })),
-  )
-
-  let items = $derived(data.items)
 </script>
 
 <div class="flex flex-col">
@@ -26,7 +17,7 @@
       <!-- {#each items as { Id }}
         {Id}
       {/each} -->
-      <Datatable data={data.items} {columns} />
+      <!-- <Datatable data={data.items} {columns} /> -->
     </div>
   </div>
 </div>

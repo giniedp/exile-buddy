@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { setSubItems } from '$lib/shadcn/app-sidebar.svelte'
+  import { setSubItems, states, type NavMainItems } from '$lib/shadcn/app-sidebar.svelte'
 
   let { data, children } = $props()
-  $effect(() => setSubItems('Categories', data.categories))
+  $effect(() => setSubItems('Categories', data.categories satisfies NavMainItems))
 </script>
 
 {@render children()}

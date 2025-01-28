@@ -1,8 +1,8 @@
 @import 'tailwindcss';
 @plugin "tailwindcss-animate";
 @config "../tailwind.config.js";
-@import "./style/daisy.css";
-@import "./style/exile.css";
+@import './style/daisy.css';
+@import './style/exile.css';
 
 @layer base {
   :root {
@@ -64,14 +64,5 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-}
-
-@layer base {
-  * {
-    /* @apply border-border; */
-  }
-  body {
-    /* @apply bg-background text-foreground; */
   }
 }

@@ -2,71 +2,71 @@ import { sqliteTable, AnySQLiteColumn, foreignKey, integer, text, numeric, real 
   import { sql } from "drizzle-orm"
 
 export const essences = sqliteTable("Essences", {
-	$id: integer("$id").primaryKey(),
-	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$id),
+	$idx: integer("$idx").primaryKey(),
+	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$idx),
 	hash32: integer("HASH32"),
-	monsterMod: integer("MonsterMod").references(() => mods.$id),
-	craftTag: integer("CraftTag").references(() => tags.$id),
+	monsterMod: integer("MonsterMod").references(() => mods.$idx),
+	craftTag: integer("CraftTag").references(() => tags.$idx),
 });
 
 export const delveCraftingModifiers = sqliteTable("DelveCraftingModifiers", {
-	$id: integer("$id").primaryKey(),
-	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$id),
-	addedMods: text("AddedMods").references(() => mods.$id),
-	negativeWeightTags: text("NegativeWeight_Tags").references(() => tags.$id),
+	$idx: integer("$idx").primaryKey(),
+	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$idx),
+	addedMods: text("AddedMods").references(() => mods.$idx),
+	negativeWeightTags: text("NegativeWeight_Tags").references(() => tags.$idx),
 	negativeWeightValues: text("NegativeWeight_Values"),
-	forcedAddMods: text("ForcedAddMods").references(() => mods.$id),
+	forcedAddMods: text("ForcedAddMods").references(() => mods.$idx),
 	forbiddenDelveCraftingTags: text("ForbiddenDelveCraftingTags"),
 	allowedDelveCraftingTags: text("AllowedDelveCraftingTags"),
 	canMirrorItem: numeric("CanMirrorItem"),
 	corruptedEssenceChance: integer("CorruptedEssenceChance"),
 	canImproveQuality: numeric("CanImproveQuality"),
 	hasLuckyRolls: numeric("HasLuckyRolls"),
-	sellPriceMods: text("SellPrice_Mods").references(() => mods.$id),
+	sellPriceMods: text("SellPrice_Mods").references(() => mods.$idx),
 	canRollWhiteSockets: numeric("CanRollWhiteSockets"),
-	weightTags: text("Weight_Tags").references(() => tags.$id),
+	weightTags: text("Weight_Tags").references(() => tags.$idx),
 	weightValues: text("Weight_Values"),
 	delveCraftingModifierDescriptions: text("DelveCraftingModifierDescriptions"),
 	blockedDelveCraftingModifierDescriptions: text("BlockedDelveCraftingModifierDescriptions"),
 });
 
 export const heistObjectives = sqliteTable("HeistObjectives", {
-	$id: integer("$id").primaryKey(),
-	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$id),
+	$idx: integer("$idx").primaryKey(),
+	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$idx),
 	scaling: real("Scaling"),
 	name: text("Name"),
 });
 
 export const expeditionCurrency = sqliteTable("ExpeditionCurrency", {
-	$id: integer("$id").primaryKey(),
-	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$id),
+	$idx: integer("$idx").primaryKey(),
+	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$idx),
 });
 
 export const scoutingReports = sqliteTable("ScoutingReports", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	id: text("Id"),
-	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$id),
+	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$idx),
 	minMapTier: integer("MinMapTier"),
 });
 
 export const currencyExchange = sqliteTable("CurrencyExchange", {
-	$id: integer("$id").primaryKey(),
-	item: integer("Item").references(() => baseItemTypes.$id),
-	category: integer("Category").references(() => currencyExchangeCategories.$id),
-	subCategory: integer("SubCategory").references(() => currencyExchangeCategories.$id),
+	$idx: integer("$idx").primaryKey(),
+	item: integer("Item").references(() => baseItemTypes.$idx),
+	category: integer("Category").references(() => currencyExchangeCategories.$idx),
+	subCategory: integer("SubCategory").references(() => currencyExchangeCategories.$idx),
 	enabledInChallengeLeague: numeric("EnabledInChallengeLeague"),
 	goldPurchaseFee: integer("GoldPurchaseFee"),
 });
 
 export const currencyExchangeCategories = sqliteTable("CurrencyExchangeCategories", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	id: text("Id"),
 	name: text("Name"),
 });
 
 export const armourTypes = sqliteTable("ArmourTypes", {
-	$id: integer("$id").primaryKey(),
-	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$id),
+	$idx: integer("$idx").primaryKey(),
+	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$idx),
 	armour: integer("Armour"),
 	evasion: integer("Evasion"),
 	energyShield: integer("EnergyShield"),
@@ -75,22 +75,22 @@ export const armourTypes = sqliteTable("ArmourTypes", {
 });
 
 export const baseItemTypes = sqliteTable("BaseItemTypes", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	id: text("Id"),
-	itemClass: integer("ItemClass").references(() => itemClasses.$id),
+	itemClass: integer("ItemClass").references(() => itemClasses.$idx),
 	width: integer("Width"),
 	height: integer("Height"),
 	name: text("Name"),
 	inheritsFrom: text("InheritsFrom"),
 	dropLevel: integer("DropLevel"),
-	flavourText: integer("FlavourText").references(() => flavourText.$id),
-	implicitMods: text("Implicit_Mods").references(() => mods.$id),
+	flavourText: integer("FlavourText").references(() => flavourText.$idx),
+	implicitMods: text("Implicit_Mods").references(() => mods.$idx),
 	sizeOnGround: integer("SizeOnGround"),
 	soundEffect: integer("SoundEffect"),
-	tags: text("Tags").references(() => tags.$id),
+	tags: text("Tags").references(() => tags.$idx),
 	modDomain: integer("ModDomain"),
 	siteVisibility: integer("SiteVisibility"),
-	itemVisualIdentity: integer("ItemVisualIdentity").references(() => itemVisualIdentity.$id),
+	itemVisualIdentity: integer("ItemVisualIdentity").references(() => itemVisualIdentity.$idx),
 	hash32: integer("HASH32"),
 	vendorRecipeAchievementItems: text("VendorRecipe_AchievementItems"),
 	inflection: text("Inflection"),
@@ -108,20 +108,20 @@ export const baseItemTypes = sqliteTable("BaseItemTypes", {
 (table) => [
 	foreignKey(() => ({
 			columns: [table.fragmentBaseItemType],
-			foreignColumns: [table.$id],
-			name: "BaseItemTypes_FragmentBaseItemType_BaseItemTypes_$id_fk"
+			foreignColumns: [table.$idx],
+			name: "BaseItemTypes_FragmentBaseItemType_BaseItemTypes_$idx_fk"
 		})),
 ]);
 
 export const characterPanelDescriptionModes = sqliteTable("CharacterPanelDescriptionModes", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	id: text("Id"),
 	formatStringPositive: text("FormatString_Positive"),
 	formatStringNegative: text("FormatString_Negative"),
 });
 
 export const colours = sqliteTable("Colours", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	item: text("Item"),
 	red: integer("Red"),
 	green: integer("Green"),
@@ -130,29 +130,29 @@ export const colours = sqliteTable("Colours", {
 });
 
 export const costTypes = sqliteTable("CostTypes", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	id: text("Id"),
-	stat: integer("Stat").references(() => stats.$id),
+	stat: integer("Stat").references(() => stats.$idx),
 	formatText: text("FormatText"),
 	divisor: integer("Divisor"),
 	perMinute: numeric("PerMinute"),
 });
 
 export const craftingItemClassCategories = sqliteTable("CraftingItemClassCategories", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	id: text("Id"),
-	itemClasses: text("ItemClasses").references(() => itemClasses.$id),
+	itemClasses: text("ItemClasses").references(() => itemClasses.$idx),
 	text: text("Text"),
 });
 
 export const currencyItems = sqliteTable("CurrencyItems", {
-	$id: integer("$id").primaryKey(),
-	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$id),
+	$idx: integer("$idx").primaryKey(),
+	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$idx),
 	stackSize: integer("StackSize"),
 	currencyUseType: integer("CurrencyUseType"),
 	action: text("Action"),
 	directions: text("Directions"),
-	fullStackBaseItemType: integer("FullStack_BaseItemType").references(() => baseItemTypes.$id),
+	fullStackBaseItemType: integer("FullStack_BaseItemType").references(() => baseItemTypes.$idx),
 	description: text("Description"),
 	usageAchievementItems: text("Usage_AchievementItems"),
 	scroll: numeric("Scroll"),
@@ -169,8 +169,8 @@ export const currencyItems = sqliteTable("CurrencyItems", {
 });
 
 export const flasks = sqliteTable("Flasks", {
-	$id: integer("$id").primaryKey(),
-	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$id),
+	$idx: integer("$idx").primaryKey(),
+	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$idx),
 	name: text("Name"),
 	type: integer("Type"),
 	lifePerUse: integer("LifePerUse"),
@@ -182,30 +182,30 @@ export const flasks = sqliteTable("Flasks", {
 });
 
 export const flavourText = sqliteTable("FlavourText", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	id: text("Id"),
 	hash16: integer("HASH16"),
 	text: text("Text"),
 });
 
 export const gameConstants = sqliteTable("GameConstants", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	id: text("Id"),
 	value: integer("Value"),
 	divisor: integer("Divisor"),
 });
 
 export const grantedEffectQualityStats = sqliteTable("GrantedEffectQualityStats", {
-	$id: integer("$id").primaryKey(),
-	grantedEffect: integer("GrantedEffect").references(() => grantedEffects.$id),
-	stats: text("Stats").references(() => stats.$id),
+	$idx: integer("$idx").primaryKey(),
+	grantedEffect: integer("GrantedEffect").references(() => grantedEffects.$idx),
+	stats: text("Stats").references(() => stats.$idx),
 	statsValuesPermille: text("StatsValuesPermille"),
 	addTypes: text("AddTypes"),
 	addMinionTypes: text("AddMinionTypes"),
 });
 
 export const grantedEffects = sqliteTable("GrantedEffects", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	id: text("Id"),
 	isSupport: numeric("IsSupport"),
 	allowedActiveSkillTypes: text("AllowedActiveSkillTypes"),
@@ -223,24 +223,24 @@ export const grantedEffects = sqliteTable("GrantedEffects", {
 	addedMinionActiveSkillTypes: text("AddedMinionActiveSkillTypes"),
 	animation: integer("Animation"),
 	multiPartAchievement: integer("MultiPartAchievement"),
-	supportWeaponRestrictions: text("SupportWeaponRestrictions").references(() => itemClasses.$id),
+	supportWeaponRestrictions: text("SupportWeaponRestrictions").references(() => itemClasses.$idx),
 	regularVariant: integer("RegularVariant"),
-	statSet: integer("StatSet").references(() => grantedEffectStatSets.$id),
-	additionalStatSets: text("AdditionalStatSets").references(() => grantedEffectStatSets.$id),
+	statSet: integer("StatSet").references(() => grantedEffectStatSets.$idx),
+	additionalStatSets: text("AdditionalStatSets").references(() => grantedEffectStatSets.$idx),
 	audio: text("Audio"),
-	costTypes: text("CostTypes").references(() => costTypes.$id),
+	costTypes: text("CostTypes").references(() => costTypes.$idx),
 },
 (table) => [
 	foreignKey(() => ({
 			columns: [table.regularVariant],
-			foreignColumns: [table.$id],
-			name: "GrantedEffects_RegularVariant_GrantedEffects_$id_fk"
+			foreignColumns: [table.$idx],
+			name: "GrantedEffects_RegularVariant_GrantedEffects_$idx_fk"
 		})),
 ]);
 
 export const grantedEffectsPerLevel = sqliteTable("GrantedEffectsPerLevel", {
-	$id: integer("$id").primaryKey(),
-	grantedEffect: integer("GrantedEffect").references(() => grantedEffects.$id),
+	$idx: integer("$idx").primaryKey(),
+	grantedEffect: integer("GrantedEffect").references(() => grantedEffects.$idx),
 	level: integer("Level"),
 	costMultiplier: integer("CostMultiplier"),
 	storedUses: integer("StoredUses"),
@@ -259,31 +259,31 @@ export const grantedEffectsPerLevel = sqliteTable("GrantedEffectsPerLevel", {
 });
 
 export const grantedEffectStatSets = sqliteTable("GrantedEffectStatSets", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	id: text("Id"),
-	label: integer("Label").references(() => grantedEffectLabels.$id),
-	implicitStats: text("ImplicitStats").references(() => stats.$id),
-	constantStats: text("ConstantStats").references(() => stats.$id),
+	label: integer("Label").references(() => grantedEffectLabels.$idx),
+	implicitStats: text("ImplicitStats").references(() => stats.$idx),
+	constantStats: text("ConstantStats").references(() => stats.$idx),
 	constantStatsValues: text("ConstantStatsValues"),
 	baseEffectiveness: real("BaseEffectiveness"),
 	incrementalEffectiveness: real("IncrementalEffectiveness"),
 	damageIncrementalEffectiveness: real("DamageIncrementalEffectiveness"),
-	copiedStats: text("CopiedStats").references(() => stats.$id),
+	copiedStats: text("CopiedStats").references(() => stats.$idx),
 });
 
 export const grantedEffectStatSetsPerLevel = sqliteTable("GrantedEffectStatSetsPerLevel", {
-	$id: integer("$id").primaryKey(),
-	statSet: integer("StatSet").references(() => grantedEffectStatSets.$id),
+	$idx: integer("$idx").primaryKey(),
+	statSet: integer("StatSet").references(() => grantedEffectStatSets.$idx),
 	gemLevel: integer("GemLevel"),
 	spellCritChance: integer("SpellCritChance"),
 	attackCritChance: integer("AttackCritChance"),
 	baseResolvedValues: text("BaseResolvedValues"),
 	additionalStatsValues: text("AdditionalStatsValues"),
-	grantedEffects: text("GrantedEffects").references(() => grantedEffects.$id),
-	additionalFlags: text("AdditionalFlags").references(() => stats.$id),
-	floatStats: text("FloatStats").references(() => stats.$id),
-	interpolationBases: text("InterpolationBases").references(() => stats.$id),
-	additionalStats: text("AdditionalStats").references(() => stats.$id),
+	grantedEffects: text("GrantedEffects").references(() => grantedEffects.$idx),
+	additionalFlags: text("AdditionalFlags").references(() => stats.$idx),
+	floatStats: text("FloatStats").references(() => stats.$idx),
+	interpolationBases: text("InterpolationBases").references(() => stats.$idx),
+	additionalStats: text("AdditionalStats").references(() => stats.$idx),
 	statInterpolations: text("StatInterpolations"),
 	floatStatsValues: text("FloatStatsValues"),
 	actorLevel: real("ActorLevel"),
@@ -291,17 +291,17 @@ export const grantedEffectStatSetsPerLevel = sqliteTable("GrantedEffectStatSetsP
 });
 
 export const itemClassCategories = sqliteTable("ItemClassCategories", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	id: text("Id"),
 	text: text("Text"),
 });
 
 export const itemClasses = sqliteTable("ItemClasses", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	id: text("Id"),
 	name: text("Name"),
 	tradeMarketCategory: integer("TradeMarketCategory"),
-	itemClassCategory: integer("ItemClassCategory").references(() => itemClassCategories.$id),
+	itemClassCategory: integer("ItemClassCategory").references(() => itemClassCategories.$idx),
 	removedIfLeavesArea: numeric("RemovedIfLeavesArea"),
 	identifyAchievements: text("IdentifyAchievements"),
 	allocateToMapOwner: numeric("AllocateToMapOwner"),
@@ -327,7 +327,7 @@ export const itemClasses = sqliteTable("ItemClasses", {
 });
 
 export const itemFrameType = sqliteTable("ItemFrameType", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	id: text("Id"),
 	doubleLine: numeric("DoubleLine"),
 	headerSingle: text("HeaderSingle"),
@@ -336,22 +336,22 @@ export const itemFrameType = sqliteTable("ItemFrameType", {
 	hardmodeHeaderDouble: text("HardmodeHeaderDouble"),
 	color: text("Color"),
 	separator: text("Separator"),
-	rarity: integer("Rarity").references(() => rarity.$id),
+	rarity: integer("Rarity").references(() => rarity.$idx),
 	displayString: integer("DisplayString"),
 	colorMarkup: text("ColorMarkup"),
 });
 
 export const itemisedVisualEffect = sqliteTable("ItemisedVisualEffect", {
-	$id: integer("$id").primaryKey(),
-	effectBaseType: integer("EffectBaseType").references(() => baseItemTypes.$id),
+	$idx: integer("$idx").primaryKey(),
+	effectBaseType: integer("EffectBaseType").references(() => baseItemTypes.$idx),
 	visualEffect: integer("VisualEffect"),
-	visualIdentity: integer("VisualIdentity").references(() => itemVisualIdentity.$id),
-	stats: text("Stats").references(() => stats.$id),
-	itemClasses: text("ItemClasses").references(() => itemClasses.$id),
+	visualIdentity: integer("VisualIdentity").references(() => itemVisualIdentity.$idx),
+	stats: text("Stats").references(() => stats.$idx),
+	itemClasses: text("ItemClasses").references(() => itemClasses.$idx),
 });
 
 export const itemVisualIdentity = sqliteTable("ItemVisualIdentity", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	id: text("Id"),
 	ddsFile: text("DDSFile"),
 	aoFile: text("AOFile"),
@@ -386,58 +386,58 @@ export const itemVisualIdentity = sqliteTable("ItemVisualIdentity", {
 });
 
 export const modFamily = sqliteTable("ModFamily", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	id: text("Id"),
 });
 
 export const mods = sqliteTable("Mods", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	id: text("Id"),
 	hash16: integer("HASH16"),
-	modType: integer("ModType").references(() => modType.$id),
+	modType: integer("ModType").references(() => modType.$idx),
 	level: integer("Level"),
-	stat1: integer("Stat1").references(() => stats.$id),
-	stat2: integer("Stat2").references(() => stats.$id),
-	stat3: integer("Stat3").references(() => stats.$id),
-	stat4: integer("Stat4").references(() => stats.$id),
+	stat1: integer("Stat1").references(() => stats.$idx),
+	stat2: integer("Stat2").references(() => stats.$idx),
+	stat3: integer("Stat3").references(() => stats.$idx),
+	stat4: integer("Stat4").references(() => stats.$idx),
 	domain: integer("Domain"),
 	name: text("Name"),
 	generationType: integer("GenerationType"),
-	families: text("Families").references(() => modFamily.$id),
+	families: text("Families").references(() => modFamily.$idx),
 	stat1Value: text("Stat1Value"),
 	stat2Value: text("Stat2Value"),
 	stat3Value: text("Stat3Value"),
 	stat4Value: text("Stat4Value"),
-	spawnWeightTags: text("SpawnWeight_Tags").references(() => tags.$id),
+	spawnWeightTags: text("SpawnWeight_Tags").references(() => tags.$idx),
 	spawnWeightValues: text("SpawnWeight_Values"),
-	tags: text("Tags").references(() => tags.$id),
-	grantedEffectsPerLevel: text("GrantedEffectsPerLevel").references(() => grantedEffectsPerLevel.$id),
+	tags: text("Tags").references(() => tags.$idx),
+	grantedEffectsPerLevel: text("GrantedEffectsPerLevel").references(() => grantedEffectsPerLevel.$idx),
 	auraFlags: text("AuraFlags"),
 	monsterMetadata: text("MonsterMetadata"),
 	monsterKillAchievements: text("MonsterKillAchievements"),
-	chestModType: text("ChestModType").references(() => modType.$id),
+	chestModType: text("ChestModType").references(() => modType.$idx),
 	stat5Value: text("Stat5Value"),
-	stat5: integer("Stat5").references(() => stats.$id),
+	stat5: integer("Stat5").references(() => stats.$idx),
 	fullAreaClearAchievementItems: text("FullAreaClear_AchievementItems"),
 	achievementItems: text("AchievementItems"),
-	generationWeightTags: text("GenerationWeight_Tags").references(() => tags.$id),
+	generationWeightTags: text("GenerationWeight_Tags").references(() => tags.$idx),
 	generationWeightValues: text("GenerationWeight_Values"),
 	modifyMapsAchievements: text("ModifyMapsAchievements"),
 	isEssenceOnlyModifier: numeric("IsEssenceOnlyModifier"),
 	stat6Value: text("Stat6Value"),
-	stat6: integer("Stat6").references(() => stats.$id),
+	stat6: integer("Stat6").references(() => stats.$idx),
 	maxLevel: integer("MaxLevel"),
-	craftingItemClassRestrictions: text("CraftingItemClassRestrictions").references(() => itemClasses.$id),
+	craftingItemClassRestrictions: text("CraftingItemClassRestrictions").references(() => itemClasses.$idx),
 	monsterOnDeath: text("MonsterOnDeath"),
 	heistAchievements: text("HeistAchievements"),
 	heistSubStatValue1: integer("Heist_SubStatValue1"),
 	heistSubStatValue2: integer("Heist_SubStatValue2"),
-	heistStat0: integer("Heist_Stat0").references(() => stats.$id),
-	heistStat1: integer("Heist_Stat1").references(() => stats.$id),
+	heistStat0: integer("Heist_Stat0").references(() => stats.$idx),
+	heistStat1: integer("Heist_Stat1").references(() => stats.$idx),
 	heistAddStatValue1: integer("Heist_AddStatValue1"),
 	heistAddStatValue2: integer("Heist_AddStatValue2"),
 	influenceType: integer("InfluenceType"),
-	implicitTags: text("ImplicitTags").references(() => tags.$id),
+	implicitTags: text("ImplicitTags").references(() => tags.$idx),
 	buffTemplate: integer("BuffTemplate"),
 	archnemesisMinionMod: integer("ArchnemesisMinionMod"),
 	hash32: integer("HASH32"),
@@ -446,37 +446,37 @@ export const mods = sqliteTable("Mods", {
 (table) => [
 	foreignKey(() => ({
 			columns: [table.archnemesisMinionMod],
-			foreignColumns: [table.$id],
-			name: "Mods_ArchnemesisMinionMod_Mods_$id_fk"
+			foreignColumns: [table.$idx],
+			name: "Mods_ArchnemesisMinionMod_Mods_$idx_fk"
 		})),
 ]);
 
 export const modSellPriceTypes = sqliteTable("ModSellPriceTypes", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	id: text("Id"),
 });
 
 export const modType = sqliteTable("ModType", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	name: text("Name"),
-	modSellPriceTypesKeys: text("ModSellPriceTypesKeys").references(() => modSellPriceTypes.$id),
+	modSellPriceTypesKeys: text("ModSellPriceTypesKeys").references(() => modSellPriceTypes.$idx),
 });
 
 export const passiveSkillStatCategories = sqliteTable("PassiveSkillStatCategories", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	id: text("Id"),
 	name: text("Name"),
 });
 
 export const questItems = sqliteTable("QuestItems", {
-	$id: integer("$id").primaryKey(),
-	item: integer("Item").references(() => baseItemTypes.$id),
+	$idx: integer("$idx").primaryKey(),
+	item: integer("Item").references(() => baseItemTypes.$idx),
 	triggeredQuestFlag: integer("TriggeredQuestFlag"),
 	script: text("Script"),
 });
 
 export const rarity = sqliteTable("Rarity", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	id: text("Id"),
 	minMods: integer("MinMods"),
 	maxMods: integer("MaxMods"),
@@ -487,20 +487,20 @@ export const rarity = sqliteTable("Rarity", {
 });
 
 export const shieldTypes = sqliteTable("ShieldTypes", {
-	$id: integer("$id").primaryKey(),
-	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$id),
+	$idx: integer("$idx").primaryKey(),
+	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$idx),
 	block: integer("Block"),
 });
 
 export const skillGems = sqliteTable("SkillGems", {
-	$id: integer("$id").primaryKey(),
-	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$id),
+	$idx: integer("$idx").primaryKey(),
+	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$idx),
 	strengthRequirementPercent: integer("StrengthRequirementPercent"),
 	dexterityRequirementPercent: integer("DexterityRequirementPercent"),
 	intelligenceRequirementPercent: integer("IntelligenceRequirementPercent"),
-	vaalVariantBaseItemType: integer("VaalVariant_BaseItemType").references(() => baseItemTypes.$id),
+	vaalVariantBaseItemType: integer("VaalVariant_BaseItemType").references(() => baseItemTypes.$idx),
 	isVaalVariant: numeric("IsVaalVariant"),
-	minionGlobalSkillLevelStat: integer("MinionGlobalSkillLevelStat").references(() => stats.$id),
+	minionGlobalSkillLevelStat: integer("MinionGlobalSkillLevelStat").references(() => stats.$idx),
 	gemType: integer("GemType"),
 	awakened: integer("Awakened"),
 	gemColour: integer("GemColour"),
@@ -515,13 +515,13 @@ export const skillGems = sqliteTable("SkillGems", {
 });
 
 export const statsAffectingGeneration = sqliteTable("StatsAffectingGeneration", {
-	$id: integer("$id").primaryKey(),
-	stat: integer("Stat").references(() => stats.$id),
+	$idx: integer("$idx").primaryKey(),
+	stat: integer("Stat").references(() => stats.$idx),
 	statValue: integer("StatValue"),
 });
 
 export const stats = sqliteTable("Stats", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	id: text("Id"),
 	isLocal: numeric("IsLocal"),
 	isWeaponLocal: numeric("IsWeaponLocal"),
@@ -532,7 +532,7 @@ export const stats = sqliteTable("Stats", {
 	offHandAliasStat: integer("OffHandAlias_Stat"),
 	hash32: integer("HASH32"),
 	belongsActiveSkills: text("BelongsActiveSkills"),
-	category: integer("Category").references(() => passiveSkillStatCategories.$id),
+	category: integer("Category").references(() => passiveSkillStatCategories.$idx),
 	isScalable: numeric("IsScalable"),
 	contextFlags: text("ContextFlags"),
 	dotFlag: text("DotFlag"),
@@ -541,18 +541,18 @@ export const stats = sqliteTable("Stats", {
 (table) => [
 	foreignKey(() => ({
 			columns: [table.offHandAliasStat],
-			foreignColumns: [table.$id],
-			name: "Stats_OffHandAlias_Stat_Stats_$id_fk"
+			foreignColumns: [table.$idx],
+			name: "Stats_OffHandAlias_Stat_Stats_$idx_fk"
 		})),
 	foreignKey(() => ({
 			columns: [table.mainHandAliasStat],
-			foreignColumns: [table.$id],
-			name: "Stats_MainHandAlias_Stat_Stats_$id_fk"
+			foreignColumns: [table.$idx],
+			name: "Stats_MainHandAlias_Stat_Stats_$idx_fk"
 		})),
 ]);
 
 export const tags = sqliteTable("Tags", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	id: text("Id"),
 	hash32: integer("HASH32"),
 	displayString: text("DisplayString"),
@@ -560,9 +560,9 @@ export const tags = sqliteTable("Tags", {
 });
 
 export const uniqueStashLayout = sqliteTable("UniqueStashLayout", {
-	$id: integer("$id").primaryKey(),
-	wordsKey: integer("WordsKey").references(() => words.$id),
-	itemVisualIdentityKey: integer("ItemVisualIdentityKey").references(() => itemVisualIdentity.$id),
+	$idx: integer("$idx").primaryKey(),
+	wordsKey: integer("WordsKey").references(() => words.$idx),
+	itemVisualIdentityKey: integer("ItemVisualIdentityKey").references(() => itemVisualIdentity.$idx),
 	uniqueStashTypesKey: integer("UniqueStashTypesKey"),
 	overrideWidth: integer("OverrideWidth"),
 	overrideHeight: integer("OverrideHeight"),
@@ -575,19 +575,19 @@ export const uniqueStashLayout = sqliteTable("UniqueStashLayout", {
 (table) => [
 	foreignKey(() => ({
 			columns: [table.baseVersion],
-			foreignColumns: [table.$id],
-			name: "UniqueStashLayout_BaseVersion_UniqueStashLayout_$id_fk"
+			foreignColumns: [table.$idx],
+			name: "UniqueStashLayout_BaseVersion_UniqueStashLayout_$idx_fk"
 		})),
 	foreignKey(() => ({
 			columns: [table.renamedVersion],
-			foreignColumns: [table.$id],
-			name: "UniqueStashLayout_RenamedVersion_UniqueStashLayout_$id_fk"
+			foreignColumns: [table.$idx],
+			name: "UniqueStashLayout_RenamedVersion_UniqueStashLayout_$idx_fk"
 		})),
 ]);
 
 export const weaponTypes = sqliteTable("WeaponTypes", {
-	$id: integer("$id").primaryKey(),
-	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$id),
+	$idx: integer("$idx").primaryKey(),
+	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$idx),
 	critical: integer("Critical"),
 	speed: integer("Speed"),
 	damageMin: integer("DamageMin"),
@@ -596,87 +596,87 @@ export const weaponTypes = sqliteTable("WeaponTypes", {
 });
 
 export const words = sqliteTable("Words", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	wordlist: integer("Wordlist"),
 	text: text("Text"),
-	spawnWeightTags: text("SpawnWeight_Tags").references(() => tags.$id),
+	spawnWeightTags: text("SpawnWeight_Tags").references(() => tags.$idx),
 	spawnWeightValues: text("SpawnWeight_Values"),
 	text2: text("Text2"),
 	inflection: text("Inflection"),
 });
 
 export const statsFromSkillStats = sqliteTable("StatsFromSkillStats", {
-	$id: integer("$id").primaryKey(),
-	skillCondition: integer("SkillCondition").references(() => stats.$id),
-	grantedFlag: integer("GrantedFlag").references(() => stats.$id),
+	$idx: integer("$idx").primaryKey(),
+	skillCondition: integer("SkillCondition").references(() => stats.$idx),
+	grantedFlag: integer("GrantedFlag").references(() => stats.$idx),
 	flagValue: numeric("FlagValue"),
 });
 
 export const statVisuals = sqliteTable("StatVisuals", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	epkFiles: text("EPKFiles"),
 });
 
 export const attributeRequirements = sqliteTable("AttributeRequirements", {
-	$id: integer("$id").primaryKey(),
-	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$id),
+	$idx: integer("$idx").primaryKey(),
+	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$idx),
 	reqStr: integer("ReqStr"),
 	reqInt: integer("ReqInt"),
 	reqDex: integer("ReqDex"),
 });
 
 export const beltTypes = sqliteTable("BeltTypes", {
-	$id: integer("$id").primaryKey(),
-	baseItem: integer("BaseItem").references(() => baseItemTypes.$id),
+	$idx: integer("$idx").primaryKey(),
+	baseItem: integer("BaseItem").references(() => baseItemTypes.$idx),
 	charmSlots: integer("CharmSlots"),
 });
 
 export const grantedEffectLabels = sqliteTable("GrantedEffectLabels", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	id: text("Id"),
 	text: text("Text"),
 });
 
 export const itemInherentSkills = sqliteTable("ItemInherentSkills", {
-	$id: integer("$id").primaryKey(),
-	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$id),
-	skillsGranted: text("SkillsGranted").references(() => skillGems.$id),
+	$idx: integer("$idx").primaryKey(),
+	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$idx),
+	skillsGranted: text("SkillsGranted").references(() => skillGems.$idx),
 	isWeapon: numeric("IsWeapon"),
 });
 
 export const itemSpirit = sqliteTable("ItemSpirit", {
-	$id: integer("$id").primaryKey(),
-	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$id),
+	$idx: integer("$idx").primaryKey(),
+	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$idx),
 	spiritGranted: integer("SpiritGranted"),
 });
 
 export const keywordPopups = sqliteTable("KeywordPopups", {
-	$id: integer("$id").primaryKey(),
+	$idx: integer("$idx").primaryKey(),
 	id: text("Id"),
 	term: text("Term"),
 	definition: text("Definition"),
 });
 
 export const soulCores = sqliteTable("SoulCores", {
-	$id: integer("$id").primaryKey(),
-	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$id),
-	statsWeapon: text("StatsWeapon").references(() => stats.$id),
+	$idx: integer("$idx").primaryKey(),
+	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$idx),
+	statsWeapon: text("StatsWeapon").references(() => stats.$idx),
 	statsValuesWeapon: text("StatsValuesWeapon"),
-	statsArmour: text("StatsArmour").references(() => stats.$id),
+	statsArmour: text("StatsArmour").references(() => stats.$idx),
 	statsValuesArmour: text("StatsValuesArmour"),
 });
 
 export const uncutGemAdditionalTiers = sqliteTable("UncutGemAdditionalTiers", {
-	$id: integer("$id").primaryKey(),
-	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$id),
+	$idx: integer("$idx").primaryKey(),
+	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$idx),
 	areaLevel: integer("AreaLevel"),
 	tier: integer("Tier"),
 	odds: integer("Odds"),
 });
 
 export const uncutGemTiers = sqliteTable("UncutGemTiers", {
-	$id: integer("$id").primaryKey(),
-	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$id),
+	$idx: integer("$idx").primaryKey(),
+	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$idx),
 	tier: integer("Tier"),
 	areaLevel: integer("AreaLevel"),
 });

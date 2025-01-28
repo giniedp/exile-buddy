@@ -88,16 +88,16 @@ var tplCreateTable = template.Must(template.New("createTable").Funcs(template.Fu
 		return a - b
 	}}).Parse(`
 CREATE TABLE IF NOT EXISTS {{ .Name }} (
-  '$id' INTEGER PRIMARY KEY,
+  '$idx' INTEGER PRIMARY KEY,
   {{- range $index, $col := .Cols -}}
   {{ if $index }},{{ end }}
   {{ $col.Name }} {{ $col.Type -}}
 	{{ if $col.Unique }} UNIQUE {{ end -}}
-	{{ if $col.Ref }} REFERENCES {{ $col.Ref }}('$id'){{ end -}}
+	{{ if $col.Ref }} REFERENCES {{ $col.Ref }}('$idx'){{ end -}}
   {{ end }}
 );
 {{- if len .Insert }}
-INSERT INTO {{ .Name }} ('$id',{{- range $index, $col := .Cols }}{{ if $index }},{{ end }}{{ $col.Name }}{{ end }})
+INSERT INTO {{ .Name }} ('$idx',{{- range $index, $col := .Cols }}{{ if $index }},{{ end }}{{ $col.Name }}{{ end }})
 VALUES
   {{- range $rowIndex, $row := .Insert -}}
   {{- if $rowIndex }},{{ end }}

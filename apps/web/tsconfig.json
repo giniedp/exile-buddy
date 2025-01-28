@@ -16,7 +16,7 @@
     "strictNullChecks": false,
     "strictFunctionTypes": true,
     "strictPropertyInitialization": false,
-    "verbatimModuleSyntax": false,
+
     "moduleResolution": "bundler",
     "lib": ["WebWorker", "DOM", "DOM.Iterable", "esnext"]
   }

@@ -26,13 +26,14 @@ func (c *ConvertToWebp) Before(schema *datc64.Schema, options datc64.ConvertOpti
 
 func (c *ConvertToWebp) Convert(data *datc64.ConvertedData) error {
 	for _, row := range data.Rows {
-		for _, value := range row {
+		for k, value := range row {
 			v, ok := value.(string)
 			if !ok {
 				continue
 			}
-			if path, ok := getTexturePath(c.UnpacKDir, v); ok {
-				c.images = append(c.images, path)
+			if ddsPath, ok := getTexturePath(c.UnpacKDir, v); ok {
+				row[k] = strings.TrimSuffix(ddsPath, path.Ext(ddsPath)) + ".webp"
+				c.images = append(c.images, ddsPath)
 			}
 		}
 	}
@@ -50,6 +51,14 @@ func getTexturePath(unpackDir string, filePath string) (string, bool) {
 		return "", false
 	}
 	ddsPath := strings.TrimSuffix(filePath, path.Ext(filePath)) + ".dds"
+	if stat, err := os.Stat(path.Join(unpackDir, ddsPath)); err == nil && !stat.IsDir() {
+		return ddsPath, true
+	}
+	// 'art/2dart/' is also in 'DATA/art/textures/interface/2d/2dart/'
+	if !strings.HasPrefix(ddsPath, "art/2dart/") {
+		return "", false
+	}
+	ddsPath = strings.Replace(ddsPath, "art/2dart/", "art/textures/interface/2d/2dart/", 1)
 	if stat, err := os.Stat(path.Join(unpackDir, ddsPath)); err == nil && !stat.IsDir() {
 		return ddsPath, true
 	}

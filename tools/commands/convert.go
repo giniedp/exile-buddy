@@ -131,11 +131,13 @@ func Convert(options ConvertOptions) {
 		DataDir:    path.Join(unpackDir, "data"),
 		Tables:     tables,
 		Handler: converter.NewConvertList(
+			// HINT: image converter has side effect and must be the first in the list
+			//       resolves image path and writes back to row data
+			converter.ToWebp(unpackDir, options.OutArtDir),
 			converter.ToSql(options.OutSqlDir),
 			converter.ToJson(options.OutJsonDir),
 			// converter.ToTs(options.OutTsDir),
 			converter.ToDb(path.Join(options.OutDbDir, "poe2.db")),
-			converter.ToWebp(unpackDir, options.OutArtDir),
 		),
 		// MaxRows:    1,
 	})

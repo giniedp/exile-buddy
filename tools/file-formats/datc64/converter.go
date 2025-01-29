@@ -69,6 +69,7 @@ func ConvertData(options ConvertOptions) error {
 		}
 		slog.Info(fmt.Sprintf("Convert %s", datFile))
 		r := Load(datFile)
+		slog.Info(fmt.Sprintf("  rows: %v stride: %v", r.rows, r.stride))
 		rows, err := r.ReadRows(&t, options.MaxRows)
 		if err != nil {
 			slog.Error("Failed to read rows", "err", err)

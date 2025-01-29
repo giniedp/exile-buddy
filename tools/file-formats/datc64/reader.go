@@ -94,7 +94,11 @@ func (r *Reader) readRow(t *SchemaTable) (row map[string]interface{}, err error)
 
 	row = make(map[string]interface{})
 	p0 := r.fixData.Pos()
+	pE := p0 + r.stride
 	for ic, c := range t.Columns {
+		if r.fixData.Pos() >= pE {
+			slog.Warn(fmt.Sprintf("Potentially reading outside of row bounds (col: '%v' name: '%s', type: '%v')", ic, c.Name, c.Type))
+		}
 		name := c.Name
 		if name == "" {
 			name = fmt.Sprintf("$unknown%02d", ic)
@@ -120,7 +124,7 @@ func (r *Reader) readRow(t *SchemaTable) (row map[string]interface{}, err error)
 
 func (r *Reader) readCellInterval(c *SchemaColumn) (res []interface{}, err error) {
 	defer func() {
-		err = utils.ToErr(recover(), "Failed to read cell")
+		err = utils.ToErr(recover(), "Failed to read cell intervall")
 	}()
 	res = append(res, utils.Must(r.readCell(c)))
 	res = append(res, utils.Must(r.readCell(c)))
@@ -129,7 +133,7 @@ func (r *Reader) readCellInterval(c *SchemaColumn) (res []interface{}, err error
 
 func (r *Reader) readCell(c *SchemaColumn) (res interface{}, err error) {
 	defer func() {
-		err = utils.ToErr(recover(), "Failed to read cell")
+		err = utils.ToErr(recover(), fmt.Sprintf("Failed to read cell '%s' as %v", c.Name, c.Type))
 	}()
 
 	switch c.Type {
@@ -173,7 +177,7 @@ func (r *Reader) readCell(c *SchemaColumn) (res interface{}, err error) {
 
 func (r *Reader) readCellArray(c *SchemaColumn) (res []interface{}, err error) {
 	defer func() {
-		err = utils.ToErr(recover(), "Failed to read cell")
+		err = utils.ToErr(recover(), fmt.Sprintf("Failed to read cell array ('%v' as %v)", c.Name, c.Type))
 	}()
 
 	pos := r.fixData.Pos()

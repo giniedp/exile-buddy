@@ -52,6 +52,15 @@ fn format_fid(ref Fid it) {
     return std::format("{}", it.id);
 };
 
+// Foreign ID
+struct Bool {
+    u8 value;
+} [[format("format_bool")]];
+
+fn format_bool(ref Bool it) {
+    return std::format("{}", it.value);
+};
+
 fn find_null_terminator(u64 pos) {
     return std::mem::find_sequence_in_range(0, pos, 0, 0x00, 0x00, 0x00, 0x00);
 };
@@ -92,13 +101,11 @@ struct Npc {
   Fid f5;
 
   Str Gender;
-  u8 v;
-  Str f6;
-  Fid f7;
+  Bool f6;
+  Str f7;
+  Fid f8;
 
   // std::print("{}", $ - start);
 };
 
 Row<Npc, stride> rows[count] @start;
-
-

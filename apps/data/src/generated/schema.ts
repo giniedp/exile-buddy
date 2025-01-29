@@ -64,6 +64,55 @@ export const currencyExchangeCategories = sqliteTable("CurrencyExchangeCategorie
 	name: text("Name"),
 });
 
+export const achievementItemRewards = sqliteTable("AchievementItemRewards", {
+	$idx: integer("$idx").primaryKey(),
+	achievementItemsKey: integer("AchievementItemsKey").references(() => achievementItems.$idx),
+	baseItemTypesKey: integer("BaseItemTypesKey").references(() => baseItemTypes.$idx),
+	message: text("Message"),
+	id: text("Id"),
+});
+
+export const achievementItems = sqliteTable("AchievementItems", {
+	$idx: integer("$idx").primaryKey(),
+	id: text("Id"),
+	name: text("Name"),
+	completionsRequired: integer("CompletionsRequired"),
+	achievementsKey: integer("AchievementsKey").references(() => achievements.$idx),
+});
+
+export const achievements = sqliteTable("Achievements", {
+	$idx: integer("$idx").primaryKey(),
+	id: text("Id"),
+	description: text("Description"),
+	setId: integer("SetId").references(() => achievementSetsDisplay.$idx),
+	objective: text("Objective"),
+	hash16: integer("HASH16"),
+	hideAchievementItems: numeric("HideAchievementItems"),
+	minCompletedItems: integer("MinCompletedItems"),
+	twoColumnLayout: numeric("TwoColumnLayout"),
+	showItemCompletionsAsOne: numeric("ShowItemCompletionsAsOne"),
+	softcoreOnly: numeric("SoftcoreOnly"),
+	hardcoreOnly: numeric("HardcoreOnly"),
+});
+
+export const achievementSetRewards = sqliteTable("AchievementSetRewards", {
+	$idx: integer("$idx").primaryKey(),
+	setId: integer("SetId").references(() => achievementSetsDisplay.$idx),
+	achievementsRequired: integer("AchievementsRequired"),
+	rewards: text("Rewards").references(() => baseItemTypes.$idx),
+	totemPieceEveryNachievements: integer("TotemPieceEveryNAchievements"),
+	message: text("Message"),
+	notificationIcon: text("NotificationIcon"),
+	hideoutName: text("HideoutName"),
+	id: text("Id"),
+});
+
+export const achievementSetsDisplay = sqliteTable("AchievementSetsDisplay", {
+	$idx: integer("$idx").primaryKey(),
+	id: integer("Id"),
+	title: text("Title"),
+});
+
 export const armourTypes = sqliteTable("ArmourTypes", {
 	$idx: integer("$idx").primaryKey(),
 	baseItemType: integer("BaseItemType").references(() => baseItemTypes.$idx),
@@ -92,17 +141,17 @@ export const baseItemTypes = sqliteTable("BaseItemTypes", {
 	siteVisibility: integer("SiteVisibility"),
 	itemVisualIdentity: integer("ItemVisualIdentity").references(() => itemVisualIdentity.$idx),
 	hash32: integer("HASH32"),
-	vendorRecipeAchievementItems: text("VendorRecipe_AchievementItems"),
+	vendorRecipeAchievementItems: text("VendorRecipe_AchievementItems").references(() => achievementItems.$idx),
 	inflection: text("Inflection"),
-	equipAchievementItem: integer("Equip_AchievementItem"),
+	equipAchievementItem: integer("Equip_AchievementItem").references(() => achievementItems.$idx),
 	isCorrupted: numeric("IsCorrupted"),
-	identifyAchievementItems: text("Identify_AchievementItems"),
-	identifyMagicAchievementItems: text("IdentifyMagic_AchievementItems"),
+	identifyAchievementItems: text("Identify_AchievementItems").references(() => achievementItems.$idx),
+	identifyMagicAchievementItems: text("IdentifyMagic_AchievementItems").references(() => achievementItems.$idx),
 	fragmentBaseItemType: integer("FragmentBaseItemType"),
 	uncutGemSoundEffect: integer("UncutGemSoundEffect"),
 	tradeMarketCategory: integer("TradeMarketCategory"),
 	unmodifiable: numeric("Unmodifiable"),
-	achievement: text("Achievement"),
+	achievement: text("Achievement").references(() => achievementItems.$idx),
 	shopTag: integer("ShopTag"),
 },
 (table) => [
@@ -154,14 +203,14 @@ export const currencyItems = sqliteTable("CurrencyItems", {
 	directions: text("Directions"),
 	fullStackBaseItemType: integer("FullStack_BaseItemType").references(() => baseItemTypes.$idx),
 	description: text("Description"),
-	usageAchievementItems: text("Usage_AchievementItems"),
+	usageAchievementItems: text("Usage_AchievementItems").references(() => achievementItems.$idx),
 	scroll: numeric("Scroll"),
-	possessionAchievementItem: integer("Possession_AchievementItem"),
+	possessionAchievementItem: integer("Possession_AchievementItem").references(() => achievementItems.$idx),
 	currencyTabStackSize: integer("CurrencyTab_StackSize"),
 	xboxDirections: text("XBoxDirections"),
-	modifyMapsAchievements: text("ModifyMapsAchievements"),
-	modifyContractsAchievements: text("ModifyContractsAchievements"),
-	combineAchievements: text("CombineAchievements"),
+	modifyMapsAchievements: text("ModifyMapsAchievements").references(() => achievementItems.$idx),
+	modifyContractsAchievements: text("ModifyContractsAchievements").references(() => achievementItems.$idx),
+	combineAchievements: text("CombineAchievements").references(() => achievementItems.$idx),
 	changedForHardmode: numeric("ChangedForHardmode"),
 	descriptionHardmode: text("DescriptionHardmode"),
 	isGold: numeric("IsGold"),
@@ -303,7 +352,7 @@ export const itemClasses = sqliteTable("ItemClasses", {
 	tradeMarketCategory: integer("TradeMarketCategory"),
 	itemClassCategory: integer("ItemClassCategory").references(() => itemClassCategories.$idx),
 	removedIfLeavesArea: numeric("RemovedIfLeavesArea"),
-	identifyAchievements: text("IdentifyAchievements"),
+	identifyAchievements: text("IdentifyAchievements").references(() => achievementItems.$idx),
 	allocateToMapOwner: numeric("AllocateToMapOwner"),
 	alwaysAllocate: numeric("AlwaysAllocate"),
 	canHaveVeiledMods: numeric("CanHaveVeiledMods"),
@@ -322,7 +371,7 @@ export const itemClasses = sqliteTable("ItemClasses", {
 	itemClassFlags: text("ItemClassFlags"),
 	unmodfiable: numeric("Unmodfiable"),
 	canBeFractured: numeric("CanBeFractured"),
-	equipAchievement: integer("EquipAchievement"),
+	equipAchievement: integer("EquipAchievement").references(() => achievementItems.$idx),
 	usableInMapDevice: numeric("UsableInMapDevice"),
 });
 
@@ -372,17 +421,31 @@ export const itemVisualIdentity = sqliteTable("ItemVisualIdentity", {
 	templarShape: text("TemplarShape"),
 	shadowShape: text("ShadowShape"),
 	scionShape: text("ScionShape"),
-	pickupAchievementItems: text("Pickup_AchievementItems"),
+	pickupAchievementItems: text("Pickup_AchievementItems").references(() => achievementItems.$idx),
 	smFiles: text("SMFiles"),
-	identifyAchievementItems: text("Identify_AchievementItems"),
+	identifyAchievementItems: text("Identify_AchievementItems").references(() => achievementItems.$idx),
 	epkFile: text("EPKFile"),
-	corruptAchievementItems: text("Corrupt_AchievementItems"),
+	corruptAchievementItems: text("Corrupt_AchievementItems").references(() => achievementItems.$idx),
 	isAlternateArt: numeric("IsAlternateArt"),
-	createCorruptedJewelAchievementItem: integer("CreateCorruptedJewelAchievementItem"),
+	createCorruptedJewelAchievementItem: integer("CreateCorruptedJewelAchievementItem").references(() => achievementItems.$idx),
 	animationLocation: text("AnimationLocation"),
 	isAtlasOfWorldsMapIcon: numeric("IsAtlasOfWorldsMapIcon"),
 	isTier16Icon: numeric("IsTier16Icon"),
 	composition: integer("Composition"),
+});
+
+export const melee = sqliteTable("Melee", {
+	$idx: integer("$idx").primaryKey(),
+	activeSkill: integer("ActiveSkill"),
+	miscAnimated: integer("MiscAnimated"),
+	meleeTrailsKey1: integer("MeleeTrailsKey1"),
+	meleeTrailsKey2: integer("MeleeTrailsKey2"),
+	meleeTrailsKey3: integer("MeleeTrailsKey3"),
+	meleeTrailsKey4: integer("MeleeTrailsKey4"),
+	meleeTrailsKey5: integer("MeleeTrailsKey5"),
+	meleeTrailsKey6: integer("MeleeTrailsKey6"),
+	meleeTrailsKey7: integer("MeleeTrailsKey7"),
+	surgeEffectEpkFile: text("SurgeEffect_EPKFile"),
 });
 
 export const modFamily = sqliteTable("ModFamily", {
@@ -414,22 +477,22 @@ export const mods = sqliteTable("Mods", {
 	grantedEffectsPerLevel: text("GrantedEffectsPerLevel").references(() => grantedEffectsPerLevel.$idx),
 	auraFlags: text("AuraFlags"),
 	monsterMetadata: text("MonsterMetadata"),
-	monsterKillAchievements: text("MonsterKillAchievements"),
+	monsterKillAchievements: text("MonsterKillAchievements").references(() => achievementItems.$idx),
 	chestModType: text("ChestModType").references(() => modType.$idx),
 	stat5Value: text("Stat5Value"),
 	stat5: integer("Stat5").references(() => stats.$idx),
-	fullAreaClearAchievementItems: text("FullAreaClear_AchievementItems"),
-	achievementItems: text("AchievementItems"),
+	fullAreaClearAchievementItems: text("FullAreaClear_AchievementItems").references(() => achievementItems.$idx),
+	achievementItems: text("AchievementItems").references(() => achievementItems.$idx),
 	generationWeightTags: text("GenerationWeight_Tags").references(() => tags.$idx),
 	generationWeightValues: text("GenerationWeight_Values"),
-	modifyMapsAchievements: text("ModifyMapsAchievements"),
+	modifyMapsAchievements: text("ModifyMapsAchievements").references(() => achievementItems.$idx),
 	isEssenceOnlyModifier: numeric("IsEssenceOnlyModifier"),
 	stat6Value: text("Stat6Value"),
 	stat6: integer("Stat6").references(() => stats.$idx),
 	maxLevel: integer("MaxLevel"),
 	craftingItemClassRestrictions: text("CraftingItemClassRestrictions").references(() => itemClasses.$idx),
 	monsterOnDeath: text("MonsterOnDeath"),
-	heistAchievements: text("HeistAchievements"),
+	heistAchievements: text("HeistAchievements").references(() => achievementItems.$idx),
 	heistSubStatValue1: integer("Heist_SubStatValue1"),
 	heistSubStatValue2: integer("Heist_SubStatValue2"),
 	heistStat0: integer("Heist_Stat0").references(() => stats.$idx),
@@ -460,6 +523,27 @@ export const modType = sqliteTable("ModType", {
 	$idx: integer("$idx").primaryKey(),
 	name: text("Name"),
 	modSellPriceTypesKeys: text("ModSellPriceTypesKeys").references(() => modSellPriceTypes.$idx),
+});
+
+export const npcPortraits = sqliteTable("NPCPortraits", {
+	$idx: integer("$idx").primaryKey(),
+	name: text("Name"),
+	portraitFile: text("PortraitFile"),
+});
+
+export const npCs = sqliteTable("NPCs", {
+	$idx: integer("$idx").primaryKey(),
+	id: text("Id"),
+	name: text("Name"),
+	metadata: text("Metadata"),
+	npcMasterKey: integer("NPCMasterKey"),
+	shortName: text("ShortName"),
+	npcAudios1: text("NPCAudios1"),
+	npcAudios2: text("NPCAudios2"),
+	hash16: integer("HASH16"),
+	portrait: integer("Portrait").references(() => npcPortraits.$idx),
+	dialogueStyle: integer("DialogueStyle"),
+	gender: text("Gender"),
 });
 
 export const passiveSkillStatCategories = sqliteTable("PassiveSkillStatCategories", {

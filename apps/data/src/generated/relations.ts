@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm/relations";
-import { tags, essences, mods, baseItemTypes, delveCraftingModifiers, heistObjectives, expeditionCurrency, scoutingReports, currencyExchangeCategories, currencyExchange, armourTypes, itemVisualIdentity, flavourText, itemClasses, stats, costTypes, craftingItemClassCategories, currencyItems, flasks, grantedEffectQualityStats, grantedEffects, grantedEffectStatSets, grantedEffectsPerLevel, grantedEffectLabels, grantedEffectStatSetsPerLevel, itemClassCategories, rarity, itemFrameType, itemisedVisualEffect, modType, modFamily, modSellPriceTypes, questItems, shieldTypes, skillGems, statsAffectingGeneration, passiveSkillStatCategories, uniqueStashLayout, words, weaponTypes, statsFromSkillStats, attributeRequirements, beltTypes, itemInherentSkills, itemSpirit, soulCores, uncutGemAdditionalTiers, uncutGemTiers } from "./schema";
+import { tags, essences, mods, baseItemTypes, delveCraftingModifiers, heistObjectives, expeditionCurrency, scoutingReports, currencyExchangeCategories, currencyExchange, achievementItemRewards, achievementItems, achievements, achievementSetsDisplay, achievementSetRewards, armourTypes, itemVisualIdentity, flavourText, itemClasses, stats, costTypes, craftingItemClassCategories, currencyItems, flasks, grantedEffectQualityStats, grantedEffects, grantedEffectStatSets, grantedEffectsPerLevel, grantedEffectLabels, grantedEffectStatSetsPerLevel, itemClassCategories, rarity, itemFrameType, itemisedVisualEffect, modType, modFamily, modSellPriceTypes, npcPortraits, npCs, questItems, shieldTypes, skillGems, statsAffectingGeneration, passiveSkillStatCategories, uniqueStashLayout, words, weaponTypes, statsFromSkillStats, attributeRequirements, beltTypes, itemInherentSkills, itemSpirit, soulCores, uncutGemAdditionalTiers, uncutGemTiers } from "./schema";
 
 export const essencesRelations = relations(essences, ({one}) => ({
 	tag: one(tags, {
@@ -75,6 +75,11 @@ export const modsRelations = relations(mods, ({one, many}) => ({
 		references: [stats.$idx],
 		relationName: "mods_heistStat0_stats_$idx"
 	}),
+	achievementItem_heistAchievements: one(achievementItems, {
+		fields: [mods.heistAchievements],
+		references: [achievementItems.$idx],
+		relationName: "mods_heistAchievements_achievementItems_$idx"
+	}),
 	itemClass: one(itemClasses, {
 		fields: [mods.craftingItemClassRestrictions],
 		references: [itemClasses.$idx]
@@ -84,10 +89,25 @@ export const modsRelations = relations(mods, ({one, many}) => ({
 		references: [stats.$idx],
 		relationName: "mods_stat6_stats_$idx"
 	}),
+	achievementItem_modifyMapsAchievements: one(achievementItems, {
+		fields: [mods.modifyMapsAchievements],
+		references: [achievementItems.$idx],
+		relationName: "mods_modifyMapsAchievements_achievementItems_$idx"
+	}),
 	tag_generationWeightTags: one(tags, {
 		fields: [mods.generationWeightTags],
 		references: [tags.$idx],
 		relationName: "mods_generationWeightTags_tags_$idx"
+	}),
+	achievementItem_achievementItems: one(achievementItems, {
+		fields: [mods.achievementItems],
+		references: [achievementItems.$idx],
+		relationName: "mods_achievementItems_achievementItems_$idx"
+	}),
+	achievementItem_fullAreaClearAchievementItems: one(achievementItems, {
+		fields: [mods.fullAreaClearAchievementItems],
+		references: [achievementItems.$idx],
+		relationName: "mods_fullAreaClearAchievementItems_achievementItems_$idx"
 	}),
 	stat_stat5: one(stats, {
 		fields: [mods.stat5],
@@ -98,6 +118,11 @@ export const modsRelations = relations(mods, ({one, many}) => ({
 		fields: [mods.chestModType],
 		references: [modType.$idx],
 		relationName: "mods_chestModType_modType_$idx"
+	}),
+	achievementItem_monsterKillAchievements: one(achievementItems, {
+		fields: [mods.monsterKillAchievements],
+		references: [achievementItems.$idx],
+		relationName: "mods_monsterKillAchievements_achievementItems_$idx"
 	}),
 	grantedEffectsPerLevel: one(grantedEffectsPerLevel, {
 		fields: [mods.grantedEffectsPerLevel],
@@ -151,7 +176,14 @@ export const baseItemTypesRelations = relations(baseItemTypes, ({one, many}) => 
 	expeditionCurrencies: many(expeditionCurrency),
 	scoutingReports: many(scoutingReports),
 	currencyExchanges: many(currencyExchange),
+	achievementItemRewards: many(achievementItemRewards),
+	achievementSetRewards: many(achievementSetRewards),
 	armourTypes: many(armourTypes),
+	achievementItem_achievement: one(achievementItems, {
+		fields: [baseItemTypes.achievement],
+		references: [achievementItems.$idx],
+		relationName: "baseItemTypes_achievement_achievementItems_$idx"
+	}),
 	baseItemType: one(baseItemTypes, {
 		fields: [baseItemTypes.fragmentBaseItemType],
 		references: [baseItemTypes.$idx],
@@ -159,6 +191,26 @@ export const baseItemTypesRelations = relations(baseItemTypes, ({one, many}) => 
 	}),
 	baseItemTypes: many(baseItemTypes, {
 		relationName: "baseItemTypes_fragmentBaseItemType_baseItemTypes_$idx"
+	}),
+	achievementItem_identifyMagicAchievementItems: one(achievementItems, {
+		fields: [baseItemTypes.identifyMagicAchievementItems],
+		references: [achievementItems.$idx],
+		relationName: "baseItemTypes_identifyMagicAchievementItems_achievementItems_$idx"
+	}),
+	achievementItem_identifyAchievementItems: one(achievementItems, {
+		fields: [baseItemTypes.identifyAchievementItems],
+		references: [achievementItems.$idx],
+		relationName: "baseItemTypes_identifyAchievementItems_achievementItems_$idx"
+	}),
+	achievementItem_equipAchievementItem: one(achievementItems, {
+		fields: [baseItemTypes.equipAchievementItem],
+		references: [achievementItems.$idx],
+		relationName: "baseItemTypes_equipAchievementItem_achievementItems_$idx"
+	}),
+	achievementItem_vendorRecipeAchievementItems: one(achievementItems, {
+		fields: [baseItemTypes.vendorRecipeAchievementItems],
+		references: [achievementItems.$idx],
+		relationName: "baseItemTypes_vendorRecipeAchievementItems_achievementItems_$idx"
 	}),
 	itemVisualIdentity: one(itemVisualIdentity, {
 		fields: [baseItemTypes.itemVisualIdentity],
@@ -285,6 +337,112 @@ export const currencyExchangeCategoriesRelations = relations(currencyExchangeCat
 	}),
 }));
 
+export const achievementItemRewardsRelations = relations(achievementItemRewards, ({one}) => ({
+	baseItemType: one(baseItemTypes, {
+		fields: [achievementItemRewards.baseItemTypesKey],
+		references: [baseItemTypes.$idx]
+	}),
+	achievementItem: one(achievementItems, {
+		fields: [achievementItemRewards.achievementItemsKey],
+		references: [achievementItems.$idx]
+	}),
+}));
+
+export const achievementItemsRelations = relations(achievementItems, ({one, many}) => ({
+	achievementItemRewards: many(achievementItemRewards),
+	achievement: one(achievements, {
+		fields: [achievementItems.achievementsKey],
+		references: [achievements.$idx]
+	}),
+	baseItemTypes_achievement: many(baseItemTypes, {
+		relationName: "baseItemTypes_achievement_achievementItems_$idx"
+	}),
+	baseItemTypes_identifyMagicAchievementItems: many(baseItemTypes, {
+		relationName: "baseItemTypes_identifyMagicAchievementItems_achievementItems_$idx"
+	}),
+	baseItemTypes_identifyAchievementItems: many(baseItemTypes, {
+		relationName: "baseItemTypes_identifyAchievementItems_achievementItems_$idx"
+	}),
+	baseItemTypes_equipAchievementItem: many(baseItemTypes, {
+		relationName: "baseItemTypes_equipAchievementItem_achievementItems_$idx"
+	}),
+	baseItemTypes_vendorRecipeAchievementItems: many(baseItemTypes, {
+		relationName: "baseItemTypes_vendorRecipeAchievementItems_achievementItems_$idx"
+	}),
+	currencyItems_combineAchievements: many(currencyItems, {
+		relationName: "currencyItems_combineAchievements_achievementItems_$idx"
+	}),
+	currencyItems_modifyContractsAchievements: many(currencyItems, {
+		relationName: "currencyItems_modifyContractsAchievements_achievementItems_$idx"
+	}),
+	currencyItems_modifyMapsAchievements: many(currencyItems, {
+		relationName: "currencyItems_modifyMapsAchievements_achievementItems_$idx"
+	}),
+	currencyItems_possessionAchievementItem: many(currencyItems, {
+		relationName: "currencyItems_possessionAchievementItem_achievementItems_$idx"
+	}),
+	currencyItems_usageAchievementItems: many(currencyItems, {
+		relationName: "currencyItems_usageAchievementItems_achievementItems_$idx"
+	}),
+	itemClasses_equipAchievement: many(itemClasses, {
+		relationName: "itemClasses_equipAchievement_achievementItems_$idx"
+	}),
+	itemClasses_identifyAchievements: many(itemClasses, {
+		relationName: "itemClasses_identifyAchievements_achievementItems_$idx"
+	}),
+	itemVisualIdentities_createCorruptedJewelAchievementItem: many(itemVisualIdentity, {
+		relationName: "itemVisualIdentity_createCorruptedJewelAchievementItem_achievementItems_$idx"
+	}),
+	itemVisualIdentities_corruptAchievementItems: many(itemVisualIdentity, {
+		relationName: "itemVisualIdentity_corruptAchievementItems_achievementItems_$idx"
+	}),
+	itemVisualIdentities_identifyAchievementItems: many(itemVisualIdentity, {
+		relationName: "itemVisualIdentity_identifyAchievementItems_achievementItems_$idx"
+	}),
+	itemVisualIdentities_pickupAchievementItems: many(itemVisualIdentity, {
+		relationName: "itemVisualIdentity_pickupAchievementItems_achievementItems_$idx"
+	}),
+	mods_heistAchievements: many(mods, {
+		relationName: "mods_heistAchievements_achievementItems_$idx"
+	}),
+	mods_modifyMapsAchievements: many(mods, {
+		relationName: "mods_modifyMapsAchievements_achievementItems_$idx"
+	}),
+	mods_achievementItems: many(mods, {
+		relationName: "mods_achievementItems_achievementItems_$idx"
+	}),
+	mods_fullAreaClearAchievementItems: many(mods, {
+		relationName: "mods_fullAreaClearAchievementItems_achievementItems_$idx"
+	}),
+	mods_monsterKillAchievements: many(mods, {
+		relationName: "mods_monsterKillAchievements_achievementItems_$idx"
+	}),
+}));
+
+export const achievementsRelations = relations(achievements, ({one, many}) => ({
+	achievementItems: many(achievementItems),
+	achievementSetsDisplay: one(achievementSetsDisplay, {
+		fields: [achievements.setId],
+		references: [achievementSetsDisplay.$idx]
+	}),
+}));
+
+export const achievementSetsDisplayRelations = relations(achievementSetsDisplay, ({many}) => ({
+	achievements: many(achievements),
+	achievementSetRewards: many(achievementSetRewards),
+}));
+
+export const achievementSetRewardsRelations = relations(achievementSetRewards, ({one}) => ({
+	baseItemType: one(baseItemTypes, {
+		fields: [achievementSetRewards.rewards],
+		references: [baseItemTypes.$idx]
+	}),
+	achievementSetsDisplay: one(achievementSetsDisplay, {
+		fields: [achievementSetRewards.setId],
+		references: [achievementSetsDisplay.$idx]
+	}),
+}));
+
 export const armourTypesRelations = relations(armourTypes, ({one}) => ({
 	baseItemType: one(baseItemTypes, {
 		fields: [armourTypes.baseItemType],
@@ -292,9 +450,29 @@ export const armourTypesRelations = relations(armourTypes, ({one}) => ({
 	}),
 }));
 
-export const itemVisualIdentityRelations = relations(itemVisualIdentity, ({many}) => ({
+export const itemVisualIdentityRelations = relations(itemVisualIdentity, ({one, many}) => ({
 	baseItemTypes: many(baseItemTypes),
 	itemisedVisualEffects: many(itemisedVisualEffect),
+	achievementItem_createCorruptedJewelAchievementItem: one(achievementItems, {
+		fields: [itemVisualIdentity.createCorruptedJewelAchievementItem],
+		references: [achievementItems.$idx],
+		relationName: "itemVisualIdentity_createCorruptedJewelAchievementItem_achievementItems_$idx"
+	}),
+	achievementItem_corruptAchievementItems: one(achievementItems, {
+		fields: [itemVisualIdentity.corruptAchievementItems],
+		references: [achievementItems.$idx],
+		relationName: "itemVisualIdentity_corruptAchievementItems_achievementItems_$idx"
+	}),
+	achievementItem_identifyAchievementItems: one(achievementItems, {
+		fields: [itemVisualIdentity.identifyAchievementItems],
+		references: [achievementItems.$idx],
+		relationName: "itemVisualIdentity_identifyAchievementItems_achievementItems_$idx"
+	}),
+	achievementItem_pickupAchievementItems: one(achievementItems, {
+		fields: [itemVisualIdentity.pickupAchievementItems],
+		references: [achievementItems.$idx],
+		relationName: "itemVisualIdentity_pickupAchievementItems_achievementItems_$idx"
+	}),
 	uniqueStashLayouts: many(uniqueStashLayout),
 }));
 
@@ -306,6 +484,16 @@ export const itemClassesRelations = relations(itemClasses, ({one, many}) => ({
 	baseItemTypes: many(baseItemTypes),
 	craftingItemClassCategories: many(craftingItemClassCategories),
 	grantedEffects: many(grantedEffects),
+	achievementItem_equipAchievement: one(achievementItems, {
+		fields: [itemClasses.equipAchievement],
+		references: [achievementItems.$idx],
+		relationName: "itemClasses_equipAchievement_achievementItems_$idx"
+	}),
+	achievementItem_identifyAchievements: one(achievementItems, {
+		fields: [itemClasses.identifyAchievements],
+		references: [achievementItems.$idx],
+		relationName: "itemClasses_identifyAchievements_achievementItems_$idx"
+	}),
 	itemClassCategory: one(itemClassCategories, {
 		fields: [itemClasses.itemClassCategory],
 		references: [itemClassCategories.$idx]
@@ -415,6 +603,31 @@ export const craftingItemClassCategoriesRelations = relations(craftingItemClassC
 }));
 
 export const currencyItemsRelations = relations(currencyItems, ({one}) => ({
+	achievementItem_combineAchievements: one(achievementItems, {
+		fields: [currencyItems.combineAchievements],
+		references: [achievementItems.$idx],
+		relationName: "currencyItems_combineAchievements_achievementItems_$idx"
+	}),
+	achievementItem_modifyContractsAchievements: one(achievementItems, {
+		fields: [currencyItems.modifyContractsAchievements],
+		references: [achievementItems.$idx],
+		relationName: "currencyItems_modifyContractsAchievements_achievementItems_$idx"
+	}),
+	achievementItem_modifyMapsAchievements: one(achievementItems, {
+		fields: [currencyItems.modifyMapsAchievements],
+		references: [achievementItems.$idx],
+		relationName: "currencyItems_modifyMapsAchievements_achievementItems_$idx"
+	}),
+	achievementItem_possessionAchievementItem: one(achievementItems, {
+		fields: [currencyItems.possessionAchievementItem],
+		references: [achievementItems.$idx],
+		relationName: "currencyItems_possessionAchievementItem_achievementItems_$idx"
+	}),
+	achievementItem_usageAchievementItems: one(achievementItems, {
+		fields: [currencyItems.usageAchievementItems],
+		references: [achievementItems.$idx],
+		relationName: "currencyItems_usageAchievementItems_achievementItems_$idx"
+	}),
 	baseItemType_fullStackBaseItemType: one(baseItemTypes, {
 		fields: [currencyItems.fullStackBaseItemType],
 		references: [baseItemTypes.$idx],
@@ -602,6 +815,17 @@ export const modFamilyRelations = relations(modFamily, ({many}) => ({
 
 export const modSellPriceTypesRelations = relations(modSellPriceTypes, ({many}) => ({
 	modTypes: many(modType),
+}));
+
+export const npCsRelations = relations(npCs, ({one}) => ({
+	npcPortrait: one(npcPortraits, {
+		fields: [npCs.portrait],
+		references: [npcPortraits.$idx]
+	}),
+}));
+
+export const npcPortraitsRelations = relations(npcPortraits, ({many}) => ({
+	npCs: many(npCs),
 }));
 
 export const questItemsRelations = relations(questItems, ({one}) => ({

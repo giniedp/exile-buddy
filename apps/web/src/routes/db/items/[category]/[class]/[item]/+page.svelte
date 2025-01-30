@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from '$app/state'
-  import Datatable from '$lib/datatable.svelte'
+  import Datatable from '$ui/datatable/datatable.svelte'
 
   let { data } = $props()
 </script>

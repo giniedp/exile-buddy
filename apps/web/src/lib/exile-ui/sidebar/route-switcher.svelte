@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { page } from '$app/state'
   import * as DropdownMenu from '$lib/shadcn/ui/dropdown-menu/index.js'
   import * as Sidebar from '$lib/shadcn/ui/sidebar/index.js'
   import { useSidebar } from '$lib/shadcn/ui/sidebar/index.js'
@@ -7,10 +8,10 @@
 
   // This should be `Component` after lucide-svelte updates types
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let { teams }: { teams: { name: string; logo: any; plan: string }[] } = $props()
+  let { routes }: { routes: { name: string; logo: any; href: string }[] } = $props()
   const sidebar = useSidebar()
 
-  let activeTeam = $state(teams[0])
+  let activeRoute = $derived(routes.find((route) => page.route.id?.startsWith(route.href)))
 </script>
 
 <Sidebar.Menu>
@@ -26,13 +27,14 @@
             <div
               class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg"
             >
-              <activeTeam.logo class="size-4" />
+              {#if activeRoute}
+                <activeRoute.logo class="size-4" />
+              {/if}
             </div>
             <div class="grid flex-1 text-left text-sm leading-tight">
               <span class="truncate font-semibold">
-                {activeTeam.name}
+                {activeRoute?.name}
               </span>
-              <span class="truncate text-xs">{activeTeam.plan}</span>
             </div>
             <ChevronsUpDown class="ml-auto" />
           </Sidebar.MenuButton>
@@ -44,23 +46,18 @@
         side={sidebar.isMobile ? 'bottom' : 'right'}
         sideOffset={4}
       >
-        <DropdownMenu.Label class="text-muted-foreground text-xs">Teams</DropdownMenu.Label>
-        {#each teams as team, index (team.name)}
-          <DropdownMenu.Item onSelect={() => (activeTeam = team)} class="gap-2 p-2">
-            <div class="flex size-6 items-center justify-center rounded-sm border">
-              <team.logo class="size-4 shrink-0" />
-            </div>
-            {team.name}
-            <DropdownMenu.Shortcut>⌘{index + 1}</DropdownMenu.Shortcut>
-          </DropdownMenu.Item>
+        <!-- <DropdownMenu.Label class="text-muted-foreground text-xs">Routes</DropdownMenu.Label> -->
+        {#each routes as route, index (route.name)}
+          <a href={route.href}>
+            <DropdownMenu.Item class="gap-2 p-2">
+              <div class="flex size-6 items-center justify-center rounded-sm border">
+                <route.logo class="size-4 shrink-0" />
+              </div>
+              {route.name}
+              <DropdownMenu.Shortcut>⌘{index + 1}</DropdownMenu.Shortcut>
+            </DropdownMenu.Item>
+          </a>
         {/each}
-        <DropdownMenu.Separator />
-        <DropdownMenu.Item class="gap-2 p-2">
-          <div class="bg-background flex size-6 items-center justify-center rounded-md border">
-            <Plus class="size-4" />
-          </div>
-          <div class="text-muted-foreground font-medium">Add team</div>
-        </DropdownMenu.Item>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   </Sidebar.MenuItem>

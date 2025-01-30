@@ -24,3 +24,22 @@ export async function findBaseItemTypeById(db: Poe2Database, id: string) {
     },
   })
 }
+
+export async function findBaseItemTypeByClassIdx(db: Poe2Database, classIdx: number) {
+  return await db.query.baseItemTypes.findMany({
+    where: (items, { eq }) => eq(items.itemClass, classIdx),
+    with: {
+      // armourTypes: true,
+      // attributeRequirements: true,
+      // uncutGemAdditionalTiers: true,
+      // delveCraftingModifiers: true,
+      // itemClass: {
+      //   with: {
+      //     itemClassCategory: true,
+      //   },
+      // },
+      itemVisualIdentity: true,
+      // itemInherentSkills: true,
+    },
+  })
+}

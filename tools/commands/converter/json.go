@@ -29,6 +29,7 @@ func (c *ConvertToJson) Convert(data *datc64.ConvertedData) error {
 		return err
 	}
 	c.count++
+	slog.Info(fmt.Sprintf("  Write %s", outFile))
 	return os.WriteFile(outFile, outData, 0644)
 }
 

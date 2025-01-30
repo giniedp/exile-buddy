@@ -13,6 +13,7 @@ const config = {
     adapter: adapter(),
     alias: {
       $data: '../data/src',
+      $ui: './src/lib/exile-ui',
     },
   },
 }

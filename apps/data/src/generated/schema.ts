@@ -567,7 +567,6 @@ export const rarity = sqliteTable("Rarity", {
 	maxPrefix: integer("MaxPrefix"),
 	maxSuffix: integer("MaxSuffix"),
 	color: text("Color"),
-	text: text("Text"),
 });
 
 export const shieldTypes = sqliteTable("ShieldTypes", {

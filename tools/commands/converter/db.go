@@ -60,7 +60,7 @@ func (c *ConvertToDB) Convert(data *datc64.ConvertedData) error {
 	if c.db == nil {
 		return nil
 	}
-	stmt, err := data.Schema.ToSqlStatement(data.Rows, c.tables)
+	stmt, err := SchemaToSqlStatement(&data.Schema, data.Rows, c.tables)
 	if err != nil {
 		return err
 	}

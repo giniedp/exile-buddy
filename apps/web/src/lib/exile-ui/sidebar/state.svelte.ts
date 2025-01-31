@@ -1,6 +1,6 @@
 import { page } from '$app/state'
 import type { Component } from 'svelte'
-import { AudioWaveform, GalleryVerticalEnd, ListTodo, ListTree } from 'lucide-svelte'
+import { AudioWaveform, GalleryVerticalEnd, Home, ListTodo, ListTree } from 'lucide-svelte'
 import type { NavItem, RouteInfo } from './types'
 
 export type NavigationBuilder = {
@@ -16,31 +16,9 @@ export type RouteInfoBuilder = {
   navigation?: NavigationBuilder[]
 }
 
-class RouteInfoState implements RouteInfo {
-  public navigation? = $state<NavItem[]>([])
-  constructor(
-    public name: string,
-    public href: string,
-    public logo?: Component,
-    navigation?: NavItem[],
-  ) {
-    this.navigation = navigation ?? []
-
-    // $effect(() => {
-    //   console.log('here')
-    // })
-  }
-}
-
 export function createRouteInfo(builder: RouteInfoBuilder, parent: string = ''): RouteInfo {
   const href = buildFullPath(parent, builder.path)
 
-  return new RouteInfoState(
-    builder.name,
-    href,
-    builder.logo,
-    builder.navigation && buildNavItems(builder.navigation, href),
-  )
   return {
     name: builder.name,
     logo: builder.logo,
@@ -78,6 +56,12 @@ function buildNavItems(items: NavigationBuilder[], parent: string): NavItem[] {
   })
 }
 
+const homeRouteInfo = createRouteInfo({
+  name: 'Home',
+  path: '',
+  logo: Home as unknown as Component,
+})
+
 const databaseRouteInfo = createRouteInfo({
   name: 'Database',
   path: 'db',
@@ -104,19 +88,28 @@ const buildsRouteInfo = createRouteInfo({
 }) satisfies RouteInfo
 
 export class AppNavState {
-  private routes = $state<RouteInfo[]>([databaseRouteInfo, buildsRouteInfo])
+  private routes = $state<RouteInfo[]>([homeRouteInfo, databaseRouteInfo, buildsRouteInfo])
+  private active = $derived(
+    this.routes
+      .filter((route) => page.url.pathname?.startsWith(route.href))
+      .sort((a, b) => b.href.length - a.href.length)[0],
+  )
 
-  getRouteNavigation(href: string): RouteInfo {
-    const info = this.routes.find((route) => href.startsWith(route.href))
-
-    $effect.pre(() => {
-      if (!info?.navigation) return
-      for (const nav of info.navigation) {
-        if (!page.url.pathname.startsWith(nav.href) || !nav.data) continue
-        nav.items = page.data[nav.data]
-      }
+  constructor() {
+    $effect.root(() => {
+      $effect.pre(() => {
+        if (!this.active?.navigation) return
+        for (const nav of this.active.navigation) {
+          nav.isActive = page.url.pathname.startsWith(nav.href)
+          if (!nav.isActive || !nav.data) continue
+          nav.items = page.data[nav.data]
+        }
+      })
     })
-    return info
+  }
+
+  getRouteNavigation(): RouteInfo {
+    return this.active
   }
 
   getRootRoutes() {

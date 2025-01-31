@@ -1,3 +1,7 @@
+<script lang="ts" module>
+  const navState = new AppNavState()
+</script>
+
 <script lang="ts">
   import * as Breadcrumb from '$lib/shadcn/ui/breadcrumb'
   import { Separator } from '$lib/shadcn/ui/separator'
@@ -9,8 +13,9 @@
   import { page } from '$app/state'
   import type { Snippet } from 'svelte'
   import { toggleMode } from 'mode-watcher'
-  import { ScrollArea } from '$lib/shadcn/ui/scroll-area'
-
+  import { setState } from './context.svelte'
+  import { AppNavState } from './state.svelte'
+  setState(navState)
   type Props = {
     crumbs: { text: string; href: string }[]
     children: Snippet

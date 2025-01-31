@@ -1,17 +1,18 @@
 <script lang="ts">
-  import { page } from '$app/state'
   import * as DropdownMenu from '$lib/shadcn/ui/dropdown-menu/index.js'
   import * as Sidebar from '$lib/shadcn/ui/sidebar/index.js'
   import { useSidebar } from '$lib/shadcn/ui/sidebar/index.js'
   import ChevronsUpDown from 'lucide-svelte/icons/chevrons-up-down'
   import Plus from 'lucide-svelte/icons/plus'
+  import { useAppSidebar } from './context.svelte'
 
   // This should be `Component` after lucide-svelte updates types
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let { routes }: { routes: { name: string; logo: any; href: string }[] } = $props()
   const sidebar = useSidebar()
+  const appSidebar = useAppSidebar()
 
-  let activeRoute = $derived(routes.find((route) => page.route.id?.startsWith(route.href)))
+  const activeRoute = $derived(appSidebar.getRouteNavigation())
 </script>
 
 <Sidebar.Menu>

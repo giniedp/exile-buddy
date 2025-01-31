@@ -24,12 +24,12 @@
       headerName: value.name,
       sortable: true,
       filter: true,
+      cellClass: 'flex place-items-center place-content-center',
       ...(value.name === baseItemTypes.itemVisualIdentity.name && {
         valueFormatter: (params) => params.value.ddsFile.toLowerCase().replace('dds', 'webp'),
         cellRenderer: cellRendererFactory((cell, params) => {
           const props: ComponentProps<typeof Icon> = $state({
             src: `/cdn/${params.valueFormatted}`,
-            style: `max-height: ${params.node.rowHeight}px;`,
           })
 
           const component = mount(Icon, {
@@ -49,9 +49,9 @@
 
   const action: Action<HTMLDivElement> = (node) => {
     $effect(() => {
-      createGrid(node, { rowData: data, columnDefs: columns, rowHeight: 80 })
+      createGrid(node, { rowData: data, columnDefs: columns, rowHeight: 50 })
     })
   }
 </script>
 
-<div class="w-full h-full" use:action></div>
+<div class="h-full w-full" use:action></div>

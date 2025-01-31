@@ -5,5 +5,6 @@
   "tailwindCSS.experimental.configFile": {
     "apps/web/src/app.css": ["apps/web/src/**"]
   },
-  "git.rebaseWhenSync": true
+  "git.rebaseWhenSync": true,
+  "prettier.configPath": "./prettier.config.js"
 }

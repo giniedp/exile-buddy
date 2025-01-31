@@ -1,0 +1,16 @@
+**/*.webp
+**/static
+**/.git
+**/.git*
+**/.svn
+**/.hg
+**/node_modules
+**/tmp
+libs
+tools
+doc
+**/go.*
+**/.prettierignore
+**/.editorconfig
+**/.env*
+**/.svelte-kit

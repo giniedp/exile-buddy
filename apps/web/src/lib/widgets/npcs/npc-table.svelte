@@ -1,9 +1,26 @@
 <script lang="ts">
-  import type { Component } from "svelte"
+  import { npCs } from '$data'
+  import { colsForTable, Grid, gridOptions } from '$lib/widgets/datatable'
+  import { getTableColumns } from 'drizzle-orm'
+  import type { NpcRecord } from './types'
 
-  export let component: any
-  // export let componentProps: any = {}
+  export type Props = {
+    data?: NpcRecord[]
+    selection?: string
+  }
+
+  let { data, selection = $bindable() }: Props = $props()
+  let selectedRecord = $derived.by(() => {
+    if (data && selection) {
+      return data.find((d) => d.id.toLowerCase() === selection.toLowerCase())
+    }
+    return null
+  })
+
+  const options = gridOptions<NpcRecord>({
+    onRowSelected: (e) => selection = e.data.id,
+    columnDefs: colsForTable<NpcRecord>(getTableColumns(npCs)),
+  })
 </script>
-Before
-<svlete:component this={component} ></svlete:component>
-After
+
+<Grid {data} {options} selection={selectedRecord} />

@@ -1,6 +1,6 @@
 import { page } from '$app/state'
 import type { Component } from 'svelte'
-import { AudioWaveform, GalleryVerticalEnd, Home, ListTodo, ListTree } from 'lucide-svelte'
+import { AudioWaveform, GalleryVerticalEnd, Home, ListTodo, ListTree, User } from 'lucide-svelte'
 import type { NavItem, RouteInfo } from './types'
 
 export type NavigationBuilder = {
@@ -77,6 +77,11 @@ const databaseRouteInfo = createRouteInfo({
       title: 'Skills',
       path: 'skills',
       icon: ListTree as unknown as Component,
+    },
+    {
+      title: 'Npcs',
+      path: 'npcs',
+      icon: User as unknown as Component,
     },
   ],
 }) satisfies RouteInfo

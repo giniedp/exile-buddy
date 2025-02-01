@@ -21,10 +21,16 @@ export function getBreadcrumbs(path: string): BreadcrumbType[] {
 }
 
 export function recordIdToSlug(id: string) {
+  if (!id) {
+    return id
+  }
   return id.replace(/\//g, '-').toLowerCase()
 }
 
 export function recordIdFromSlug(slug: string) {
+  if (!slug) {
+    return slug
+  }
   return slug.replace(/-/g, '\/')
 }
 

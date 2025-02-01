@@ -7,7 +7,7 @@ export function getGrid() {
   return getContext<GridApi>('grid')
 }
 
-export function setGrid(api: GridApi) {
+function setGrid(api: GridApi) {
   setContext('grid', api)
 }
 
@@ -19,6 +19,7 @@ export function grid(el: HTMLDivElement, options: GridOptions) {
     return () => {
       api?.destroy()
       api = null
+      setGrid(null)
     }
   })
 }

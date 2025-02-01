@@ -34,9 +34,14 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-    --ag-background-color: var(--background);
-    --ag-foreground-color: var(--primary-foreground);
+    --ag-background-color: hsl(var(--background) / 1);
+    --ag-foreground-color: hsl(var(--foreground) / 1);
+    --ag-odd-row-background-color: hsl(var(--sidebar-background) / 1);
+    --ag-border-radius: 0;
+    --ag-wrapper-border: none;
+    --ag-wrapper-border-radius: 0;
     --ag-spacing: var(--spacing);
+    --ag-row-height: 3.5rem;
   }
 
   .dark {
@@ -68,4 +73,5 @@
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+
 }

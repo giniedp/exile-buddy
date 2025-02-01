@@ -52,7 +52,7 @@
         </Button>
       </div>
     </header>
-    <main class="p-4 h-[calc(100dvh-calc(var(--spacing)*16))] overflow-auto">
+    <main class="h-[calc(100dvh-calc(var(--spacing)*16))] overflow-auto">
       {@render children()}
     </main>
   </Sidebar.Inset>

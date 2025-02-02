@@ -51,7 +51,7 @@
         {#each routes as route, index (route.name)}
           <a href={route.href}>
             <DropdownMenu.Item class="gap-2 p-2">
-              <div class="flex size-6 items-center justify-center rounded-sm border">
+              <div class="flex size-6 items-center justify-center rounded-sm border border-base-100">
                 <route.logo class="size-4 shrink-0" />
               </div>
               {route.name}

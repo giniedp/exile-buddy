@@ -11,32 +11,29 @@
   --color-base-100: oklch(25.1965% 0 0);
   --color-base-200: oklch(21.3423% 0 0);
   --color-base-300: oklch(17.7638% 0 0);
-  --color-base-content: oklch(85.0393% 0 0);
-  --color-primary: oklch(77.48% .204 60.62);
-  --color-primary-content: oklch(19.6935% .004671 196.779412);
-  --color-secondary: oklch(45.98% .248 305.03);
-  --color-secondary-content: oklch(86.5778% .08655 308.451389);
-  --color-accent: oklch(64.8% .223 136.073479);
-  --color-accent-content: oklch(95.8512% .095532 130.182142);
-  --color-neutral: oklch(22.8615% .00303 196.944301);
-  --color-neutral-content: oklch(86.6066% .005464 197.055537);
-  --color-info: oklch(54.615% .215208 262.880917);
-  --color-info-content: oklch(89.979% .048216 266.019988);
-  --color-success: oklch(62.7052% .169912 149.213788);
-  --color-success-content: oklch(94.5588% .085523 156.677933);
-  --color-warning: oklch(66.584% .157422 58.31834);
-  --color-warning-content: oklch(23.2591% .051138 67.729036);
+  --color-base-content: oklch(98% 0.003 247.858);
+  --color-primary: oklch(66% 0.179 58.318);
+  --color-primary-content: oklch(98% 0.003 247.858);
+  --color-secondary: oklch(67% 0.182 276.935);
+  --color-secondary-content: oklch(29% 0.066 243.157);
+  --color-accent: oklch(82% 0.189 84.429);
+  --color-accent-content: oklch(41% 0.112 45.904);
+  --color-neutral: oklch(14% 0.004 49.25);
+  --color-neutral-content: oklch(92% 0.004 286.32);
+  --color-info: oklch(62% 0.214 259.815);
+  --color-info-content: oklch(14% 0.004 49.25);
+  --color-success: oklch(76% 0.233 130.85);
+  --color-success-content: oklch(37% 0.077 168.94);
+  --color-warning: oklch(82% 0.189 84.429);
+  --color-warning-content: oklch(41% 0.112 45.904);
   --color-error: oklch(57.7099% .215157 27.325049);
-  --color-error-content: oklch(89.1776% .056775 18.27161);
-
-  --radius-selector: 0.5rem;
+  --color-error-content: oklch(25% 0.092 26.042);
+  --radius-selector: 0.25rem;
   --radius-field: 0.25rem;
-  --radius-box: 0.5rem;
-
+  --radius-box: 0.25rem;
   --size-selector: 0.25rem;
   --size-field: 0.25rem;
-
   --border: 1px;
-  --depth: 1;
+  --depth: 0;
   --noise: 0;
 }

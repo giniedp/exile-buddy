@@ -26,12 +26,12 @@
   --font-poe-fontin: fontin;
   --font-poe-smallcaps: smallcaps;
 
-  --color-poe-unique: #af6025;
-  --color-poe-rare: #ffff77;
-  --color-poe-magic: #8888ff;
-  --color-poe-normal: #c8c8c8;
-  --color-poe-gem: #1ba29b;
-  --color-poe-corrupt: #d20000;
-  --color-poe-fire: #960000;
-  --color-poe-chaos: #cc009a;
+  --color-poe-unique: oklch(66% 0.179 58.318); /* #af6025*/
+  --color-poe-rare: oklch(82% 0.189 84.429); /* #ffff77*/
+  --color-poe-magic: oklch(67% 0.182 276.935); /* #8888ff*/
+  --color-poe-normal: oklch(92% 0.004 286.32); /* #c8c8c8*/
+  --color-poe-gem: oklch(64.47% 0.1068 189.24); /* #1ba29b*/
+  --color-poe-corrupt: oklch(54.24% 0.2225 29.23); /* #d20000*/
+  --color-poe-fire: oklch(42.27% 0.1734 29.23); /* #960000*/
+  --color-poe-chaos: oklch(57.38% 0.2317 347.96); /* #cc009a*/
 }

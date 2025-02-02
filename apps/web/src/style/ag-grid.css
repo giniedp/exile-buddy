@@ -1,0 +1,12 @@
+@layer base {
+  :root {
+    --ag-background-color: var(--color-base-300);
+    --ag-foreground-color: var(--color-base-content);
+    --ag-odd-row-background-color: var(--color-base-200);
+    --ag-border-radius: 0;
+    --ag-wrapper-border: none;
+    --ag-wrapper-border-radius: 0;
+    --ag-spacing: var(--spacing);
+    --ag-row-height: 3.5rem;
+  }
+}

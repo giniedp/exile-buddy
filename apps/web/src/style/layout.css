@@ -1,0 +1,20 @@
+@layer base {
+  .app-page {
+    @apply absolute inset-0 flex flex-col justify-between z-0;
+    contain: layout size style;
+  }
+
+  .app-header {
+    @apply block relative -order-1 w-full z-10;
+  }
+
+  .app-content {
+    @apply block relative box-border overflow-hidden;
+    @apply grow shrink basis-0;
+    @apply touch-pan-x touch-pan-y touch-pinch-zoom;
+  }
+
+  .app-footer {
+    @apply block relative order-1 z-10 w-full;
+  }
+}

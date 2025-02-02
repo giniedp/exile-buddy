@@ -12,10 +12,10 @@ const config = {
     },
     extend: {
       colors: {
-        border: 'var(--color-base-100)',
-        input: 'var(--color-base-100)',
-        ring: 'var(--color-base-100)',
-        background: 'var(--color-base-300)',
+        border: 'var(--color-base-300)',
+        input: 'var(--color-base-300)',
+        ring: 'var(--color-base-300)',
+        background: 'var(--color-base-200)',
         foreground: 'var(--color-base-content)',
         primary: {
           DEFAULT: 'var(--color-primary)',
@@ -30,7 +30,7 @@ const config = {
           foreground: 'var(--color-error-content)',
         },
         muted: {
-          DEFAULT: 'var(--color-base-200)',
+          DEFAULT: 'var(--color-base-100)',
           foreground: 'var(--color-base-content)',
         },
         accent: {
@@ -38,15 +38,15 @@ const config = {
           foreground: 'var(--color-accent-content)',
         },
         popover: {
-          DEFAULT: 'var(--color-base-200)',
+          DEFAULT: 'var(--color-base-100)',
           foreground: 'var(--color-base-content)',
         },
         card: {
-          DEFAULT: 'var(--color-base-200)',
+          DEFAULT: 'var(--color-base-100)',
           foreground: 'var(--color-base-content)',
         },
         sidebar: {
-          DEFAULT: 'var(--color-base-200)',
+          DEFAULT: 'var(--color-base-100)',
           foreground: 'var(--color-base-content)',
           primary: 'var(--color-primary)',
           'primary-foreground': 'var(--color-primary-content)',

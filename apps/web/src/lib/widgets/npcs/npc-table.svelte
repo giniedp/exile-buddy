@@ -1,5 +1,6 @@
 <script lang="ts">
   import { npCs } from '$data'
+  import { eqIgnoreCase } from '$lib/utils'
   import { buildOptions, Grid } from '$lib/widgets/datatable'
   import { getTableColumns } from 'drizzle-orm/utils'
   import { colGender, colName, colPortrait } from './cols'
@@ -12,14 +13,16 @@
   let { data, selection = $bindable() }: Props = $props()
   let selectedRecord = $derived.by(() => {
     if (data && selection) {
-      return data.find((d) => d.id.toLowerCase() === selection.toLowerCase())
+      return data.find((d) => eqIgnoreCase(d.id, selection))
     }
     return null
   })
 
   const options = buildOptions<NpcRecord>((util) => {
     return {
-      onSelectionChanged: (e) => (selection = e.api.getSelectedRows()[0]?.id),
+      onSelectionChanged: (e) => {
+        selection = e.api.getSelectedRows()[0]?.id?.toLowerCase()
+      },
       columnDefs: util.colDefs(
         [colPortrait(util), colName(util), colGender(util)],
         getTableColumns(npCs), // used to generate all other columns

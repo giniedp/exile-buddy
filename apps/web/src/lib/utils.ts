@@ -47,3 +47,7 @@ export function getImageUrl(file: string) {
   }
   return '/cdn' + file
 }
+
+export function eqIgnoreCase(a: string, b: string) {
+  return a?.toLowerCase() === b?.toLowerCase()
+}

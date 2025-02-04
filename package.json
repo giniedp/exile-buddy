@@ -20,7 +20,7 @@
     "web:preview": "pnpm ws:web run preview",
     "web:build": "pnpm ws:web run build",
     "web:storybook": "pnpm ws:web run storybook",
-    "studio": "pnpm ws:data npx drizzle-kit studio"
+    "studio": "pnpm ws:data studio"
   },
   "engines": {
     "node": ">=22"

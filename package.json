@@ -19,7 +19,8 @@
     "web:dev": "concurrently -k -c green,red -n SK,SB  \"pnpm ws:web run dev\" \"pnpm ws:web run storybook\"",
     "web:preview": "pnpm ws:web run preview",
     "web:build": "pnpm ws:web run build",
-    "web:storybook": "pnpm ws:web run storybook"
+    "web:storybook": "pnpm ws:web run storybook",
+    "studio": "pnpm ws:data npx drizzle-kit studio"
   },
   "engines": {
     "node": ">=22"

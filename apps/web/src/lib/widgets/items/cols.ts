@@ -15,7 +15,7 @@ export function colIcon({ colDef, cellRenderer }: OptionUtils<Record>) {
       if (!url) {
         return null
       }
-      return `<img src="${url}" alt="Icon" class="w-12 h-12 object-fill" />`
+      return `<img src="${url}" alt="Icon" class="w-12 h-12 object-contain" />`
     }),
     cellClass: 'place-content-center',
   })

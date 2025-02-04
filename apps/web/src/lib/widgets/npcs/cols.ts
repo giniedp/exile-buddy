@@ -14,7 +14,7 @@ export function colPortrait({ colDef, cellRenderer }: OptionUtils<Record>) {
       if (!url) {
         return null
       }
-      return `<img src="${url}" alt="Portrait" class="w-12 h-12 object-fill" />`
+      return `<img src="${url}" alt="Portrait" class="w-12 h-12 object-contain" />`
     }),
   })
 }

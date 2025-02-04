@@ -7,7 +7,7 @@
   export let record: NpcRecord
 </script>
 
-<Avatar class="size-full rounded-sm mb-4 aspect-square">
+<Avatar class="size-full rounded-sm mb-4 aspect-square max-w-80">
   <AvatarImage class="object-cover" src={getImageUrl(record?.npcPortrait?.portraitFile)} alt="Portrait" />
   <AvatarFallback class="rounded-sm">{record?.shortName}</AvatarFallback>
 </Avatar>

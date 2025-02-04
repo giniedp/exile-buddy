@@ -4,6 +4,6 @@
   let { data }: { data: PageData } = $props()
 </script>
 
-<div class="w-96 flex-none">
+<div class="flex-none">
   <NpcDetail record={data.record} />
 </div>

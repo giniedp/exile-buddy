@@ -29,6 +29,7 @@
         [colPortrait(util), colName(util), colGender(util)],
         getTableColumns(npCs), // used to generate all other columns
       ),
+      getRowId: (node) => node.data.id,
     }
   })
 </script>

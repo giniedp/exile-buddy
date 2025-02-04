@@ -9,5 +9,13 @@ export const load = (async ({ params, parent }) => {
   if (!category) return error(404)
 
   const classes = await db.findItemClassesByCategory(category.$idx)
-  return { classes }
+
+  const classIdx = classes.find(
+    (it) => it.id.toLowerCase().replaceAll(' ', '') === (params.class ?? params.category),
+  )?.$idx
+
+  // console.time('items')
+  const items = classIdx && (await db.findBaseItemTypeByClassIdx(classIdx))
+  // console.timeEnd('items')
+  return { classes, items, id: params.item }
 }) satisfies LayoutLoad

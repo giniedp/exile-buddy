@@ -5,12 +5,14 @@
   import { getTableColumns } from 'drizzle-orm/utils'
   import { colGender, colName, colPortrait } from './cols'
   import type { NpcRecord } from './types'
+
   export type Props = {
     data?: NpcRecord[]
     selection?: string
+    onSelectionChanged?: (id: string) => void
   }
 
-  let { data, selection = $bindable() }: Props = $props()
+  let { data, selection = $bindable(), onSelectionChanged: onSelectionCb }: Props = $props()
   let selectedRecord = $derived.by(() => {
     if (data && selection) {
       return data.find((d) => eqIgnoreCase(d.id, selection))
@@ -22,6 +24,7 @@
     return {
       onSelectionChanged: (e) => {
         selection = e.api.getSelectedRows()[0]?.id?.toLowerCase()
+        if (onSelectionCb) onSelectionCb(selection)
       },
       columnDefs: util.colDefs(
         [colPortrait(util), colName(util), colGender(util)],

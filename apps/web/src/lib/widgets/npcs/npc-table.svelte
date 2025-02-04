@@ -12,7 +12,7 @@
     onSelectionChanged?: (id: string) => void
   }
 
-  let { data, selection = $bindable(), onSelectionChanged: onSelectionCb }: Props = $props()
+  let { data, selection = $bindable(), onSelectionChanged }: Props = $props()
   let selectedRecord = $derived.by(() => {
     if (data && selection) {
       return data.find((d) => eqIgnoreCase(d.id, selection))
@@ -22,14 +22,15 @@
 
   const options = buildOptions<NpcRecord>((util) => {
     return {
-      onRowSelected: (e) => {
-        if (e.node.isSelected() && onSelectionCb) onSelectionCb(e.data.id)
+      getRowId: (node) => node.data.id,
+      onSelectionChanged: (e) => {
+        const id = e.api.getSelectedNodes()[0]?.id
+        onSelectionChanged?.(id)
       },
       columnDefs: util.colDefs(
         [colPortrait(util), colName(util), colGender(util)],
-        getTableColumns(npCs), // used to generate all other columns
+        getTableColumns(npCs),
       ),
-      getRowId: (node) => node.data.id,
     }
   })
 </script>

@@ -11,17 +11,22 @@
   let paneGroup: Resizable.PaneGroup = $state()
 
   $effect(() => {
-    if (data.id) {
-      untrack(() => {
-        pane?.resize(30)
-      })
-    } else untrack(() => pane?.resize(0))
+    untrack(() => {
+      pane?.resize(data.id ? 30 : 0)
+    })
   })
+  function onSelectionChanged(id: string) {
+    let target = '/db/npcs'
+    if (id) {
+      target += `/${recordIdToSlug(id)}`
+    }
+    goto(target)
+  }
 </script>
 
 <Resizable.PaneGroup direction="horizontal" bind:this={paneGroup}>
   <Resizable.Pane>
-    <NpcTable data={data.items} {selection} onSelectionChanged={(id) => goto(`/db/npcs/${recordIdToSlug(id)}`)} />
+    <NpcTable data={data.items} {selection} {onSelectionChanged} />
   </Resizable.Pane>
   <Resizable.Handle />
   <Resizable.Pane defaultSize={30} bind:this={pane}>

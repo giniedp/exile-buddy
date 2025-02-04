@@ -1,6 +1,7 @@
 import { db } from '$lib/db'
 import { error } from '@sveltejs/kit'
 import type { LayoutLoad } from './$types'
+import { normalizeIdString } from '$lib/utils'
 
 export const load = (async ({ params, parent }) => {
   const { categories } = await parent()
@@ -10,12 +11,10 @@ export const load = (async ({ params, parent }) => {
 
   const classes = await db.findItemClassesByCategory(category.$idx)
 
-  const classIdx = classes.find(
-    (it) => it.id.toLowerCase().replaceAll(' ', '') === (params.class ?? params.category),
-  )?.$idx
+  const classIdx = classes.find((it) => normalizeIdString(it.id) === (params.class ?? params.category))?.$idx
 
   // console.time('items')
-  const items = classIdx && (await db.findBaseItemTypeByClassIdx(classIdx))
+  const items = classIdx != null && (await db.findBaseItemTypeByClassIdx(classIdx))
   // console.timeEnd('items')
   return { classes, items, id: params.item }
 }) satisfies LayoutLoad

@@ -24,16 +24,12 @@
 <Resizable.PaneGroup direction="horizontal" bind:this={paneGroup}>
   <Resizable.Pane collapsible>
     {#if data.items}
-      {#key data.items}
-        <ItemTable
-          data={data.items}
-          {selection}
-          onSelectionChanged={(id) =>
-            goto(
-              `/db/items/${page.params.category}/${page.params.class ?? page.params.category}/${recordIdToSlug(id)}`,
-            )}
-        />
-      {/key}
+      <ItemTable
+        data={data.items}
+        {selection}
+        onSelectionChanged={(id) =>
+          goto(`/db/items/${page.params.category}/${page.params.class ?? page.params.category}/${recordIdToSlug(id)}`)}
+      />
     {/if}
   </Resizable.Pane>
   <Resizable.Handle />

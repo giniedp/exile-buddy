@@ -22,16 +22,16 @@
 
   const options = buildOptions<ItemRecord>((util) => {
     return {
-      onSelectionChanged: (e) => {
-        selection = e.api.getSelectedRows()[0]?.id?.toLowerCase()
-        onSelectionCb(selection)
+      onRowSelected: (e) => {
+        if (e.node.isSelected() && onSelectionCb) onSelectionCb(e.data.id)
       },
       columnDefs: util.colDefs(
         [colIcon(util), colName(util), colItemClass(util)],
         getTableColumns(baseItemTypes), // used to generate all other columns
       ),
+      getRowId: (node) => node.data.id,
     }
   })
 </script>
 
-<Grid {data} {options} selection={selectedRecord} />
+<Grid {options} {data} selection={selectedRecord} />

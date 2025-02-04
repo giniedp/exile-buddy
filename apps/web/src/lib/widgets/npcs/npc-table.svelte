@@ -22,9 +22,8 @@
 
   const options = buildOptions<NpcRecord>((util) => {
     return {
-      onSelectionChanged: (e) => {
-        selection = e.api.getSelectedRows()[0]?.id?.toLowerCase()
-        if (onSelectionCb) onSelectionCb(selection)
+      onRowSelected: (e) => {
+        if (e.node.isSelected() && onSelectionCb) onSelectionCb(e.data.id)
       },
       columnDefs: util.colDefs(
         [colPortrait(util), colName(util), colGender(util)],

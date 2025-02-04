@@ -9,20 +9,20 @@
 
   let { data, children }: { data: LayoutData; children: Snippet } = $props()
   let selection = $derived(recordIdFromSlug(data.id))
-  let pane: Resizable.Pane = $state()
+  let detailPane: Resizable.Pane = $state()
   let paneGroup: Resizable.PaneGroup = $state()
 
   $effect(() => {
     if (data.id) {
       untrack(() => {
-        pane?.resize(30)
+        detailPane?.resize(30)
       })
-    } else untrack(() => pane?.resize(0))
+    } else untrack(() => detailPane?.resize(0))
   })
 </script>
 
 <Resizable.PaneGroup direction="horizontal" bind:this={paneGroup}>
-  <Resizable.Pane collapsible>
+  <Resizable.Pane defaultSize={70}>
     {#if data.items}
       <ItemTable
         data={data.items}
@@ -33,7 +33,7 @@
     {/if}
   </Resizable.Pane>
   <Resizable.Handle />
-  <Resizable.Pane defaultSize={30} bind:this={pane}>
+  <Resizable.Pane bind:this={detailPane}>
     <div class="h-full overflow-auto">
       {@render children()}
     </div>

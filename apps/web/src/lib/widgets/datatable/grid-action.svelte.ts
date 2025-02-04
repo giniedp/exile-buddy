@@ -48,5 +48,6 @@ function setSelected<TData extends { id: string }>(api: GridApi<TData>, selectio
   const node = api.getRowNode(selection?.id)
   if (!node) return
   node.setSelected(true)
+
   api.ensureNodeVisible(node)
 }

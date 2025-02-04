@@ -11,6 +11,9 @@ const config = {
       },
     },
     extend: {
+      transitionProperty: {
+        height: 'height',
+      },
       colors: {
         border: 'var(--color-base-300)',
         input: 'var(--color-base-300)',

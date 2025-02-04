@@ -1,3 +1,4 @@
+import { sql } from 'drizzle-orm'
 import { Poe2Database } from '../types'
 
 export async function findBaseItemTypes(db: Poe2Database) {
@@ -38,6 +39,22 @@ export async function findBaseItemTypeByClassIdx(db: Poe2Database, classIdx: num
         },
       },
       itemVisualIdentity: true,
+    },
+  })
+}
+export async function searchBaseItemTypes(db: Poe2Database, search: string) {
+  return await db.query.baseItemTypes.findMany({
+    limit: 10,
+    where: (items, { like }) => like(items.name, sql`'%' || ${search} || '%'`),
+    columns: {
+      itemClass: false,
+    },
+    with: {
+      itemClass: {
+        with: {
+          itemClassCategory: true,
+        },
+      },
     },
   })
 }

@@ -9,6 +9,7 @@ export function colIcon({ colDef, cellRenderer }: OptionUtils<Record>) {
     headerName: '',
     field: 'itemVisualIdentity',
     width: 80,
+    valueFormatter: ({ data }) => data.id,
     cellRenderer: cellRenderer(({ data }) => {
       const url = getImageUrl(data.itemVisualIdentity?.ddsFile)
       if (!url) {
